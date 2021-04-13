@@ -296,7 +296,7 @@ function showAllRecipes() {
 // CREATE AND USE PANTRY
 function findPantryInfo() {
   user.pantry.forEach(item => {
-    let itemInfo = ingredientsData.find(ingredient => {
+    let itemInfo = ingredientData.find(ingredient => {
       return ingredient.id === item.ingredient;
     });
     let originalIngredient = pantryInfo.find(ingredient => {
