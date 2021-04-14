@@ -1,6 +1,6 @@
-import users from './data/users-data';
-import recipeData from  './data/recipe-data';
-import ingredientData from './data/ingredient-data';
+// import users from './data/users-data';
+// import recipeData from  './data/recipe-data';
+// import ingredientData from './data/ingredient-data';
 
 import './css/base.scss';
 import './css/styles.scss';
@@ -37,9 +37,16 @@ searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
 
+// GET DATA FROM ENDPOINT
+async function getData(url) {
+  return fetch(url).then(resp => resp.json()).then(data => data);
+}
+
 // GENERATE A USER ON LOAD
-function generateUser() {
-  user = new User(users[Math.floor(Math.random() * users.length)]);
+async function generateUser() {
+  const userData = await getData("http://localhost:3001/api/v1/users");
+  
+  user = new User(userData[Math.floor(Math.random() * userData.length)]);
   let firstName = user.name.split(" ")[0];
   let welcomeMsg = `
     <div class="welcome-msg">
