@@ -1,10 +1,7 @@
 // Functions for fetching data from endpoints
 
-async function getData(url) {
-  const resp = await fetch(url);
-  const data = await resp.json();
-
-  return data;
+function getData(url) {
+  return fetch(url).then(resp => resp.json());
 }
 
 function getUserData() {
