@@ -8,6 +8,8 @@ import './css/styles.scss';
 import User from './User';
 import Recipe from './Recipe';
 
+import { getUserData, getRecipeData, getIngredientData} from "./utility.js";
+
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector(".filter-btn");
 let fullRecipeInfo = document.querySelector(".recipe-instructions");
@@ -44,7 +46,7 @@ async function getData(url) {
 
 // GENERATE A USER ON LOAD
 async function generateUser() {
-  const userData = await getData("http://localhost:3001/api/v1/users");
+  const userData = await getUserData();
   
   user = new User(userData[Math.floor(Math.random() * userData.length)]);
   let firstName = user.name.split(" ")[0];
