@@ -8,7 +8,7 @@ import './css/styles.scss';
 import User from './User';
 import Recipe from './Recipe';
 
-import { getUserData, getRecipeData, getIngredientData} from "./utility.js";
+import { getUserData, getRecipeData, getIngredientData} from "./net-utils.js";
 
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector(".filter-btn");
@@ -26,7 +26,6 @@ let showPantryRecipes = document.querySelector(".show-pantry-recipes-btn");
 let tagList = document.querySelector(".tag-list");
 let user;
 
-
 window.addEventListener("load", createCards);
 window.addEventListener("load", findTags);
 window.addEventListener("load", generateUser);
@@ -38,11 +37,6 @@ savedRecipesBtn.addEventListener("click", showSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
-
-// GET DATA FROM ENDPOINT
-async function getData(url) {
-  return fetch(url).then(resp => resp.json()).then(data => data);
-}
 
 // GENERATE A USER ON LOAD
 async function generateUser() {
@@ -61,7 +55,7 @@ async function generateUser() {
 
 // CREATE RECIPE CARDS
 async function createCards() {
-  const recipeData = await getData("http://localhost:3001/api/v1/recipes");
+  const recipeData = await getRecipeData();
 
   recipeData.forEach(recipe => {
     let recipeInfo = new Recipe(recipe);
@@ -92,7 +86,7 @@ function addToDom(recipeInfo, shortRecipeName) {
 
 // FILTER BY RECIPE TAGS
 async function findTags() {
-  const recipeData = await getData("http://localhost:3001/api/v1/recipes");
+  const recipeData = await getRecipeData();
 
   let tags = [];
   recipeData.forEach(recipe => {
@@ -203,7 +197,7 @@ function showSavedRecipes() {
 
 // CREATE RECIPE INSTRUCTIONS
 async function openRecipeInfo(event) {
-  const recipeData = await getData("http://localhost:3001/api/v1/recipes");
+  const recipeData = await getRecipeData();
   
   fullRecipeInfo.style.display = "inline";
   let recipeId = event.path.find(e => e.id).id;
@@ -228,7 +222,7 @@ function addRecipeImage(recipe) {
 }
 
 async function generateIngredients(recipe) {
-  const ingredientData = await getData("http://localhost:3001/api/v1/ingredients");
+  const ingredientData = await getIngredientData();
 
   return recipe && recipe.ingredients.map(i => {
     const ingredient = ingredientData.find(ingredient => {
@@ -275,8 +269,9 @@ function pressEnterSearch(event) {
   searchRecipes();
 }
 
-function searchRecipes() {
-  const recipeData = getData("http://localhost:3001/api/v1/recipes")
+async function searchRecipes() {
+  const recipeData = await getRecipeData();
+
   showAllRecipes();
   let searchedRecipes = recipeData.filter(recipe => {
     return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
@@ -317,7 +312,7 @@ function showAllRecipes() {
 
 // CREATE AND USE PANTRY
 async function findPantryInfo() {
-  const ingredientData = await getData("http://localhost:3001/api/v1/ingredients");
+  const ingredientData = await getIngredientData();
 
   user.pantry.forEach(item => {
     let itemInfo = ingredientData.find(ingredient => {

@@ -8,15 +8,15 @@ async function getData(url) {
 }
 
 function getUserData() {
-  return getData("http://localhost:3001/api/v1/users")
+  return getData("http://localhost:3001/api/v1/users");
 }
 
 function getRecipeData() {
-  return getData("http://localhost:3001/api/v1/recipes")
+  return getData("http://localhost:3001/api/v1/recipes");
 }
 
 function getIngredientData() {
-  return getData("http://localhost:3001/api/v1/ingredients")
+  return getData("http://localhost:3001/api/v1/ingredients");
 }
 
 export { getUserData, getRecipeData, getIngredientData };
