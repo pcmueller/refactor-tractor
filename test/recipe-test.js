@@ -1,14 +1,16 @@
 import { expect } from 'chai';
 
-import Recipe from '../src/recipe';
-import data from '../src/data/recipe-data';
+import Recipe from '../src/Recipe';
+import recipeData from '../src/data/recipe-data';
+import ingredientData from '../src/data/ingredient-data';
+
 
 describe('Recipe', function() {
-  let recipe;
   let recipeInfo;
+  let recipe;
 
   beforeEach(function() {
-    recipeInfo = data[0];
+    recipeInfo = recipeData[0];
     recipe = new Recipe(recipeInfo);
   })
 
@@ -40,11 +42,26 @@ describe('Recipe', function() {
         "amount": 1.5,
         "unit": "c"
       }
-    }
+    };
     expect(recipe.ingredients[0]).to.deep.eq(ingredient);
   });
 
-  it('should calculate the total cost of all of the ingredients', function() {
-    expect(recipe.calculateIngredientsCost()).to.eq();
+  it('should initialize with an empty array of costed ingredients', function() {
+    expect(recipe.costedIngredients).to.deep.eq([]);
+  });
+
+  it('should populate array of costed ingredients', function() {
+    recipe.retrieveIngredientPricing(ingredientData);
+    const costedIngredient = {
+      id: 20081,
+      name: 'all purpose flour',
+      quantity: { amount: 1.5, unit: 'c' },
+      costInCents: 142
+    };
+    expect(recipe.costedIngredients[0]).to.deep.eq(costedIngredient);
+  });
+
+  it('should calculate the total cost of all of the ingredients', function() {    
+    expect(recipe.calculateIngredientsCost(ingredientData)).to.eq(177.76);
   });
 });
