@@ -58,7 +58,9 @@ async function generateUser() {
 }
 
 // CREATE RECIPE CARDS
-function createCards() {
+async function createCards() {
+  const recipeData = await getData("http://localhost:3001/api/v1/recipes");
+
   recipeData.forEach(recipe => {
     let recipeInfo = new Recipe(recipe);
     let shortRecipeName = recipeInfo.name;
@@ -87,7 +89,9 @@ function addToDom(recipeInfo, shortRecipeName) {
 }
 
 // FILTER BY RECIPE TAGS
-function findTags() {
+async function findTags() {
+  const recipeData = await getData("http://localhost:3001/api/v1/recipes");
+
   let tags = [];
   recipeData.forEach(recipe => {
     recipe.tags.forEach(tag => {
