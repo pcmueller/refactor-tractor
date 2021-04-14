@@ -50,22 +50,22 @@ function generateUser() {
     document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
       welcomeMsg);
     findPantryInfo();
-    })
+  })
 }
 
 // CREATE RECIPE CARDS
-async function createCards() {
-  const recipeData = await getRecipeData();
-
-  recipeData.forEach(recipe => {
-    let recipeInfo = new Recipe(recipe);
-    let shortRecipeName = recipeInfo.name;
-    recipes.push(recipeInfo);
-    if (recipeInfo.name.length > 40) {
-      shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
-    }
-    addToDom(recipeInfo, shortRecipeName)
-  });
+function createCards() {
+  getRecipeData().then(function(recipeData) {
+    recipeData.forEach(recipe => {
+      let recipeInfo = new Recipe(recipe);
+      let shortRecipeName = recipeInfo.name;
+      recipes.push(recipeInfo);
+      if (recipeInfo.name.length > 40) {
+        shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
+      }
+      addToDom(recipeInfo, shortRecipeName)
+    });
+  })
 }
 
 function addToDom(recipeInfo, shortRecipeName) {
@@ -85,19 +85,19 @@ function addToDom(recipeInfo, shortRecipeName) {
 }
 
 // FILTER BY RECIPE TAGS
-async function findTags() {
-  const recipeData = await getRecipeData();
-
-  let tags = [];
-  recipeData.forEach(recipe => {
-    recipe.tags.forEach(tag => {
-      if (!tags.includes(tag)) {
-        tags.push(tag);
-      }
+function findTags() {
+  getRecipeData().then(function(recipeData) {
+    let tags = [];
+    recipeData.forEach(recipe => {
+      recipe.tags.forEach(tag => {
+        if (!tags.includes(tag)) {
+          tags.push(tag);
+        }
+      });
     });
+    tags.sort();
+    listTags(tags);
   });
-  tags.sort();
-  listTags(tags);
 }
 
 function listTags(allTags) {
@@ -196,16 +196,19 @@ function showSavedRecipes() {
 }
 
 // CREATE RECIPE INSTRUCTIONS
-async function openRecipeInfo(event) {
-  const recipeData = await getRecipeData();
-  
-  fullRecipeInfo.style.display = "inline";
-  let recipeId = event.path.find(e => e.id).id;
-  let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
-  generateRecipeTitle(recipe, await generateIngredients(recipe));
-  addRecipeImage(recipe);
-  generateInstructions(recipe);
-  fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
+function openRecipeInfo(event) {
+  getRecipeData().then(function(recipeData) {
+    fullRecipeInfo.style.display = "inline";
+    let recipeId = event.path.find(e => e.id).id;
+    let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
+    
+    getIngredientData().then(function(ingredientData) {
+      generateRecipeTitle(recipe, generateIngredients(recipe, ingredientData));
+      addRecipeImage(recipe);
+      generateInstructions(recipe);
+      fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
+    });
+  });
 }
 
 function generateRecipeTitle(recipe, ingredients) {
@@ -221,14 +224,12 @@ function addRecipeImage(recipe) {
   document.getElementById("recipe-title").style.backgroundImage = `url(${recipe.image})`;
 }
 
-async function generateIngredients(recipe) {
-  const ingredientData = await getIngredientData();
-
+function generateIngredients(recipe, ingredientData) {
   return recipe && recipe.ingredients.map(i => {
     const ingredient = ingredientData.find(ingredient => {
       return i.id === ingredient.id;
     }).name;
-
+  
     return `${capitalize(ingredient)} (${i.quantity.amount} ${i.quantity.unit})`
   }).join(", ");
 }
@@ -269,14 +270,14 @@ function pressEnterSearch(event) {
   searchRecipes();
 }
 
-async function searchRecipes() {
-  const recipeData = await getRecipeData();
-
-  showAllRecipes();
-  let searchedRecipes = recipeData.filter(recipe => {
-    return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
+function searchRecipes() {
+  getRecipeData().then(function(recipeData) {
+    showAllRecipes();
+    let searchedRecipes = recipeData.filter(recipe => {
+      return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
+    });
+    filterNonSearched(createRecipeObject(searchedRecipes));
   });
-  filterNonSearched(createRecipeObject(searchedRecipes));
 }
 
 function filterNonSearched(filtered) {
@@ -311,25 +312,25 @@ function showAllRecipes() {
 }
 
 // CREATE AND USE PANTRY
-async function findPantryInfo() {
-  const ingredientData = await getIngredientData();
-
-  user.pantry.forEach(item => {
-    let itemInfo = ingredientData.find(ingredient => {
-      return ingredient.id === item.ingredient;
-    });
-    let originalIngredient = pantryInfo.find(ingredient => {
-      if (itemInfo) {
-        return ingredient.name === itemInfo.name;
+function findPantryInfo() {
+  getIngredientData().then(function(ingredientData) {
+    user.pantry.forEach(item => {
+      let itemInfo = ingredientData.find(ingredient => {
+        return ingredient.id === item.ingredient;
+      });
+      let originalIngredient = pantryInfo.find(ingredient => {
+        if (itemInfo) {
+          return ingredient.name === itemInfo.name;
+        }
+      });
+      if (itemInfo && originalIngredient) {
+        originalIngredient.count += item.amount;
+      } else if (itemInfo) {
+        pantryInfo.push({name: itemInfo.name, count: item.amount});
       }
     });
-    if (itemInfo && originalIngredient) {
-      originalIngredient.count += item.amount;
-    } else if (itemInfo) {
-      pantryInfo.push({name: itemInfo.name, count: item.amount});
-    }
-  });
-  displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
+    displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
+  })
 }
 
 function displayPantryInfo(pantry) {
