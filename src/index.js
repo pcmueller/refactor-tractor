@@ -1,10 +1,17 @@
 // This is the JavaScript entry file - your code begins here
 // Do not delete or rename this file ********
 
-// An example of how you tell webpack to use a CSS (SCSS) file
-import './css/base.scss';
+// JS
+import './scripts.js'
 
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
+// CSS
+import './css/base.scss';
+import './css/styles.scss';
+
+//Images
+import './images/apple-logo-outline.png';
+import './images/apple-log.png';
+import './images/chicken-park.jpg'
+import './images/search.png'
 
 console.log('This is the JavaScript entry file - your code begins here.');
