@@ -10,8 +10,10 @@ import './css/styles.scss';
 
 //Images
 import './images/apple-logo-outline.png';
-import './images/apple-log.png';
-import './images/chicken-park.jpg'
-import './images/search.png'
-
-console.log('This is the JavaScript entry file - your code begins here.');
+import './images/apple-logo.png';
+import './images/chicken-parm.jpg';
+import './images/cookbook.png';
+import './images/green-apples.jpg';
+import './images/pancakes.jpg';
+import './images/search.png';
+import './images/seasoning.png';
