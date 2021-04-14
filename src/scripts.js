@@ -200,11 +200,13 @@ function showSavedRecipes() {
 }
 
 // CREATE RECIPE INSTRUCTIONS
-function openRecipeInfo(event) {
+async function openRecipeInfo(event) {
+  const recipeData = await getData("http://localhost:3001/api/v1/recipes");
+  
   fullRecipeInfo.style.display = "inline";
   let recipeId = event.path.find(e => e.id).id;
   let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
-  generateRecipeTitle(recipe, generateIngredients(recipe));
+  generateRecipeTitle(recipe, await generateIngredients(recipe));
   addRecipeImage(recipe);
   generateInstructions(recipe);
   fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
@@ -223,9 +225,15 @@ function addRecipeImage(recipe) {
   document.getElementById("recipe-title").style.backgroundImage = `url(${recipe.image})`;
 }
 
-function generateIngredients(recipe) {
+async function generateIngredients(recipe) {
+  const ingredientData = await getData("http://localhost:3001/api/v1/ingredients");
+
   return recipe && recipe.ingredients.map(i => {
-    return `${capitalize(i.name)} (${i.quantity.amount} ${i.quantity.unit})`
+    const ingredient = ingredientData.find(ingredient => {
+      return i.id === ingredient.id;
+    }).name;
+
+    return `${capitalize(ingredient)} (${i.quantity.amount} ${i.quantity.unit})`
   }).join(", ");
 }
 
@@ -266,6 +274,7 @@ function pressEnterSearch(event) {
 }
 
 function searchRecipes() {
+  const recipeData = getData("http://localhost:3001/api/v1/recipes")
   showAllRecipes();
   let searchedRecipes = recipeData.filter(recipe => {
     return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
@@ -305,9 +314,11 @@ function showAllRecipes() {
 }
 
 // CREATE AND USE PANTRY
-function findPantryInfo() {
+async function findPantryInfo() {
+  const ingredientData = await getData("http://localhost:3001/api/v1/ingredients");
+
   user.pantry.forEach(item => {
-    let itemInfo = ingredientsData.find(ingredient => {
+    let itemInfo = ingredientData.find(ingredient => {
       return ingredient.id === item.ingredient;
     });
     let originalIngredient = pantryInfo.find(ingredient => {
