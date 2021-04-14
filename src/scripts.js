@@ -5,8 +5,8 @@
 import './css/base.scss';
 import './css/styles.scss';
 
-import User from './user';
-import Recipe from './recipe';
+import User from './User';
+import Recipe from './Recipe';
 
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector(".filter-btn");
