@@ -1,8 +1,8 @@
 .recipe-instructions {
-  background: white;
-  border: 3px solid #C4EB67;
+  background: $white;
+  border: 3px solid $brand-highlight;
   border-radius: 10px;
-  box-shadow: 1px 1px 115px black;
+  box-shadow: 1px 1px 115px $black;
   display: none;
   height: 70%;
   margin: 0;
@@ -15,8 +15,8 @@
   z-index: 1000;
 
   h4 {
-    background: white;
-    color: #359567;
+    background: $white;
+    color: $brand-accent-dark;
   }
 
   p {
@@ -29,10 +29,10 @@
 }
 
 #exit-recipe-btn {
-  background: white;
-  border: 2px double #359567;
+  background: $white;
+  border: 2px double $brand-accent-dark;
   border-radius: 5px;
-  color: #359567;
+  color: $brand-accent-dark;
   cursor: pointer;
   font-size: 20px;
   font-weight: 700;
@@ -41,7 +41,7 @@
   transition: .3s ease;
 
   &:hover {
-    background: #C4EB67;
+    background: $brand-highlight;
     transition: .3s ease;
   }
 }
@@ -50,17 +50,17 @@
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 7px 7px 0px 0px;
-  color: white;
+  color: $white;
   font-size: 30px;
   margin: 0;
   padding: 5%;
   text-align: center;
-  text-shadow: 0px 0px 6px black;
+  text-shadow: 0px 0px 6px $black;
 }
 
 #overlay {
   filter: alpha(opacity=50);
-  background-color: #5B7894;
+  background-color: $primary-background;
   height: 100%;
   left: 0;
   opacity: 0.5;

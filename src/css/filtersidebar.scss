@@ -1,5 +1,5 @@
 aside {
-  background-color: white;
+  background-color: $white;
   display: flex;
   justify-content: center;
   height: auto;
@@ -7,7 +7,7 @@ aside {
 }
 
 .wrap {
-  background-color: white;
+  background-color: $white;
   height: 100vh;
   padding: 10px;
   position: relative;

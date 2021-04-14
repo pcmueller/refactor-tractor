@@ -13,13 +13,13 @@
   z-index: 3;
 
   h2 {
-    color: #359567;
+    color: $brand-accent-dark;
     margin: 0px;
   }
 }
 
 .pantry-list {
-  color: #000000;
+  color: $black;
   padding-left: 15px;
   text-align: left;
 }

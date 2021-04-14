@@ -1,5 +1,5 @@
 body {
-  background-color: #5B7894;
+  background-color: $primary-background;
   display: grid;
   font-family: "Quicksand", sans-serif;
   grid-template-columns: 1fr 5fr;
@@ -15,7 +15,7 @@ body {
 
 h1 {
   align-self: center;
-  color: white;
+  color: $white;
   font-family: "Sulphur Point", sans-serif;
   font-size: 50px;
   margin: 0%;
@@ -24,12 +24,12 @@ h1 {
 }
 
 h2 {
-  color: #84C8A4;
+  color: $brand-accent-light;
   margin: 10px 0px 10px 0px;
 }
 
 h3 {
-  color: #359567;
+  color: $brand-accent-dark;
   cursor: pointer;
   height: 17%;
   margin: 5px 5px 10px 0px;
@@ -37,8 +37,8 @@ h3 {
 }
 
 h4 {
-  color: #359567;
-  background-color: #C4EB67;
+  color: $brand-accent-dark;
+  background-color: $brand-highlight;
   border-radius: 3px;
   margin: 10px 0px 0px 0px;
   padding: 1px 4px 1px 4px;

@@ -1,10 +1,10 @@
 .show-pantry-recipes-btn,
 .show-all-btn,
 .filter-btn {
-  background-color: #359567;
+  background-color: $brand-accent-dark;
   border: 0;
   border-radius: 3px;
-  color: white;
+  color: $white;
   cursor: pointer;
   font-family: "Quicksand", sans-serif;
   font-size: 12pt;
@@ -23,5 +23,5 @@
 }
 
 .filter-btn:hover {
-  background-color: #84C8A4;
+  background-color: $brand-accent-light;
 }

@@ -8,8 +8,8 @@ main {
 }
 
 .recipe-card {
-  background-color: white;
-  border: 2px solid #C4EB67;
+  background-color: $white;
+  border: 2px solid $brand-highlight;
   border-radius: 7px;
   cursor: pointer;
   height: 270px;
@@ -31,7 +31,7 @@ main {
     }
 
     h3 {
-      text-shadow: 0px 0px 4px #C4EB67;
+      text-shadow: 0px 0px 4px $brand-highlight;
       transition: .8s ease;
     }
   }
@@ -67,8 +67,8 @@ main {
 }
 
 .text {
-  background: #359567;
-  color: white;
+  background: $brand-accent-dark;
+  color: $white;
   font-weight: 700;
   font-size: 0px;
   opacity: 0%;
