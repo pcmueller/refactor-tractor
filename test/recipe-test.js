@@ -1,9 +1,8 @@
 import { expect } from 'chai';
 
 import Recipe from '../src/Recipe';
-import recipeData from '../src/data/recipe-data';
-import ingredientData from '../src/data/ingredient-data';
-
+import recipeData from './test-data/recipe-test-data';
+import ingredientData from './test-data/ingredient-test-data';
 
 describe('Recipe', function() {
   let recipeInfo;
@@ -37,7 +36,6 @@ describe('Recipe', function() {
   it('should initialize with an array of ingredients', function() {
     const ingredient = {
       "id": 20081,
-      "name": "all purpose flour",
       "quantity": {
         "amount": 1.5,
         "unit": "c"
@@ -46,11 +44,11 @@ describe('Recipe', function() {
     expect(recipe.ingredients[0]).to.deep.eq(ingredient);
   });
 
-  it('should populate array of costed ingredients', function() {
+  it('should repopulate array with ingredient name and cost', function() {
     recipe.retrieveIngredientPricing(ingredientData);
     const costedIngredient = {
       id: 20081,
-      name: 'all purpose flour',
+      name: 'wheat flour',
       quantity: { amount: 1.5, unit: 'c' },
       costInCents: 142
     };
