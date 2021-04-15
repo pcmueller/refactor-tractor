@@ -20,7 +20,7 @@ let searchBtn = document.querySelector("#search-btn");
 let searchForm = document.querySelector("#search");
 let searchInput = document.querySelector("#search-input");
 let showPantryRecipes = document.querySelector("#show-pantry-recipes-btn");
-let tagList = document.querySelector(".tag-list");
+let tagList = document.querySelector("#tag-list");
 let user;
 
 window.addEventListener("load", createCards);
