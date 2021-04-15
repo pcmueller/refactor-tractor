@@ -9,7 +9,7 @@ import { getUserData, getRecipeData, getIngredientData} from "./net-utils.js";
 
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector("#filter-btn");
-let fullRecipeInfo = document.querySelector(".recipe-instructions");
+let fullRecipeInfo = document.querySelector("#recipe-instructions");
 let main = document.querySelector("main");
 let menuOpen = false;
 let pantryBtn = document.querySelector(".my-pantry-btn");
