@@ -46,10 +46,6 @@ describe('Recipe', function() {
     expect(recipe.ingredients[0]).to.deep.eq(ingredient);
   });
 
-  it('should initialize with an empty array of costed ingredients', function() {
-    expect(recipe.costedIngredients).to.deep.eq([]);
-  });
-
   it('should populate array of costed ingredients', function() {
     recipe.retrieveIngredientPricing(ingredientData);
     const costedIngredient = {
@@ -58,7 +54,7 @@ describe('Recipe', function() {
       quantity: { amount: 1.5, unit: 'c' },
       costInCents: 142
     };
-    expect(recipe.costedIngredients[0]).to.deep.eq(costedIngredient);
+    expect(recipe.ingredients[0]).to.deep.eq(costedIngredient);
   });
 
   it('should calculate the total cost of all of the ingredients', function() {    
