@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import Ingredient from '../src/Ingredient';
-import data from '../src/data/ingredient-data';
+import data from './test-data/ingredient-test-data';
 
 describe('Ingredient', function() {
   let ingredient;
@@ -25,7 +25,7 @@ describe('Ingredient', function() {
   });
 
   it('should initialize with an name', function() {
-    expect(ingredient.name).to.eq('wheat flour');
+    expect(ingredient.name).to.eq(undefined);
   });
 
   it('should initialize with a quantity', function() {

@@ -6,6 +6,7 @@ import User from './User';
 import Recipe from './Recipe';
 
 import { getUserData, getRecipeData, getIngredientData} from "./net-utils.js";
+import RecipeRepository from './RecipeRepository';
 
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector(".filter-btn");
@@ -14,7 +15,7 @@ let main = document.querySelector("main");
 let menuOpen = false;
 let pantryBtn = document.querySelector(".my-pantry-btn");
 let pantryInfo = [];
-let recipes = [];
+let recipes = new RecipeRepository();
 let savedRecipesBtn = document.querySelector(".saved-recipes-btn");
 let searchBtn = document.querySelector(".search-btn");
 let searchForm = document.querySelector("#search");
@@ -56,10 +57,13 @@ function createCards() {
     recipeData.forEach(recipe => {
       let recipeInfo = new Recipe(recipe);
       let shortRecipeName = recipeInfo.name;
-      recipes.push(recipeInfo);
+
+      recipes.addRecipeToRepository(recipeInfo);
+
       if (recipeInfo.name.length > 40) {
         shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
       }
+      
       addToDom(recipeInfo, shortRecipeName)
     });
   })
@@ -80,6 +84,7 @@ function addToDom(recipeInfo, shortRecipeName) {
     </div>`
   main.insertAdjacentHTML("beforeend", cardHtml);
 }
+
 
 // FILTER BY RECIPE TAGS
 function findTags() {
@@ -123,7 +128,7 @@ function findCheckedBoxes() {
 function findTaggedRecipes(selected) {
   let filteredResults = [];
   selected.forEach(tag => {
-    let allRecipes = recipes.filter(recipe => {
+    let allRecipes = recipes.data.filter(recipe => {
       return recipe.tags.includes(tag.id);
     });
     allRecipes.forEach(recipe => {
@@ -139,7 +144,7 @@ function findTaggedRecipes(selected) {
 }
 
 function filterRecipes(filtered) {
-  let foundRecipes = recipes.filter(recipe => {
+  let foundRecipes = recipes.data.filter(recipe => {
     return !filtered.includes(recipe);
   });
   hideUnselectedRecipes(foundRecipes)
@@ -182,7 +187,7 @@ function isDescendant(parent, child) {
 }
 
 function showSavedRecipes() {
-  let unsavedRecipes = recipes.filter(recipe => {
+  let unsavedRecipes = recipes.data.filter(recipe => {
     return !user.favoriteRecipes.includes(recipe.id);
   });
   unsavedRecipes.forEach(recipe => {
@@ -278,7 +283,7 @@ function searchRecipes() {
 }
 
 function filterNonSearched(filtered) {
-  let found = recipes.filter(recipe => {
+  let found = recipes.data.filter(recipe => {
     let ids = filtered.map(f => f.id);
     return !ids.includes(recipe.id)
   })
@@ -286,7 +291,7 @@ function filterNonSearched(filtered) {
 }
 
 function createRecipeObject(recipes) {
-  recipes = recipes.map(recipe => new Recipe(recipe));
+  recipes = recipes.data.map(recipe => new Recipe(recipe));
   return recipes
 }
 
@@ -301,7 +306,7 @@ function toggleMenu() {
 }
 
 function showAllRecipes() {
-  recipes.forEach(recipe => {
+  recipes.data.forEach(recipe => {
     let domRecipe = document.getElementById(`${recipe.id}`);
     domRecipe.style.display = "block";
   });
@@ -356,7 +361,7 @@ function findRecipesWithCheckedIngredients(selected) {
   let ingredientNames = selected.map(item => {
     return item.id;
   })
-  recipes.forEach(recipe => {
+  recipes.data.forEach(recipe => {
     let allRecipeIngredients = [];
     recipe.ingredients.forEach(ingredient => {
       allRecipeIngredients.push(ingredient.name);
