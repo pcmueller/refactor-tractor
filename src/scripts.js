@@ -8,7 +8,7 @@ import Recipe from './Recipe';
 import { getUserData, getRecipeData, getIngredientData} from "./net-utils.js";
 
 let allRecipesBtn = document.querySelector(".show-all-btn");
-let filterBtn = document.querySelector(".filter-btn");
+let filterBtn = document.querySelector("#filter-btn");
 let fullRecipeInfo = document.querySelector(".recipe-instructions");
 let main = document.querySelector("main");
 let menuOpen = false;
@@ -198,7 +198,7 @@ function openRecipeInfo(event) {
     fullRecipeInfo.style.display = "inline";
     let recipeId = event.path.find(e => e.id).id;
     let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
-    
+
     getIngredientData().then(function(ingredientData) {
       generateRecipeTitle(recipe, generateIngredients(recipe, ingredientData));
       addRecipeImage(recipe);
@@ -226,7 +226,7 @@ function generateIngredients(recipe, ingredientData) {
     const ingredient = ingredientData.find(ingredient => {
       return i.id === ingredient.id;
     }).name;
-  
+
     return `${capitalize(ingredient)} (${i.quantity.amount} ${i.quantity.unit})`
   }).join(", ");
 }
