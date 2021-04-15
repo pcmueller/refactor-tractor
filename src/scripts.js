@@ -2,11 +2,12 @@
 // import recipeData from  './data/recipe-data';
 // import ingredientData from './data/ingredient-data';
 
-import './css/base.scss';
 import './css/styles.scss';
 
 import User from './User';
 import Recipe from './Recipe';
+
+import { getUserData, getRecipeData, getIngredientData} from "./net-utils.js";
 
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector(".filter-btn");
@@ -24,7 +25,6 @@ let showPantryRecipes = document.querySelector(".show-pantry-recipes-btn");
 let tagList = document.querySelector(".tag-list");
 let user;
 
-
 window.addEventListener("load", createCards);
 window.addEventListener("load", findTags);
 window.addEventListener("load", generateUser);
@@ -37,39 +37,34 @@ searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
 
-// GET DATA FROM ENDPOINT
-async function getData(url) {
-  return fetch(url).then(resp => resp.json()).then(data => data);
-}
-
 // GENERATE A USER ON LOAD
-async function generateUser() {
-  const userData = await getData("http://localhost:3001/api/v1/users");
-  
-  user = new User(userData[Math.floor(Math.random() * userData.length)]);
-  let firstName = user.name.split(" ")[0];
-  let welcomeMsg = `
-    <div class="welcome-msg">
-      <h1>Welcome ${firstName}!</h1>
-    </div>`;
-  document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
-    welcomeMsg);
-  findPantryInfo();
+function generateUser() {
+  getUserData().then(function(userData) {
+    user = new User(userData[Math.floor(Math.random() * userData.length)]);
+    let firstName = user.name.split(" ")[0];
+    let welcomeMsg = `
+      <div class="welcome-msg">
+        <h1>Welcome ${firstName}!</h1>
+      </div>`;
+    document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
+      welcomeMsg);
+    findPantryInfo();
+  })
 }
 
 // CREATE RECIPE CARDS
-async function createCards() {
-  const recipeData = await getData("http://localhost:3001/api/v1/recipes");
-
-  recipeData.forEach(recipe => {
-    let recipeInfo = new Recipe(recipe);
-    let shortRecipeName = recipeInfo.name;
-    recipes.push(recipeInfo);
-    if (recipeInfo.name.length > 40) {
-      shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
-    }
-    addToDom(recipeInfo, shortRecipeName)
-  });
+function createCards() {
+  getRecipeData().then(function(recipeData) {
+    recipeData.forEach(recipe => {
+      let recipeInfo = new Recipe(recipe);
+      let shortRecipeName = recipeInfo.name;
+      recipes.push(recipeInfo);
+      if (recipeInfo.name.length > 40) {
+        shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
+      }
+      addToDom(recipeInfo, shortRecipeName)
+    });
+  })
 }
 
 function addToDom(recipeInfo, shortRecipeName) {
@@ -89,19 +84,19 @@ function addToDom(recipeInfo, shortRecipeName) {
 }
 
 // FILTER BY RECIPE TAGS
-async function findTags() {
-  const recipeData = await getData("http://localhost:3001/api/v1/recipes");
-
-  let tags = [];
-  recipeData.forEach(recipe => {
-    recipe.tags.forEach(tag => {
-      if (!tags.includes(tag)) {
-        tags.push(tag);
-      }
+function findTags() {
+  getRecipeData().then(function(recipeData) {
+    let tags = [];
+    recipeData.forEach(recipe => {
+      recipe.tags.forEach(tag => {
+        if (!tags.includes(tag)) {
+          tags.push(tag);
+        }
+      });
     });
+    tags.sort();
+    listTags(tags);
   });
-  tags.sort();
-  listTags(tags);
 }
 
 function listTags(allTags) {
@@ -200,16 +195,19 @@ function showSavedRecipes() {
 }
 
 // CREATE RECIPE INSTRUCTIONS
-async function openRecipeInfo(event) {
-  const recipeData = await getData("http://localhost:3001/api/v1/recipes");
-  
-  fullRecipeInfo.style.display = "inline";
-  let recipeId = event.path.find(e => e.id).id;
-  let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
-  generateRecipeTitle(recipe, await generateIngredients(recipe));
-  addRecipeImage(recipe);
-  generateInstructions(recipe);
-  fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
+function openRecipeInfo(event) {
+  getRecipeData().then(function(recipeData) {
+    fullRecipeInfo.style.display = "inline";
+    let recipeId = event.path.find(e => e.id).id;
+    let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
+    
+    getIngredientData().then(function(ingredientData) {
+      generateRecipeTitle(recipe, generateIngredients(recipe, ingredientData));
+      addRecipeImage(recipe);
+      generateInstructions(recipe);
+      fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
+    });
+  });
 }
 
 function generateRecipeTitle(recipe, ingredients) {
@@ -225,14 +223,12 @@ function addRecipeImage(recipe) {
   document.getElementById("recipe-title").style.backgroundImage = `url(${recipe.image})`;
 }
 
-async function generateIngredients(recipe) {
-  const ingredientData = await getData("http://localhost:3001/api/v1/ingredients");
-
+function generateIngredients(recipe, ingredientData) {
   return recipe && recipe.ingredients.map(i => {
     const ingredient = ingredientData.find(ingredient => {
       return i.id === ingredient.id;
     }).name;
-
+  
     return `${capitalize(ingredient)} (${i.quantity.amount} ${i.quantity.unit})`
   }).join(", ");
 }
@@ -274,12 +270,13 @@ function pressEnterSearch(event) {
 }
 
 function searchRecipes() {
-  const recipeData = getData("http://localhost:3001/api/v1/recipes")
-  showAllRecipes();
-  let searchedRecipes = recipeData.filter(recipe => {
-    return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
+  getRecipeData().then(function(recipeData) {
+    showAllRecipes();
+    let searchedRecipes = recipeData.filter(recipe => {
+      return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
+    });
+    filterNonSearched(createRecipeObject(searchedRecipes));
   });
-  filterNonSearched(createRecipeObject(searchedRecipes));
 }
 
 function filterNonSearched(filtered) {
@@ -314,25 +311,25 @@ function showAllRecipes() {
 }
 
 // CREATE AND USE PANTRY
-async function findPantryInfo() {
-  const ingredientData = await getData("http://localhost:3001/api/v1/ingredients");
-
-  user.pantry.forEach(item => {
-    let itemInfo = ingredientData.find(ingredient => {
-      return ingredient.id === item.ingredient;
-    });
-    let originalIngredient = pantryInfo.find(ingredient => {
-      if (itemInfo) {
-        return ingredient.name === itemInfo.name;
+function findPantryInfo() {
+  getIngredientData().then(function(ingredientData) {
+    user.pantry.forEach(item => {
+      let itemInfo = ingredientData.find(ingredient => {
+        return ingredient.id === item.ingredient;
+      });
+      let originalIngredient = pantryInfo.find(ingredient => {
+        if (itemInfo) {
+          return ingredient.name === itemInfo.name;
+        }
+      });
+      if (itemInfo && originalIngredient) {
+        originalIngredient.count += item.amount;
+      } else if (itemInfo) {
+        pantryInfo.push({name: itemInfo.name, count: item.amount});
       }
     });
-    if (itemInfo && originalIngredient) {
-      originalIngredient.count += item.amount;
-    } else if (itemInfo) {
-      pantryInfo.push({name: itemInfo.name, count: item.amount});
-    }
-  });
-  displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
+    displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
+  })
 }
 
 function displayPantryInfo(pantry) {
