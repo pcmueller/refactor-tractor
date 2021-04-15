@@ -1,7 +1,7 @@
 class Ingredient {
-  constructor(ingredient = undefined, cost = undefined) {
+  constructor(ingredient = undefined, name = undefined, cost = undefined) {
     this.id = ingredient.id;
-    this.name = ingredient.name;
+    this.name = name;
     this.quantity = ingredient.quantity;
     this.costInCents = cost;
   }

@@ -51,7 +51,7 @@ function generateUser() {
       welcomeMsg);
     findPantryInfo();
   })
-};
+}
 
 // CREATE RECIPE CARDS
 function createCards() {
@@ -60,16 +60,16 @@ function createCards() {
       let recipeInfo = new Recipe(recipe);
       let shortRecipeName = recipeInfo.name;
 
-      recipes.getRecipeData(recipeInfo);
+      recipes.addRecipeToRepository(recipeInfo);
 
       if (recipeInfo.name.length > 40) {
         shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
       }
-
+      
       addToDom(recipeInfo, shortRecipeName)
     });
   })
-};
+}
 
 function addToDom(recipeInfo, shortRecipeName) {
   let cardHtml = `
@@ -86,6 +86,7 @@ function addToDom(recipeInfo, shortRecipeName) {
     </div>`
   main.insertAdjacentHTML("beforeend", cardHtml);
 }
+
 
 // FILTER BY RECIPE TAGS
 function findTags() {

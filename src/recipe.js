@@ -14,7 +14,7 @@ class Recipe {
     this.ingredients.forEach(ingredient => {
       return data.forEach(datum => {
         if (ingredient.id === datum.id) {
-          costedIngredients.push(new Ingredient(ingredient, datum.estimatedCostInCents));
+          costedIngredients.push(new Ingredient(ingredient, datum.name, datum.estimatedCostInCents));
         }
       });
     });
