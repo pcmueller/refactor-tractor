@@ -1,11 +1,7 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
 // JS
-import './scripts.js'
+import './scripts.js';
 
 // CSS
-import './css/base.scss';
 import './css/styles.scss';
 
 //Images

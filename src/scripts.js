@@ -2,8 +2,6 @@
 // import recipeData from  './data/recipe-data';
 // import ingredientData from './data/ingredient-data';
 
-import './css/styles.scss';
-
 import User from './User';
 import Recipe from './Recipe';
 
