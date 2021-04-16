@@ -12,7 +12,9 @@ class Recipe {
   }
 
   retrieveIngredientPricing(data) {
+    console.log(data);
     let costedIngredients = [];
+    console.log(this.ingredients);
     this.ingredients.forEach(ingredient => {
       return data.forEach(datum => {
         if (ingredient.id === datum.id) {
@@ -25,6 +27,7 @@ class Recipe {
 
   calculateIngredientsCost(data) {
     // console.log("in recipe - calculateIngredientsCost()", data);
+    console.log(data);
     this.retrieveIngredientPricing(data);
     const cents = this.ingredients.reduce((total, item) => {
       total += item.costInCents * item.quantity.amount;

@@ -60,7 +60,7 @@ function createCards(recipeData) {
   recipeData.forEach(recipe => {
     let recipeInfo = new Recipe(recipe);
     let shortRecipeName = recipeInfo.name;
-    recipeInfo.calculateIngredientsCost(pantry);
+    recipeInfo.calculateIngredientsCost(pantry.data);
     recipes.addRecipeToRepository(recipeInfo);
 
 
