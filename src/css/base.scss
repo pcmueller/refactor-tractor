@@ -24,7 +24,7 @@ h1 {
 }
 
 h2 {
-  color: $brand-accent-light;
+  color: $brand-accent-dark;
   margin: 10px 0px 10px 0px;
 }
 
@@ -37,10 +37,12 @@ h3 {
 }
 
 h4 {
-  color: $brand-accent-dark;
-  background-color: $brand-highlight;
+  color: $primary-background;
+  background-color: transparent;
+  border: solid 2px $brand-highlight;
   border-radius: 3px;
   margin: 10px 0px 0px 0px;
   padding: 1px 4px 1px 4px;
   width: max-content;
+  font-weight: normal;
 }
