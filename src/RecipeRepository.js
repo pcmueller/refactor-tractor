@@ -13,7 +13,6 @@ class RecipeRepository {
   populateRecipeTags() {
     this.data.forEach(recipe => {
       recipe.tags.forEach(tag => {
-        console.log(tag);
         if (!this.tagNames.includes(tag)) {
           this.tagNames.push(tag);
         }

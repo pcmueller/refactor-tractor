@@ -81,6 +81,7 @@ function createCards() {
     
       recipes.populateRecipeTags();
       domUpdates.listTags(recipes.tagNames, capitalize, tagList);
+    });
 }
 
 // FILTER BY RECIPE TAGS
