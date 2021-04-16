@@ -14,6 +14,7 @@ let filterBtn = document.querySelector("#filter-btn");
 let fullRecipeInfo = document.querySelector("#recipe-instructions");
 let main = document.querySelector("main");
 let menuOpen = false;
+let pantry;
 let pantryBtn = document.querySelector("#my-pantry-btn");
 let pantryInfo = [];
 let savedRecipesBtn = document.querySelector("#saved-recipes-btn");
@@ -25,9 +26,7 @@ let showPantryRecipes = document.querySelector("#show-pantry-recipes-btn");
 let tagList = document.querySelector("#tag-list");
 let user;
 
-window.addEventListener("load", createCards);
-window.addEventListener("load", findTags);
-window.addEventListener("load", generateUser);
+window.addEventListener("load", loadData);
 allRecipesBtn.addEventListener("click", showAllRecipes);
 filterBtn.addEventListener("click", findCheckedBoxes);
 main.addEventListener("click", addToMyRecipes);
@@ -39,47 +38,52 @@ searchForm.addEventListener("submit", pressEnterSearch);
 
 // GENERATE A USER ON LOAD
 function generateUser() {
-  getUserData().then(function(userData) {
-    user = new User(userData[Math.floor(Math.random() * userData.length)]);
-    let firstName = user.name.split(" ")[0];
-    domUpdates.setWelcomeMsg(firstName);
-    findPantryInfo();
+  getUserData()
+    .then(function(userData) {
+      user = new User(userData[Math.floor(Math.random() * userData.length)]);
+      let firstName = user.name.split(" ")[0];
+      domUpdates.setWelcomeMsg(firstName);
+      findPantryInfo();
   })
+}
+
+function loadData() {
+  createPantry();
+  createCards();
+  generateUser();
+}
+
+function createPantry() {
+  getIngredientData()
+    .then(function(ingredientData) {
+      pantry = ingredientData;
+    });
 }
 
 // CREATE RECIPE CARDS
 function createCards() {
-  getRecipeData().then(function(recipeData) {
-    recipeData.forEach(recipe => {
-      let recipeInfo = new Recipe(recipe);
-      let shortRecipeName = recipeInfo.name;
+  getRecipeData()
+    .then(function(recipeData) {
+      recipeData.forEach(recipe => {
+        let recipeInfo = new Recipe(recipe);
+        let shortRecipeName = recipeInfo.name;
 
-      recipes.addRecipeToRepository(recipeInfo);
+        recipeInfo.calculateIngredientsCost(pantry);
+        recipes.addRecipeToRepository(recipeInfo);
 
-      if (recipeInfo.name.length > 40) {
-        shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
-      }
 
-      domUpdates.addToDom(main, recipeInfo, shortRecipeName)
-    });
-  })
+        if (recipeInfo.name.length > 40) {
+          shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
+        }
+
+        domUpdates.addToDom(main, recipeInfo, shortRecipeName)
+      });
+    
+      recipes.populateRecipeTags();
+      domUpdates.listTags(recipes.tagNames, capitalize, tagList);
 }
 
 // FILTER BY RECIPE TAGS
-function findTags() {
-  getRecipeData().then(function(recipeData) {
-    let tags = [];
-    recipeData.forEach(recipe => {
-      recipe.tags.forEach(tag => {
-        if (!tags.includes(tag)) {
-          tags.push(tag);
-        }
-      });
-    });
-    tags.sort();
-    domUpdates.listTags(tags, capitalize, tagList);
-  });
-}
 
 function capitalize(words) {
   return words.split(" ").map(word => {
@@ -118,7 +122,7 @@ function filterRecipes(filtered) {
   let foundRecipes = recipes.data.filter(recipe => {
     return !filtered.includes(recipe);
   });
-  domUpdates.hideUnselectedRecipes(foundRecipes)
+  domUpdates.hideUnselectedRecipes(foundRecipes);
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
@@ -165,18 +169,14 @@ function addToMyRecipes() {
 }
 
 function openRecipeInfo(event) {
-  getRecipeData().then(function(recipeData) {
-    fullRecipeInfo.style.display = "inline";
     let recipeId = event.path.find(e => e.id).id;
-    let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
-
-    getIngredientData().then(function(ingredientData) {
-      domUpdates.generateRecipeTitle(recipe, generateIngredients(recipe, ingredientData), fullRecipeInfo);
-      domUpdates.addRecipeImage(recipe);
-      generateInstructions(recipe);
-      fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
-    });
-  });
+    let recipe = recipes.data.find(recipe => recipe.id === Number(recipeId));
+  
+    fullRecipeInfo.style.display = "inline";
+    domUpdates.generateRecipeTitle(recipe, generateIngredients(recipe, pantry), fullRecipeInfo);
+    domUpdates.addRecipeImage(recipe);
+    generateInstructions(recipe);
+    fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
 }
 
 function generateIngredients(recipe, ingredientData) {
@@ -221,13 +221,11 @@ function pressEnterSearch(event) {
 }
 
 function searchRecipes() {
-  getRecipeData().then(function(recipeData) {
-    showAllRecipes();
-    let searchedRecipes = recipeData.filter(recipe => {
-      return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
-    });
-    filterNonSearched(createRecipeObject(searchedRecipes));
+  showAllRecipes();
+  let searchedRecipes = recipes.data.filter(recipe => {
+    return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
   });
+  filterNonSearched(searchedRecipes);
 }
 
 function filterNonSearched(filtered) {
@@ -236,11 +234,6 @@ function filterNonSearched(filtered) {
     return !ids.includes(recipe.id)
   })
   domUpdates.hideUnselectedRecipes(found);
-}
-
-function createRecipeObject(recipes) {
-  recipes = recipes.data.map(recipe => new Recipe(recipe));
-  return recipes
 }
 
 function toggleMenu() {
