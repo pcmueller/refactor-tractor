@@ -1,10 +1,7 @@
-.show-pantry-recipes-btn,
-.show-all-btn,
-.filter-btn {
-  background-color: $brand-accent-dark;
-  border: 0;
+@mixin button {
+  background-color: transparent;
+  border: solid;
   border-radius: 3px;
-  color: $white;
   cursor: pointer;
   font-family: "Quicksand", sans-serif;
   font-size: 12pt;
@@ -12,16 +9,32 @@
   padding: 5px 10px 5px 10px;
 }
 
+.show-pantry-recipes-btn,
+.filter-btn {
+  @include button;
+  border-color: $primary-background;
+  color: $primary-background;
+
+  &:hover {
+    background-color: $primary-background;
+    color: $white;
+  }
+}
+
 .show-pantry-recipes-btn {
   margin-top: 10px;
 }
 
 .show-all-btn {
+  @include button;
   height: 40px;
-  margin-top: 20px;
   width: 200px;
-}
+  margin-top: 20px;
+  border-color: $white;
+  color: $white;
 
-.filter-btn:hover {
-  background-color: $brand-accent-light;
+  &:hover {
+    background-color: $white;
+    color: $brand-accent-dark;
+  }
 }
