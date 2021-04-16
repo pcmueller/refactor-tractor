@@ -23,7 +23,24 @@ let domUpdates = {
         <label for="${tag}">${capitalize(tag)}</label></li>`;
       tagList.insertAdjacentHTML("beforeend", tagHtml);
     });
-  }
+  },
+
+  addToMyRecipes() {
+    if (event.target.className === "card-apple-icon") {
+      let cardId = parseInt(event.target.closest(".recipe-card").id)
+      if (!user.favoriteRecipes.includes(cardId)) {
+        event.target.src = "../images/apple-logo.png";
+        user.saveRecipe(cardId);
+      } else {
+        event.target.src = "../images/apple-logo-outline.png";
+        user.removeRecipe(cardId);
+      }
+    } else if (event.target.id === "exit-recipe-btn") {
+      exitRecipe();
+    } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) {
+      openRecipeInfo(event);
+    }
+  }  
 };
 
 export default domUpdates;
