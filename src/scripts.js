@@ -166,15 +166,11 @@ function openRecipeInfo(event) {
 
     getIngredientData().then(function(ingredientData) {
       domUpdates.generateRecipeTitle(recipe, generateIngredients(recipe, ingredientData), fullRecipeInfo);
-      addRecipeImage(recipe);
+      domUpdates.addRecipeImage(recipe);
       generateInstructions(recipe);
       fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
     });
   });
-}
-
-function addRecipeImage(recipe) {
-  document.getElementById("recipe-title").style.backgroundImage = `url(${recipe.image})`;
 }
 
 function generateIngredients(recipe, ingredientData) {

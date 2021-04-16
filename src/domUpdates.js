@@ -49,6 +49,10 @@ let domUpdates = {
       <h4>Ingredients</h4>
       <p>${ingredients}</p>`
     fullRecipeInfo.insertAdjacentHTML("beforeend", recipeTitle);
+  },
+
+  addRecipeImage(recipe) {
+    document.getElementById("recipe-title").style.backgroundImage = `url(${recipe.image})`;
   }
 
 };
