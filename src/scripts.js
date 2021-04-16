@@ -165,21 +165,12 @@ function openRecipeInfo(event) {
     let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
 
     getIngredientData().then(function(ingredientData) {
-      generateRecipeTitle(recipe, generateIngredients(recipe, ingredientData));
+      domUpdates.generateRecipeTitle(recipe, generateIngredients(recipe, ingredientData), fullRecipeInfo);
       addRecipeImage(recipe);
       generateInstructions(recipe);
       fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
     });
   });
-}
-
-function generateRecipeTitle(recipe, ingredients) {
-  let recipeTitle = `
-    <button id="exit-recipe-btn">X</button>
-    <h3 id="recipe-title">${recipe.name}</h3>
-    <h4>Ingredients</h4>
-    <p>${ingredients}</p>`
-  fullRecipeInfo.insertAdjacentHTML("beforeend", recipeTitle);
 }
 
 function addRecipeImage(recipe) {

@@ -40,7 +40,17 @@ let domUpdates = {
     } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) {
       openRecipeInfo(event);
     }
-  }  
+  },
+
+  generateRecipeTitle(recipe, ingredients, fullRecipeInfo) {
+    let recipeTitle = `
+      <button id="exit-recipe-btn">X</button>
+      <h3 id="recipe-title">${recipe.name}</h3>
+      <h4>Ingredients</h4>
+      <p>${ingredients}</p>`
+    fullRecipeInfo.insertAdjacentHTML("beforeend", recipeTitle);
+  }
+
 };
 
 export default domUpdates;
