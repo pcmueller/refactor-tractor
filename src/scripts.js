@@ -4,6 +4,7 @@
 
 import User from './User';
 import Recipe from './Recipe';
+import domUpdates from './domUpdates';
 
 import { getUserData, getRecipeData, getIngredientData} from "./net-utils.js";
 import RecipeRepository from './RecipeRepository';
@@ -41,14 +42,9 @@ function generateUser() {
     .then(function(userData) {
       user = new User(userData[Math.floor(Math.random() * userData.length)]);
       let firstName = user.name.split(" ")[0];
-      let welcomeMsg = `
-        <div class="welcome-msg">
-          <h1>Welcome ${firstName}!</h1>
-        </div>`;
-      document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
-        welcomeMsg);
+      domUpdates.setWelcomeMsg(firstName);
       findPantryInfo();
-    });
+  })
 }
 
 function loadData() {
@@ -75,43 +71,19 @@ function createCards() {
         recipeInfo.calculateIngredientsCost(pantry);
         recipes.addRecipeToRepository(recipeInfo);
 
+
         if (recipeInfo.name.length > 40) {
           shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
         }
-        
-        addToDom(recipeInfo, shortRecipeName)
-      });
-      recipes.populateRecipeTags();
-      listTags();
-      console.log("TAG NAMES: ", recipes.tagNames);
-    });
-}
 
-function addToDom(recipeInfo, shortRecipeName) {
-  let cardHtml = `
-    <div class="recipe-card" id=${recipeInfo.id}>
-      <h3 maxlength="40">${shortRecipeName}</h3>
-      <div class="card-photo-container">
-        <img src=${recipeInfo.image} class="card-photo-preview" alt="${recipeInfo.name} recipe" title="${recipeInfo.name} recipe">
-        <div class="text">
-          <div>Click for Instructions</div>
-        </div>
-      </div>
-      <h4>${recipeInfo.tags[0]}</h4>
-      <img src="../images/apple-logo-outline.png" alt="unfilled apple icon" class="card-apple-icon">
-    </div>`
-  main.insertAdjacentHTML("beforeend", cardHtml);
+        domUpdates.addToDom(main, recipeInfo, shortRecipeName)
+      });
+    
+      recipes.populateRecipeTags();
+      domUpdates.listTags(recipes.tagNames, capitalize, tagList);
 }
 
 // FILTER BY RECIPE TAGS
-
-function listTags() {
-  recipes.tagNames.forEach(tag => {
-    let tagHtml = `<li><input type="checkbox" class="checked-tag" id="${tag}">
-      <label for="${tag}">${capitalize(tag)}</label></li>`;
-    tagList.insertAdjacentHTML("beforeend", tagHtml);
-  });
-}
 
 function capitalize(words) {
   return words.split(" ").map(word => {
@@ -150,33 +122,10 @@ function filterRecipes(filtered) {
   let foundRecipes = recipes.data.filter(recipe => {
     return !filtered.includes(recipe);
   });
-  hideUnselectedRecipes(foundRecipes);
-}
-
-function hideUnselectedRecipes(foundRecipes) {
-  foundRecipes.forEach(recipe => {
-    let domRecipe = document.getElementById(`${recipe.id}`);
-    domRecipe.style.display = "none";
-  });
+  domUpdates.hideUnselectedRecipes(foundRecipes);
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
-function addToMyRecipes() {
-  if (event.target.className === "card-apple-icon") {
-    let cardId = parseInt(event.target.closest(".recipe-card").id)
-    if (!user.favoriteRecipes.includes(cardId)) {
-      event.target.src = "../images/apple-logo.png";
-      user.saveRecipe(cardId);
-    } else {
-      event.target.src = "../images/apple-logo-outline.png";
-      user.removeRecipe(cardId);
-    }
-  } else if (event.target.id === "exit-recipe-btn") {
-    exitRecipe();
-  } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) {
-    openRecipeInfo(event);
-  }
-}
 
 function isDescendant(parent, child) {
   let node = child;
@@ -197,33 +146,37 @@ function showSavedRecipes() {
     let domRecipe = document.getElementById(`${recipe.id}`);
     domRecipe.style.display = "none";
   });
-  showMyRecipesBanner();
+  domUpdates.showMyRecipesBanner();
 }
 
 // CREATE RECIPE INSTRUCTIONS
-function openRecipeInfo(event) {
-    fullRecipeInfo.style.display = "inline";
 
+function addToMyRecipes() {
+  if (event.target.className === "card-apple-icon") {
+    let cardId = parseInt(event.target.closest(".recipe-card").id)
+    if (!user.favoriteRecipes.includes(cardId)) {
+      event.target.src = "../images/apple-logo.png";
+      user.saveRecipe(cardId);
+    } else {
+      event.target.src = "../images/apple-logo-outline.png";
+      user.removeRecipe(cardId);
+    }
+  } else if (event.target.id === "exit-recipe-btn") {
+    exitRecipe();
+  } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) {
+    openRecipeInfo(event);
+  }
+}
+
+function openRecipeInfo(event) {
     let recipeId = event.path.find(e => e.id).id;
     let recipe = recipes.data.find(recipe => recipe.id === Number(recipeId));
   
-    generateRecipeTitle(recipe, generateIngredients(recipe, pantry));
-    addRecipeImage(recipe);
+    fullRecipeInfo.style.display = "inline";
+    domUpdates.generateRecipeTitle(recipe, generateIngredients(recipe, pantry), fullRecipeInfo);
+    domUpdates.addRecipeImage(recipe);
     generateInstructions(recipe);
     fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
-}
-
-function generateRecipeTitle(recipe, ingredients) {
-  let recipeTitle = `
-    <button id="exit-recipe-btn">X</button>
-    <h3 id="recipe-title">${recipe.name}</h3>
-    <h4>Ingredients</h4>
-    <p>${ingredients}</p>`
-  fullRecipeInfo.insertAdjacentHTML("beforeend", recipeTitle);
-}
-
-function addRecipeImage(recipe) {
-  document.getElementById("recipe-title").style.backgroundImage = `url(${recipe.image})`;
 }
 
 function generateIngredients(recipe, ingredientData) {
@@ -256,11 +209,6 @@ function exitRecipe() {
 }
 
 // TOGGLE DISPLAYS
-function showMyRecipesBanner() {
-  document.querySelector(".welcome-msg").style.display = "none";
-  document.querySelector(".my-recipes-banner").style.display = "block";
-}
-
 function showWelcomeBanner() {
   document.querySelector(".welcome-msg").style.display = "flex";
   document.querySelector(".my-recipes-banner").style.display = "none";
@@ -285,7 +233,7 @@ function filterNonSearched(filtered) {
     let ids = filtered.map(f => f.id);
     return !ids.includes(recipe.id)
   })
-  hideUnselectedRecipes(found);
+  domUpdates.hideUnselectedRecipes(found);
 }
 
 function toggleMenu() {
