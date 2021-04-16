@@ -53,7 +53,12 @@ let domUpdates = {
 
   addRecipeImage(recipe) {
     document.getElementById("recipe-title").style.backgroundImage = `url(${recipe.image})`;
-  }
+  },
+
+  showMyRecipesBanner() {
+    document.querySelector(".welcome-msg").style.display = "none";
+    document.querySelector(".my-recipes-banner").style.display = "block";
+  },
 
 };
 
