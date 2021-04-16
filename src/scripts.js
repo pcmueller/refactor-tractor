@@ -8,8 +8,7 @@ import RecipeRepository from './RecipeRepository';
 import Ingredient from './Ingredient';
 import Pantry from './Pantry';
 import domUpdates from './domUpdates';
-
-import { getUserData, getRecipeData, getIngredientData} from "./net-utils.js";
+import { getUserData, getRecipeData, getIngredientData, getAllData } from "./net-utils.js";
 
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector("#filter-btn");
@@ -39,57 +38,50 @@ showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
 
 function loadData() {
-  createPantry();
-  createCards();
-  generateUser();
+  getAllData().then(function(data) {
+    createPantry(data[2]);
+    createCards(data[1]);
+    generateUser(data[0]);
+  });
 }
 
 // CREATE PANTRY 
 
-function createPantry() {
-  getIngredientData()
-    .then(function(ingredientData) {
-      ingredientData.forEach(ingredient => {
-        let ingredientInfo = new Ingredient(ingredient);
-        pantry.addIngredientToPantry(ingredientInfo);
-      });
-    });
+function createPantry(ingredientData) {
+  ingredientData.forEach(ingredient => {
+    let ingredientInfo = new Ingredient(ingredient);
+    pantry.addIngredientToPantry(ingredientInfo);
+  });
 }
 
-// CREATE RECIPE REPOSITORY
+// CREATE RECIPE CARDS
 
-function createCards() {
-  getRecipeData()
-    .then(function(recipeData) {
-      recipeData.forEach(recipe => {
-        let recipeInfo = new Recipe(recipe);
-        let shortRecipeName = recipeInfo.name;
+function createCards(recipeData) {
+  recipeData.forEach(recipe => {
+    let recipeInfo = new Recipe(recipe);
+    let shortRecipeName = recipeInfo.name;
+    recipeInfo.calculateIngredientsCost(pantry);
+    recipes.addRecipeToRepository(recipeInfo);
 
-        recipeInfo.calculateIngredientsCost(pantry.data);
-        recipes.addRecipeToRepository(recipeInfo);
 
-        if (recipeInfo.name.length > 40) {
-          shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
-        }
+    if (recipeInfo.name.length > 40) {
+      shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
+    }
 
-        domUpdates.addToDom(main, recipeInfo, shortRecipeName)
-      });
-    
-      recipes.populateRecipeTags();
-      domUpdates.listTags(recipes.tagNames, capitalize, tagList);
-    });
+    domUpdates.addToDom(main, recipeInfo, shortRecipeName)
+  });
+
+  recipes.populateRecipeTags();
+  domUpdates.listTags(recipes.tagNames, capitalize, tagList);
 }
 
 // GENERATE A USER
 
-function generateUser() {
-  getUserData()
-    .then(function(userData) {
-      user = new User(userData[Math.floor(Math.random() * userData.length)]);
-      let firstName = user.name.split(" ")[0];
-      domUpdates.setWelcomeMsg(firstName);
-      findPantryInfo();
-  })
+function generateUser(userData) {
+  user = new User(userData[Math.floor(Math.random() * userData.length)]);
+  let firstName = user.name.split(" ")[0];
+  domUpdates.setWelcomeMsg(firstName);
+  findPantryInfo();
 }
 
 // FILTER BY RECIPE TAGS
