@@ -5,8 +5,6 @@ function getAllData() {
   return Promise.all(promises);
 }
 
-console.log(getAllData());
-
 function getData(url) {
   return fetch(url).then(resp => resp.json());
 }
