@@ -92,8 +92,6 @@ function generateUser() {
   })
 }
 
-
-
 // FILTER BY RECIPE TAGS
 
 function capitalize(words) {

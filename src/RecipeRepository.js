@@ -1,5 +1,3 @@
-const Recipe = require("./Recipe");
-
 class RecipeRepository {
   constructor() {
     this.data = [];
