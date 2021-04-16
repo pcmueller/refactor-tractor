@@ -1,5 +1,12 @@
 // Functions for fetching data from endpoints
 
+function getAllData() {
+  const promises = [ getUserData(), getRecipeData(), getIngredientData() ];
+  return Promise.all(promises);
+}
+
+console.log(getAllData());
+
 function getData(url) {
   return fetch(url).then(resp => resp.json());
 }
@@ -16,4 +23,4 @@ function getIngredientData() {
   return getData("http://localhost:3001/api/v1/ingredients");
 }
 
-export { getUserData, getRecipeData, getIngredientData };
+export { getUserData, getRecipeData, getIngredientData, getAllData };
