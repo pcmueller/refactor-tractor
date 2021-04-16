@@ -70,6 +70,13 @@ let domUpdates = {
     document.querySelector(".my-recipes-banner").style.display = "block";
   },
 
+  hideUnselectedRecipes(foundRecipes) {
+    foundRecipes.forEach(recipe => {
+      let domRecipe = document.getElementById(`${recipe.id}`);
+      domRecipe.style.display = "none";
+    });
+  },
+
 };
 
 export default domUpdates;

@@ -118,14 +118,7 @@ function filterRecipes(filtered) {
   let foundRecipes = recipes.data.filter(recipe => {
     return !filtered.includes(recipe);
   });
-  hideUnselectedRecipes(foundRecipes)
-}
-
-function hideUnselectedRecipes(foundRecipes) {
-  foundRecipes.forEach(recipe => {
-    let domRecipe = document.getElementById(`${recipe.id}`);
-    domRecipe.style.display = "none";
-  });
+  domUpdates.hideUnselectedRecipes(foundRecipes)
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
@@ -224,7 +217,7 @@ function filterNonSearched(filtered) {
     let ids = filtered.map(f => f.id);
     return !ids.includes(recipe.id)
   })
-  hideUnselectedRecipes(found);
+  domUpdates.hideUnselectedRecipes(found);
 }
 
 function createRecipeObject(recipes) {
