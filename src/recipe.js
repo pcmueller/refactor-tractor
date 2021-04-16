@@ -7,6 +7,8 @@ class Recipe {
     this.image = recipe.image;
     this.tags = recipe.tags;
     this.ingredients = recipe.ingredients;
+    this.instructions = recipe.instructions;
+    this.cost = 0;
   }
 
   retrieveIngredientPricing(data) {
@@ -27,7 +29,8 @@ class Recipe {
       total += item.costInCents * item.quantity.amount;
       return total;
     }, 0);
-    return parseFloat((cents/100).toFixed(2));
+    this.cost = parseFloat((cents/100).toFixed(2));
+    return this.cost;
   }
 }
 

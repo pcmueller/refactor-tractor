@@ -13,6 +13,7 @@ let filterBtn = document.querySelector("#filter-btn");
 let fullRecipeInfo = document.querySelector("#recipe-instructions");
 let main = document.querySelector("main");
 let menuOpen = false;
+let pantry;
 let pantryBtn = document.querySelector("#my-pantry-btn");
 let pantryInfo = [];
 let savedRecipesBtn = document.querySelector("#saved-recipes-btn");
@@ -24,9 +25,7 @@ let showPantryRecipes = document.querySelector("#show-pantry-recipes-btn");
 let tagList = document.querySelector("#tag-list");
 let user;
 
-window.addEventListener("load", createCards);
-window.addEventListener("load", findTags);
-window.addEventListener("load", generateUser);
+window.addEventListener("load", loadData);
 allRecipesBtn.addEventListener("click", showAllRecipes);
 filterBtn.addEventListener("click", findCheckedBoxes);
 main.addEventListener("click", addToMyRecipes);
@@ -38,35 +37,54 @@ searchForm.addEventListener("submit", pressEnterSearch);
 
 // GENERATE A USER ON LOAD
 function generateUser() {
-  getUserData().then(function(userData) {
-    user = new User(userData[Math.floor(Math.random() * userData.length)]);
-    let firstName = user.name.split(" ")[0];
-    let welcomeMsg = `
-      <div class="welcome-msg">
-        <h1>Welcome ${firstName}!</h1>
-      </div>`;
-    document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
-      welcomeMsg);
-    findPantryInfo();
-  })
+  getUserData()
+    .then(function(userData) {
+      user = new User(userData[Math.floor(Math.random() * userData.length)]);
+      let firstName = user.name.split(" ")[0];
+      let welcomeMsg = `
+        <div class="welcome-msg">
+          <h1>Welcome ${firstName}!</h1>
+        </div>`;
+      document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
+        welcomeMsg);
+      findPantryInfo();
+    });
+}
+
+function loadData() {
+  createPantry();
+  createCards();
+  generateUser();
+}
+
+function createPantry() {
+  getIngredientData()
+    .then(function(ingredientData) {
+      pantry = ingredientData;
+    });
 }
 
 // CREATE RECIPE CARDS
 function createCards() {
-  getRecipeData().then(function(recipeData) {
-    recipeData.forEach(recipe => {
-      let recipeInfo = new Recipe(recipe);
-      let shortRecipeName = recipeInfo.name;
+  getRecipeData()
+    .then(function(recipeData) {
+      recipeData.forEach(recipe => {
+        let recipeInfo = new Recipe(recipe);
+        let shortRecipeName = recipeInfo.name;
 
-      recipes.addRecipeToRepository(recipeInfo);
+        recipeInfo.calculateIngredientsCost(pantry);
+        recipes.addRecipeToRepository(recipeInfo);
 
-      if (recipeInfo.name.length > 40) {
-        shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
-      }
-      
-      addToDom(recipeInfo, shortRecipeName)
+        if (recipeInfo.name.length > 40) {
+          shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
+        }
+        
+        addToDom(recipeInfo, shortRecipeName)
+      });
+      recipes.populateRecipeTags();
+      listTags();
+      console.log("TAG NAMES: ", recipes.tagNames);
     });
-  })
 }
 
 function addToDom(recipeInfo, shortRecipeName) {
@@ -85,25 +103,10 @@ function addToDom(recipeInfo, shortRecipeName) {
   main.insertAdjacentHTML("beforeend", cardHtml);
 }
 
-
 // FILTER BY RECIPE TAGS
-function findTags() {
-  getRecipeData().then(function(recipeData) {
-    let tags = [];
-    recipeData.forEach(recipe => {
-      recipe.tags.forEach(tag => {
-        if (!tags.includes(tag)) {
-          tags.push(tag);
-        }
-      });
-    });
-    tags.sort();
-    listTags(tags);
-  });
-}
 
-function listTags(allTags) {
-  allTags.forEach(tag => {
+function listTags() {
+  recipes.tagNames.forEach(tag => {
     let tagHtml = `<li><input type="checkbox" class="checked-tag" id="${tag}">
       <label for="${tag}">${capitalize(tag)}</label></li>`;
     tagList.insertAdjacentHTML("beforeend", tagHtml);
@@ -147,7 +150,7 @@ function filterRecipes(filtered) {
   let foundRecipes = recipes.data.filter(recipe => {
     return !filtered.includes(recipe);
   });
-  hideUnselectedRecipes(foundRecipes)
+  hideUnselectedRecipes(foundRecipes);
 }
 
 function hideUnselectedRecipes(foundRecipes) {
@@ -199,18 +202,15 @@ function showSavedRecipes() {
 
 // CREATE RECIPE INSTRUCTIONS
 function openRecipeInfo(event) {
-  getRecipeData().then(function(recipeData) {
     fullRecipeInfo.style.display = "inline";
-    let recipeId = event.path.find(e => e.id).id;
-    let recipe = recipeData.find(recipe => recipe.id === Number(recipeId));
 
-    getIngredientData().then(function(ingredientData) {
-      generateRecipeTitle(recipe, generateIngredients(recipe, ingredientData));
-      addRecipeImage(recipe);
-      generateInstructions(recipe);
-      fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
-    });
-  });
+    let recipeId = event.path.find(e => e.id).id;
+    let recipe = recipes.data.find(recipe => recipe.id === Number(recipeId));
+  
+    generateRecipeTitle(recipe, generateIngredients(recipe, pantry));
+    addRecipeImage(recipe);
+    generateInstructions(recipe);
+    fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
 }
 
 function generateRecipeTitle(recipe, ingredients) {
@@ -273,13 +273,11 @@ function pressEnterSearch(event) {
 }
 
 function searchRecipes() {
-  getRecipeData().then(function(recipeData) {
-    showAllRecipes();
-    let searchedRecipes = recipeData.filter(recipe => {
-      return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
-    });
-    filterNonSearched(createRecipeObject(searchedRecipes));
+  showAllRecipes();
+  let searchedRecipes = recipes.data.filter(recipe => {
+    return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
   });
+  filterNonSearched(searchedRecipes);
 }
 
 function filterNonSearched(filtered) {
@@ -288,11 +286,6 @@ function filterNonSearched(filtered) {
     return !ids.includes(recipe.id)
   })
   hideUnselectedRecipes(found);
-}
-
-function createRecipeObject(recipes) {
-  recipes = recipes.data.map(recipe => new Recipe(recipe));
-  return recipes
 }
 
 function toggleMenu() {
