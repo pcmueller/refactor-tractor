@@ -37,57 +37,30 @@ showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
 
 // GENERATE A USER ON LOAD
-function generateUser() {
-  getUserData()
-    .then(function(userData) {
-      user = new User(userData[Math.floor(Math.random() * userData.length)]);
-      let firstName = user.name.split(" ")[0];
-      domUpdates.setWelcomeMsg(firstName);
-      findPantryInfo();
-  })
+function generateUser(userData) {
+  user = new User(userData[Math.floor(Math.random() * userData.length)]);
+  let firstName = user.name.split(" ")[0];
+  domUpdates.setWelcomeMsg(firstName);
+  findPantryInfo();
 }
 
 function loadData() {
-  
-  getIngredientData().then(data => createPantry(data));
-  getRecipeData().then(data => createCards(data));
-  generateUser();
+  getAllData().then(function(data) {
+    createPantry(data[2]);
+    createCards(data[1]);
+    generateUser(data[0]);
+  });
 }
 
 function createPantry(ingredientData) {
-  // getIngredientData()
-  //   .then(function(ingredientData) {
-  //     pantry = ingredientData;
-  //   });
   pantry = ingredientData;
 }
 
 // CREATE RECIPE CARDS
 function createCards(recipeData) {
-  // getRecipeData()
-  //   .then(function(recipeData) {
-      // recipeData.forEach(recipe => {
-      //   let recipeInfo = new Recipe(recipe);
-      //   let shortRecipeName = recipeInfo.name;
-      //   console.log("in createCards()", pantry);
-      //   recipeInfo.calculateIngredientsCost(pantry);
-      //   recipes.addRecipeToRepository(recipeInfo);
-
-
-      //   if (recipeInfo.name.length > 40) {
-      //     shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
-      //   }
-
-      //   domUpdates.addToDom(main, recipeInfo, shortRecipeName)
-      // });
-    
-      // recipes.populateRecipeTags();
-      // domUpdates.listTags(recipes.tagNames, capitalize, tagList);
-  //   });
   recipeData.forEach(recipe => {
     let recipeInfo = new Recipe(recipe);
     let shortRecipeName = recipeInfo.name;
-    // console.log("in createCards()", pantry);
     recipeInfo.calculateIngredientsCost(pantry);
     recipes.addRecipeToRepository(recipeInfo);
 
