@@ -1,6 +1,16 @@
 // domUpdates.js
 
 let domUpdates = {
+  setWelcomeMsg(firstName) {
+    let welcomeMsg =
+    `
+    <div class="welcome-msg">
+      <h1>Welcome ${firstName}!</h1>
+    </div>`
+    document.querySelector(".banner-image").insertAdjacentHTML("afterbegin",
+      welcomeMsg);
+  },
+
   addToDom(main, recipeInfo, shortRecipeName) {
     let cardHtml = `
       <div class="recipe-card" id=${recipeInfo.id}>
