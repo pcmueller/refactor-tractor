@@ -3,23 +3,25 @@ const Recipe = require("./Recipe");
 class RecipeRepository {
   constructor() {
     this.data = [];
-    this.tags = [];
+    this.tagNames = [];
   }
 
   addRecipeToRepository(recipe) {
-    this.data.push(new Recipe(recipe));
+    this.data.push(recipe);
   }
 
   populateRecipeTags() {
     this.data.forEach(recipe => {
       recipe.tags.forEach(tag => {
-        if (!this.tags.includes(tag)) {
-          this.tags.push(tag);
+        console.log(tag);
+        if (!this.tagNames.includes(tag)) {
+          this.tagNames.push(tag);
         }
       });
     });
-    this.tags.sort();
+    this.tagNames.sort();
   }
+
 }
 
 module.exports = RecipeRepository;
