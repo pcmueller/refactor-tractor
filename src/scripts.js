@@ -82,15 +82,7 @@ function findTags() {
       });
     });
     tags.sort();
-    listTags(tags);
-  });
-}
-
-function listTags(allTags) {
-  allTags.forEach(tag => {
-    let tagHtml = `<li><input type="checkbox" class="checked-tag" id="${tag}">
-      <label for="${tag}">${capitalize(tag)}</label></li>`;
-    tagList.insertAdjacentHTML("beforeend", tagHtml);
+    domUpdates.listTags(tags, capitalize, tagList);
   });
 }
 
