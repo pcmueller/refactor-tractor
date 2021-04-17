@@ -14,7 +14,6 @@ let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector("#filter-btn");
 let fullRecipeInfo = document.querySelector("#recipe-instructions");
 let main = document.querySelector("main");
-let menuOpen = false;
 let pantry = new Pantry();
 let pantryBtn = document.querySelector("#my-pantry-btn");
 let pantryInfo = [];
@@ -31,7 +30,7 @@ window.addEventListener("load", loadData);
 allRecipesBtn.addEventListener("click", showAllRecipes);
 filterBtn.addEventListener("click", findCheckedBoxes);
 main.addEventListener("click", addToMyRecipes);
-pantryBtn.addEventListener("click", toggleMenu);
+pantryBtn.addEventListener("click", domUpdates.toggleMenu);
 savedRecipesBtn.addEventListener("click", showSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
@@ -223,16 +222,6 @@ function filterNonSearched(filtered) {
     return !ids.includes(recipe.id)
   })
   domUpdates.hideUnselectedRecipes(found);
-}
-
-function toggleMenu() {
-  var menuDropdown = document.querySelector(".drop-menu");
-  menuOpen = !menuOpen;
-  if (menuOpen) {
-    menuDropdown.style.display = "block";
-  } else {
-    menuDropdown.style.display = "none";
-  }
 }
 
 function showAllRecipes() {

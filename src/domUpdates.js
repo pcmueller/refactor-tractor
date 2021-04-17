@@ -1,5 +1,6 @@
 // domUpdates.js
 let domUpdates = {
+  menuOpen : false,
   setWelcomeMsg(firstName) {
     let welcomeMsg =
     `
@@ -81,6 +82,16 @@ let domUpdates = {
 
   renderDisplayStyling(className, styleDisplayProperty) {
     document.querySelector(className).style.display = styleDisplayProperty;
+  },
+
+  toggleMenu() {
+    var menuDropdown = document.querySelector(".drop-menu");
+    this.menuOpen = !this.menuOpen;
+    if (this.menuOpen) {
+      menuDropdown.style.display = "block";
+    } else {
+      menuDropdown.style.display = "none";
+    }
   },
 
 };
