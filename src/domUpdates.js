@@ -103,6 +103,11 @@ let domUpdates = {
     });
   },
 
+  removeUncheckedRecipes(recipe) {
+    let domRecipe = document.getElementById(`${recipe.id}`);
+    domRecipe.style.display = "none";
+  },
+
 };
 
 export default domUpdates;
