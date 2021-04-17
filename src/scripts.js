@@ -268,7 +268,6 @@ function findPantryInfo() {
       }
     });
   });
-
   pantryInfo.sort((a, b) => a.name.localeCompare(b.name));
 
   displayPantryInfo(pantryInfo);
@@ -277,7 +276,7 @@ function findPantryInfo() {
 function displayPantryInfo(pantryData) {
   pantryData.forEach(ingredient => {
     let ingredientHtml = `<li><input type="checkbox" class="pantry-checkbox" id="${ingredient.name}">
-      <label for="${ingredient.name}">${ingredient.name}, ${ingredient.count} ${ingredient.unit}</label></li>`;
+      <label for="${ingredient.name}">${ingredient.name}, ${ingredient.count}</label></li>`;
     document.querySelector(".pantry-list").insertAdjacentHTML("beforeend",
       ingredientHtml);
   });
