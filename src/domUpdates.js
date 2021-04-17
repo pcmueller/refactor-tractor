@@ -48,7 +48,12 @@ let domUpdates = {
     document.getElementById("recipe-title").style.backgroundImage = `url(${recipe.image})`;
   },
 
-  showMyRecipesBanner() {
+  displaySaved(unsavedRecipes) {
+    unsavedRecipes.forEach(recipe => {
+      const domRecipe = document.getElementById(`${recipe.id}`);
+      domRecipe.style.display = "none";
+    });
+    
     document.querySelector(".welcome-msg").style.display = "none";
     document.querySelector(".my-recipes-banner").style.display = "block";
   },
