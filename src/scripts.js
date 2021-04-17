@@ -105,16 +105,17 @@ function findTaggedRecipes(selected) {
   }, [])
 
   showAllRecipes();
-  if (filtered.length > 0) {
-    filterRecipes(filtered);
-  }
+  filterRecipes(filtered);
 }
 
 function filterRecipes(filtered) {
-  let foundRecipes = recipes.data.filter(recipe => {
+  let unselected = recipes.data.filter(recipe => {
     return !filtered.includes(recipe);
   });
-  domUpdates.hideUnselectedRecipes(foundRecipes);
+
+  if (unselected.length !== recipes.data.length) {
+    domUpdates.hideUnselectedRecipes(unselected);
+  }
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
