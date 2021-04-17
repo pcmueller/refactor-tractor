@@ -32,7 +32,7 @@ main.addEventListener("click", performActionOnMain);
 pantryBtn.addEventListener("click", domUpdates.toggleMenu);
 savedRecipesBtn.addEventListener("click", showSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
-showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
+showPantryRecipes.addEventListener("click", identifyCheckedPantryIngredients);
 searchForm.addEventListener("submit", pressEnterSearch);
 
 // PAGELOAD HANDLER
@@ -243,31 +243,44 @@ function findPantryInfo() {
   domUpdates.displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
 };
 
-function findCheckedPantryBoxes() {
+function identifyCheckedPantryIngredients() {
+  showAllRecipes();
+
   let pantryCheckboxes = document.querySelectorAll(".pantry-checkbox");
   let pantryCheckboxInfo = Array.from(pantryCheckboxes)
   let selectedIngredients = pantryCheckboxInfo.filter(box => {
     return box.checked;
-  })
-  showAllRecipes();
-  if (selectedIngredients.length > 0) {
-    findRecipesWithCheckedIngredients(selectedIngredients);
+  });
+  let checkedNames = selectedIngredients.map(item => {
+    return item.id;
+  });
+
+  if (checkedNames.length > 0) {
+    findRecipesWithCheckedIngredients(checkedNames);
   }
 }
 
-function findRecipesWithCheckedIngredients(selected) {
-  let recipeChecker = (arr, target) => target.every(v => arr.includes(v));
-  let ingredientNames = selected.map(item => {
-    return item.id;
-  })
+function findRecipesWithCheckedIngredients(checkedNames) {
+
   recipes.data.forEach(recipe => {
-    let allRecipeIngredients = [];
+
+    let recipeIngredientNames = [];
+
     recipe.ingredients.forEach(ingredient => {
-      allRecipeIngredients.push(ingredient.name);
+      recipeIngredientNames.push(ingredient.name);
     });
-    if (!recipeChecker(allRecipeIngredients, ingredientNames)) {
-      let domRecipe = document.getElementById(`${recipe.id}`);
-      domRecipe.style.display = "none";
+
+    let matchCounter = recipeIngredientNames.reduce((itemMatches, ingredient) => {
+      checkedNames.forEach(name => {
+        if (name === ingredient) {
+          itemMatches++;
+        }
+      });
+      return itemMatches;
+    }, 0);
+
+    if (matchCounter < checkedNames.length) {
+      domUpdates.removeUncheckedRecipes(recipe);
     }
-  })
+  });
 }
