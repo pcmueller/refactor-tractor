@@ -8,7 +8,7 @@ import RecipeRepository from './RecipeRepository';
 import Ingredient from './Ingredient';
 import Pantry from './Pantry';
 import domUpdates from './domUpdates';
-import { getAllData } from "./net-utils.js";
+import { getAllData, capitalize } from "./utils.js";
 
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector("#filter-btn");
@@ -110,12 +110,6 @@ function filterRecipes(filteredRecipes) {
   if (unselectedRecipes.length !== recipes.data.length) {
     domUpdates.hideUnselectedRecipes(unselectedRecipes);
   }
-}
-
-function capitalize(words) {
-  return words.split(" ").map(word => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }).join(" ");
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
