@@ -1,8 +1,8 @@
 # Title: Refactor Tractor B
 
-A [Front-End Project] by [Robert DeRouin](https://github.com/robertjosephderouin) & [Peter Muellerleile](https://github.com/robertjosephderouin) & [Jon Schlandt](https://github.com/jon-schlandt)
+A [Front-End Project] by [Robert DeRouin](https://github.com/robertjosephderouin) & [Peter Muellerleile](https://github.com/pcmueller) & [Jon Schlandt](https://github.com/jon-schlandt)
 
-* Project Manager: [Hannah Hudson](https://github.com/hannahhch)
+* Project Manager: [Travis Rollins](https://github.com/Kalikoze)
 
 1. [Overview](#overview)
 2. [Functionality](#functionality)
@@ -13,7 +13,7 @@ A [Front-End Project] by [Robert DeRouin](https://github.com/robertjosephderouin
 
 ## Overview
 
-The Poster Generator website allows users to generate and save random/non-random image, title, quote combinations to create motivational posters.  
+The refactor tractor project refactors the Whats Cooking website to follow single use protocol, address accessability concerns in the HTML, & and dry up the code by utilizing inheritance and better class structure.
 
 ## Main Page View
 
@@ -26,21 +26,9 @@ The Poster Generator website allows users to generate and save random/non-random
 ## Functionality
 
 * Current:
-  * User can navigate between three views. "Saved posters", "create poster", and "current poster".
-  * User can generate a random or custom combination of an image, quote, and title to create a "poster".
-  * User can save their poster to the "saved posters" view where it will be added to an array displayed in a grid format.
-  * User can delete any poster in the "saved posters" view by double clicking.
-
-* Future Enhancements:
-  * Refactor alt text functionality to reduce the length of the images array.
-  * Implement data validation and error handling into the form (disable button, provide error messages if data entered is not correct, etc).
-  * In the main poster view, allow users to click image, title, quote to update just that piece with another random item from the appropriate array.
-  * When a user single clicks a saved poster, create a modal to view it larger.
-  * Allow users to drag and drop saved posters into whatever order they want them to appear.
-
-* Known Issues/Bugs:
-  * Form has a number of bugs because validation was not part of the base functionality. As an example, if user does not enter poster information on the form view, they can return the main page from the "show my poster" button resulting in an undefined image, title, quote.
-  * Buttons are sometimes not responsive when sharing on zoom call screen share mode.
+  * User can navigate between three views. "Saved Recipes", "Welcome Screen", and "Pantry".
+  * User can save their favorite recipes to the "saved recipes" by clicking on the apple where itwill be added to an array displayed in a grid format.
+  * User can delete any recipes in the "saved recipes" view by clicking on the apple icon.
 
 ## Technologies
 
@@ -48,15 +36,17 @@ The Poster Generator website allows users to generate and save random/non-random
 2. CSS
 3. JavaScript
 4. GitHub (website hosting and source code management)
+5. Webpack
+6. Sassy CSS
 
 ## Contributors
 
-* Co-Creator: [Robert DeRouin](https://github.com/robertjosephderouin)
-* Co-Creator: [Steve Calla](https://github.com/stevecalla)
-* Formal Code Review: [Paige Vannelli](https://github.com/PaigeVannelli/PaigeVannelli)
+* Creator: [Robert DeRouin](https://github.com/robertjosephderouin)
+* Creator: [Peter Muellerleile](https://github.com/pcmueller)
+* Creator: [Jon Schlandt](https://github.com/jon-schlandt)
 * Project Manager: [Hannah Hudson](https://github.com/hannahhch)
 
 ## Resources
-* Project Description: https://frontend.turing.io/projects/module-1/hang-in-there.html
-* Team GitHub Repo: https://github.com/robertjosephderouin/hang-in-there-boilerplate
-* GitHub Hosted URL: https://robertjosephderouin.github.io/hang-in-there-boilerplate/
+* Project Description: 
+* Team GitHub Repo:
+* GitHub Hosted URL:
