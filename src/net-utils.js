@@ -21,4 +21,8 @@ function getIngredientData() {
   return getData("http://localhost:3001/api/v1/ingredients");
 }
 
-export { getUserData, getRecipeData, getIngredientData, getAllData };
+export { 
+  getUserData, 
+  getRecipeData, 
+  getIngredientData, 
+  getAllData };

@@ -8,7 +8,7 @@ import RecipeRepository from './RecipeRepository';
 import Ingredient from './Ingredient';
 import Pantry from './Pantry';
 import domUpdates from './domUpdates';
-import { getUserData, getRecipeData, getIngredientData, getAllData } from "./net-utils.js";
+import { getAllData } from "./net-utils.js";
 
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector("#filter-btn");
@@ -28,7 +28,7 @@ let user;
 
 window.addEventListener("load", loadData);
 allRecipesBtn.addEventListener("click", showAllRecipes);
-filterBtn.addEventListener("click", findCheckedBoxes);
+filterBtn.addEventListener("click", filterByRecipe);
 main.addEventListener("click", addToMyRecipes);
 pantryBtn.addEventListener("click", domUpdates.toggleMenu);
 savedRecipesBtn.addEventListener("click", showSavedRecipes);
@@ -85,44 +85,33 @@ function generateUser(userData) {
 
 // FILTER BY RECIPE TAGS
 
+function filterByRecipe() {
+  const checkedTags = findCheckedBoxes();
+  const filteredRecipes = recipes.getRecipesByTag(checkedTags);
+
+  showAllRecipes();
+  filterRecipes(filteredRecipes);
+}
+
+function findCheckedBoxes() {
+  const checkboxes = Array.from(document.querySelectorAll(".checked-tag"));
+  return checkboxes.filter(box => box.checked);
+}
+
+function filterRecipes(filteredRecipes) {
+  let unselectedRecipes = recipes.data.filter(recipe => {
+    return !filteredRecipes.includes(recipe);
+  });
+
+  if (unselectedRecipes.length !== recipes.data.length) {
+    domUpdates.hideUnselectedRecipes(unselectedRecipes);
+  }
+}
+
 function capitalize(words) {
   return words.split(" ").map(word => {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }).join(" ");
-}
-
-function findCheckedBoxes() {
-  let tagCheckboxes = document.querySelectorAll(".checked-tag");
-  let checkboxInfo = Array.from(tagCheckboxes)
-  let selectedTags = checkboxInfo.filter(box => {
-    return box.checked;
-  })
-  findTaggedRecipes(selectedTags);
-}
-
-function findTaggedRecipes(selected) {
-  let filteredResults = [];
-  selected.forEach(tag => {
-    let allRecipes = recipes.data.filter(recipe => {
-      return recipe.tags.includes(tag.id);
-    });
-    allRecipes.forEach(recipe => {
-      if (!filteredResults.includes(recipe)) {
-        filteredResults.push(recipe);
-      }
-    })
-  });
-  showAllRecipes();
-  if (filteredResults.length > 0) {
-    filterRecipes(filteredResults);
-  }
-}
-
-function filterRecipes(filtered) {
-  let foundRecipes = recipes.data.filter(recipe => {
-    return !filtered.includes(recipe);
-  });
-  domUpdates.hideUnselectedRecipes(foundRecipes);
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
