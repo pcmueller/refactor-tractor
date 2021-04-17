@@ -67,6 +67,10 @@ let domUpdates = {
     document.getElementById(idName).remove();
   },
 
+  renderDisplayStyling(className, styleDisplayProperty) {
+    document.querySelector(className).style.display = styleDisplayProperty;
+  },
+
 };
 
 export default domUpdates;

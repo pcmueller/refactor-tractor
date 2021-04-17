@@ -211,7 +211,7 @@ function exitRecipe() {
 
 // TOGGLE DISPLAYS
 function showWelcomeBanner() {
-  document.querySelector(".welcome-msg").style.display = "flex";
+  renderDisplayStyling(".welcome-msg", "flex");
   document.querySelector(".my-recipes-banner").style.display = "none";
 }
 
