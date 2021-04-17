@@ -107,7 +107,6 @@ let domUpdates = {
     let domRecipe = document.getElementById(`${recipe.id}`);
     domRecipe.style.display = "none";
   },
-
 };
 
 export default domUpdates;

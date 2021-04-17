@@ -32,7 +32,7 @@ main.addEventListener("click", addToMyRecipes);
 pantryBtn.addEventListener("click", domUpdates.toggleMenu);
 savedRecipesBtn.addEventListener("click", showSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
-showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
+showPantryRecipes.addEventListener("click", identifyCheckedPantryIngredients);
 searchForm.addEventListener("submit", pressEnterSearch);
 
 function loadData() {
@@ -236,7 +236,7 @@ function findPantryInfo() {
   domUpdates.displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
 };
 
-function findCheckedPantryBoxes() {
+function identifyCheckedPantryIngredients() {
   showAllRecipes();
 
   let pantryCheckboxes = document.querySelectorAll(".pantry-checkbox");
