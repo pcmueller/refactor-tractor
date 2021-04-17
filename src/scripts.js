@@ -45,7 +45,7 @@ function loadData() {
   });
 }
 
-// CREATE PANTRY 
+// CREATE PANTRY
 
 function createPantry(ingredientData) {
   ingredientData.forEach(ingredient => {
@@ -172,12 +172,12 @@ function addToMyRecipes() {
 function openRecipeInfo(event) {
     let recipeId = event.path.find(e => e.id).id;
     let recipe = recipes.data.find(recipe => recipe.id === Number(recipeId));
-  
+
     fullRecipeInfo.style.display = "inline";
     domUpdates.generateRecipeTitle(recipe, generateIngredients(recipe), fullRecipeInfo);
     domUpdates.addRecipeImage(recipe);
     generateInstructions(recipe);
-    fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
+    domUpdate.renderAdjacentHTML(fullRecipeInfo, "<section id='overlay'></div>");
 }
 
 function generateIngredients(recipe) {

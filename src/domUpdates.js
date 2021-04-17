@@ -59,6 +59,10 @@ let domUpdates = {
     });
   },
 
+  renderAdjacentHTML(fullRecipeInfo, htmlElement) {
+    fullRecipeInfo.insertAdjacentHTML("beforebegin", htmlElement);
+  },
+
 };
 
 export default domUpdates;
