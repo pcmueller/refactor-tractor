@@ -36,11 +36,12 @@ showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
 
 function loadData() {
-  getAllData().then(function(data) {
-    createPantry(data[2]);
-    createCards(data[1]);
-    generateUser(data[0]);
-  });
+  getAllData()
+    .then(function(data) {
+      createPantry(data[2]);
+      createCards(data[1]);
+      generateUser(data[0]);
+    });
 }
 
 // CREATE PANTRY
@@ -55,18 +56,17 @@ function createPantry(ingredientData) {
 // CREATE RECIPE CARDS
 
 function createCards(recipeData) {
-  recipeData.forEach(recipe => {
-    let recipeInfo = new Recipe(recipe);
-    let shortRecipeName = recipeInfo.name;
-    recipeInfo.calculateIngredientsCost(pantry.data);
-    recipes.addRecipeToRepository(recipeInfo);
+  recipeData.forEach(datum => {
+    let recipe = new Recipe(datum);
+    let recipeName = recipe.name;
+    recipe.calculateIngredientsCost(pantry.data);
+    recipes.addRecipeToRepository(recipe);
 
-
-    if (recipeInfo.name.length > 40) {
-      shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
+    if (recipeName.length > 40) {
+      recipeName = recipeName.substring(0, 40) + "...";
     }
 
-    domUpdates.addToDom(main, recipeInfo, shortRecipeName)
+    domUpdates.addToDom(main, recipe, recipeName)
   });
 
   recipes.populateRecipeTags();
