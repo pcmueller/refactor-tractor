@@ -29,7 +29,7 @@ let user;
 
 window.addEventListener("load", loadData);
 allRecipesBtn.addEventListener("click", showAllRecipes);
-filterBtn.addEventListener("click", findCheckedBoxes);
+filterBtn.addEventListener("click", filterByRecipe);
 main.addEventListener("click", addToMyRecipes);
 pantryBtn.addEventListener("click", toggleMenu);
 savedRecipesBtn.addEventListener("click", showSavedRecipes);
@@ -86,16 +86,22 @@ function generateUser(userData) {
 
 // FILTER BY RECIPE TAGS
 
-function findCheckedBoxes() {
-  const checkboxes = Array.from(document.querySelectorAll(".checked-tag"));
-  const selected = checkboxes.filter(box => box.checked);
+function filterByRecipe() {
+  const checked = findCheckedBoxes();
+  const filtered = findTaggedRecipes(checked);
 
-  findTaggedRecipes(selected);
+  showAllRecipes();
+  filterRecipes(filtered);
 }
 
-function findTaggedRecipes(selected) {
-  const filtered = recipes.data.reduce((acc, cur) => {
-    selected.forEach(tag => {
+function findCheckedBoxes() {
+  const checkboxes = Array.from(document.querySelectorAll(".checked-tag"));
+  return checkboxes.filter(box => box.checked);
+}
+
+function findTaggedRecipes(checked) {
+  return recipes.data.reduce((acc, cur) => {
+    checked.forEach(tag => {
       if (cur.tags.includes(tag.id) && !acc.includes(cur)) {
         acc.push(cur);
       }
@@ -103,9 +109,6 @@ function findTaggedRecipes(selected) {
 
     return acc;    
   }, [])
-
-  showAllRecipes();
-  filterRecipes(filtered);
 }
 
 function filterRecipes(filtered) {
