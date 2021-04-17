@@ -20,17 +20,16 @@ class RecipeRepository {
   }
 
   getRecipesByTag(tags) {
-    return this.data.reduce((acc, cur) => {
+    return this.data.reduce((recipes, curRecipe) => {
       tags.forEach(tag => {
-        if (cur.tags.includes(tag.id) && !acc.includes(cur)) {
-          acc.push(cur);
+        if (curRecipe.tags.includes(tag.id) && !recipes.includes(curRecipe)) {
+          recipes.push(curRecipe);
         }
       })
   
-      return acc;    
+      return recipes;    
     }, [])
   }
-
 }
 
 module.exports = RecipeRepository;
