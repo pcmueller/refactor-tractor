@@ -16,7 +16,6 @@ let fullRecipeInfo = document.querySelector("#recipe-instructions");
 let main = document.querySelector("main");
 let pantry = new Pantry();
 let pantryBtn = document.querySelector("#my-pantry-btn");
-let pantryInfo = [];
 let savedRecipesBtn = document.querySelector("#saved-recipes-btn");
 let searchBtn = document.querySelector("#search-btn");
 let recipes = new RecipeRepository();
@@ -222,22 +221,18 @@ function showAllRecipes() {
 }
 
 // CREATE AND USE PANTRY
+
 function findPantryInfo() {
+  let pantryInfo = [];
+
   user.pantry.forEach(item => {
-    let itemInfo = pantry.data.find(ingredient => {
-      return ingredient.id === item.ingredient;
-    });
-    let originalIngredient = pantryInfo.find(ingredient => {
-      if (itemInfo) {
-        return ingredient.name === itemInfo.name;
+    pantry.data.forEach(ingredient => {
+      if (item.ingredient === ingredient.id) {
+        pantryInfo.push({name: ingredient.name, count: item.amount});
       }
     });
-    if (itemInfo && originalIngredient) {
-      originalIngredient.count += item.amount;
-    } else if (itemInfo) {
-      pantryInfo.push({name: itemInfo.name, count: item.amount});
-    }
   });
+  
   domUpdates.displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
 };
 

@@ -24,7 +24,6 @@ class Recipe {
   }
 
   calculateIngredientsCost(data) {
-    // console.log("in recipe - calculateIngredientsCost()", data);
     this.retrieveIngredientPricing(data);
     const cents = this.ingredients.reduce((total, item) => {
       total += item.costInCents * item.quantity.amount;
