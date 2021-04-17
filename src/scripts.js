@@ -87,11 +87,11 @@ function generateUser(userData) {
 // FILTER BY RECIPE TAGS
 
 function filterByRecipe() {
-  const checked = findCheckedBoxes();
-  const filtered = recipes.getRecipesByTag(checked);
+  const checkedTags = findCheckedBoxes();
+  const filteredRecipes = recipes.getRecipesByTag(checkedTags);
 
   showAllRecipes();
-  filterRecipes(filtered);
+  filterRecipes(filteredRecipes);
 }
 
 function findCheckedBoxes() {
@@ -99,13 +99,13 @@ function findCheckedBoxes() {
   return checkboxes.filter(box => box.checked);
 }
 
-function filterRecipes(filtered) {
-  let unselected = recipes.data.filter(recipe => {
-    return !filtered.includes(recipe);
+function filterRecipes(filteredRecipes) {
+  let unselectedRecipes = recipes.data.filter(recipe => {
+    return !filteredRecipes.includes(recipe);
   });
 
-  if (unselected.length !== recipes.data.length) {
-    domUpdates.hideUnselectedRecipes(unselected);
+  if (unselectedRecipes.length !== recipes.data.length) {
+    domUpdates.hideUnselectedRecipes(unselectedRecipes);
   }
 }
 
