@@ -8,7 +8,7 @@ import RecipeRepository from './RecipeRepository';
 import Ingredient from './Ingredient';
 import Pantry from './Pantry';
 import domUpdates from './domUpdates';
-import { getAllData } from "./net-utils.js";
+import { getAllData, capitalize } from "./utils.js";
 
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector("#filter-btn");
@@ -28,26 +28,29 @@ let user;
 window.addEventListener("load", loadData);
 allRecipesBtn.addEventListener("click", showAllRecipes);
 filterBtn.addEventListener("click", filterByRecipe);
-main.addEventListener("click", addToMyRecipes);
+main.addEventListener("click", performActionOnMain);
 pantryBtn.addEventListener("click", domUpdates.toggleMenu);
 savedRecipesBtn.addEventListener("click", showSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
 
+// PAGELOAD HANDLER
+
 function loadData() {
-  getAllData().then(function(data) {
-    createPantry(data[2]);
-    createCards(data[1]);
-    generateUser(data[0]);
-  });
+  getAllData()
+    .then(function(data) {
+      createPantry(data[2]);
+      createCards(data[1]);
+      generateUser(data[0]);
+    });
 }
 
 // CREATE PANTRY
 
 function createPantry(ingredientData) {
   ingredientData.forEach(ingredient => {
-    let ingredientInfo = new Ingredient(ingredient);
+    const ingredientInfo = new Ingredient(ingredient);
     pantry.addIngredientToPantry(ingredientInfo);
   });
 }
@@ -55,18 +58,17 @@ function createPantry(ingredientData) {
 // CREATE RECIPE CARDS
 
 function createCards(recipeData) {
-  recipeData.forEach(recipe => {
-    let recipeInfo = new Recipe(recipe);
-    let shortRecipeName = recipeInfo.name;
-    recipeInfo.calculateIngredientsCost(pantry.data);
-    recipes.addRecipeToRepository(recipeInfo);
+  recipeData.forEach(datum => {
+    const recipe = new Recipe(datum);
+    let recipeName = recipe.name;
+    recipe.calculateIngredientsCost(pantry.data);
+    recipes.addRecipeToRepository(recipe);
 
-
-    if (recipeInfo.name.length > 40) {
-      shortRecipeName = recipeInfo.name.substring(0, 40) + "...";
+    if (recipeName.length > 40) {
+      recipeName = recipeName.substring(0, 40) + "...";
     }
 
-    domUpdates.addToDom(main, recipeInfo, shortRecipeName)
+    domUpdates.addToDom(main, recipe, recipeName)
   });
 
   recipes.populateRecipeTags();
@@ -76,10 +78,15 @@ function createCards(recipeData) {
 // GENERATE A USER
 
 function generateUser(userData) {
-  user = new User(userData[Math.floor(Math.random() * userData.length)]);
-  let firstName = user.name.split(" ")[0];
+  user = new User(getRandomUserData(userData));
+  const firstName = user.name.split(" ")[0];
+
   domUpdates.setWelcomeMsg(firstName);
   findPantryInfo();
+}
+
+function getRandomUserData(userData) {
+  return userData[Math.floor(Math.random() * userData.length)];
 }
 
 // FILTER BY RECIPE TAGS
@@ -107,54 +114,54 @@ function filterRecipes(filteredRecipes) {
   }
 }
 
-function capitalize(words) {
-  return words.split(" ").map(word => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }).join(" ");
-}
+// MAIN SECTION HANDLER
 
-// FAVORITE RECIPE FUNCTIONALITY
-
-function isDescendant(parent, child) {
-  let node = child;
-  while (node !== null) {
-    if (node === parent) {
-      return true;
-    }
-    node = node.parentNode;
-  }
-  return false;
-}
-
-function showSavedRecipes() {
-  let unsavedRecipes = recipes.data.filter(recipe => {
-    return !user.favoriteRecipes.includes(recipe.id);
-  });
-  unsavedRecipes.forEach(recipe => {
-    let domRecipe = document.getElementById(`${recipe.id}`);
-    domRecipe.style.display = "none";
-  });
-  domUpdates.showMyRecipesBanner();
-}
-
-// CREATE RECIPE INSTRUCTIONS
-
-function addToMyRecipes() {
+function performActionOnMain(event) {
   if (event.target.className === "card-apple-icon") {
-    let cardId = parseInt(event.target.closest(".recipe-card").id)
-    if (!user.favoriteRecipes.includes(cardId)) {
-      event.target.src = "../images/apple-logo.png";
-      user.saveRecipe(cardId);
-    } else {
-      event.target.src = "../images/apple-logo-outline.png";
-      user.removeRecipe(cardId);
-    }
+    toggleSaved(event);
   } else if (event.target.id === "exit-recipe-btn") {
     exitRecipe();
   } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) {
     openRecipeInfo(event);
   }
 }
+
+function isDescendant(parent, child) {
+  let node = child;
+
+  while (node !== null) {
+    if (node === parent) {
+      return true;
+    }
+    node = node.parentNode;
+  }
+  
+  return false;
+}
+
+// FAVORITE RECIPE FUNCTIONALITY
+
+function toggleSaved(event) {
+  const cardId = parseInt(event.target.closest(".recipe-card").id);
+
+  if (!user.favoriteRecipes.includes(cardId)) {
+    event.target.src = "../images/apple-logo.png";
+    user.saveRecipe(cardId);
+  } else {
+    event.target.src = "../images/apple-logo-outline.png";
+    user.removeRecipe(cardId);
+  }
+}
+
+function showSavedRecipes() {
+  const unsavedRecipes = recipes.data.filter(recipe => {
+    return !user.favoriteRecipes.includes(recipe.id);
+  });
+
+  domUpdates.displaySaved(unsavedRecipes);
+}
+
+// CREATE RECIPE INSTRUCTIONS
 
 function openRecipeInfo(event) {
     let recipeId = event.path.find(e => e.id).id;
