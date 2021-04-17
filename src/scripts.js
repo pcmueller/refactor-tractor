@@ -176,7 +176,7 @@ function openRecipeInfo(event) {
     fullRecipeInfo.style.display = "inline";
     domUpdates.generateRecipeTitle(recipe, generateIngredients(recipe), fullRecipeInfo);
     domUpdates.addRecipeImage(recipe);
-    generateInstructions(recipe);
+    domUpdates.generateInstructions(recipe, fullRecipeInfo);
     domUpdates.renderAdjacentHTML(fullRecipeInfo, "<section id='overlay'></div>");
 }
 
@@ -190,23 +190,11 @@ function generateIngredients(recipe) {
   }).join(", ");
 }
 
-function generateInstructions(recipe) {
-  let instructionsList = "";
-  let instructions = recipe.instructions.map(i => {
-    return i.instruction
-  });
-  instructions.forEach(i => {
-    instructionsList += `<li>${i}</li>`
-  });
-  domUpdates.renderAdjacentHTML(fullRecipeInfo, "<h4>Instructions</h4>");
-  domUpdates.renderAdjacentHTML(fullRecipeInfo, `<ol>${instructionsList}</ol>`);
-}
-
 function exitRecipe() {
   while (fullRecipeInfo.firstChild &&
     fullRecipeInfo.removeChild(fullRecipeInfo.firstChild));
   fullRecipeInfo.style.display = "none";
-  removeStyling("overlay");
+  domUpdates.removeStyling("overlay");
 }
 
 // TOGGLE DISPLAYS
