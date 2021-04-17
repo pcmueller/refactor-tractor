@@ -241,26 +241,42 @@ function findCheckedPantryBoxes() {
   let pantryCheckboxInfo = Array.from(pantryCheckboxes)
   let selectedIngredients = pantryCheckboxInfo.filter(box => {
     return box.checked;
-  })
+  });
+  let checkedNames = selectedIngredients.map(item => {
+    return item.id;
+  });
+
+  // showAllRecipes just displays all recipes in recipes.data - 
+  // how are we filtering down to only checked recipes?
   showAllRecipes();
-  if (selectedIngredients.length > 0) {
-    findRecipesWithCheckedIngredients(selectedIngredients);
+
+  if (checkedNames.length > 0) {
+    findRecipesWithCheckedIngredients(checkedNames);
   }
 }
 
-function findRecipesWithCheckedIngredients(selected) {
-  let recipeChecker = (arr, target) => target.every(v => arr.includes(v));
-  let ingredientNames = selected.map(item => {
-    return item.id;
-  })
+function findRecipesWithCheckedIngredients(checkedNames) {
   recipes.data.forEach(recipe => {
-    let allRecipeIngredients = [];
+
+    let recipeIngredientNames = [];
+
     recipe.ingredients.forEach(ingredient => {
-      allRecipeIngredients.push(ingredient.name);
+      recipeIngredientNames.push(ingredient.name);
     });
-    if (!recipeChecker(allRecipeIngredients, ingredientNames)) {
+
+    let counter = 0;
+    
+    recipeIngredientNames.forEach(ingredient => {
+      checkedNames.forEach(name => {
+        if (name === ingredient) {
+          counter++;
+        }
+      });
+    });
+
+    if (counter < checkedNames.length) {
       let domRecipe = document.getElementById(`${recipe.id}`);
       domRecipe.style.display = "none";
     }
-  })
+  });
 }
