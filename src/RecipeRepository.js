@@ -19,6 +19,18 @@ class RecipeRepository {
     this.tagNames.sort();
   }
 
+  getRecipesByTag(tags) {
+    return this.data.reduce((acc, cur) => {
+      tags.forEach(tag => {
+        if (cur.tags.includes(tag.id) && !acc.includes(cur)) {
+          acc.push(cur);
+        }
+      })
+  
+      return acc;    
+    }, [])
+  }
+
 }
 
 module.exports = RecipeRepository;

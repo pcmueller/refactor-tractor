@@ -88,7 +88,7 @@ function generateUser(userData) {
 
 function filterByRecipe() {
   const checked = findCheckedBoxes();
-  const filtered = findTaggedRecipes(checked);
+  const filtered = recipes.getRecipesByTag(checked);
 
   showAllRecipes();
   filterRecipes(filtered);
@@ -97,18 +97,6 @@ function filterByRecipe() {
 function findCheckedBoxes() {
   const checkboxes = Array.from(document.querySelectorAll(".checked-tag"));
   return checkboxes.filter(box => box.checked);
-}
-
-function findTaggedRecipes(checked) {
-  return recipes.data.reduce((acc, cur) => {
-    checked.forEach(tag => {
-      if (cur.tags.includes(tag.id) && !acc.includes(cur)) {
-        acc.push(cur);
-      }
-    })
-
-    return acc;    
-  }, [])
 }
 
 function filterRecipes(filtered) {
