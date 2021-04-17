@@ -8,7 +8,7 @@ import RecipeRepository from './RecipeRepository';
 import Ingredient from './Ingredient';
 import Pantry from './Pantry';
 import domUpdates from './domUpdates';
-import * as utils from "./utils.js";
+import { getAllData } from "./net-utils.js";
 
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector("#filter-btn");
@@ -38,7 +38,7 @@ showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
 
 function loadData() {
-  utils.getAllData().then(function(data) {
+  getAllData().then(function(data) {
     createPantry(data[2]);
     createCards(data[1]);
     generateUser(data[0]);
