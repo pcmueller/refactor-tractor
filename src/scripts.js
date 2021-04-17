@@ -28,12 +28,14 @@ let user;
 window.addEventListener("load", loadData);
 allRecipesBtn.addEventListener("click", showAllRecipes);
 filterBtn.addEventListener("click", filterByRecipe);
-main.addEventListener("click", addToMyRecipes);
+main.addEventListener("click", performMainAction);
 pantryBtn.addEventListener("click", domUpdates.toggleMenu);
 savedRecipesBtn.addEventListener("click", showSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
+
+// PAGELOAD HANDLER
 
 function loadData() {
   getAllData()
@@ -112,7 +114,17 @@ function filterRecipes(filteredRecipes) {
   }
 }
 
-// FAVORITE RECIPE FUNCTIONALITY
+// MAIN HANDLER
+
+function performMainAction(event) {
+  if (event.target.className === "card-apple-icon") {
+    setFavorite(event);
+  } else if (event.target.id === "exit-recipe-btn") {
+    exitRecipe();
+  } else  if (isDescendant(event.target.closest(".recipe-card"), event.target)) {
+    openRecipeInfo(event);
+  }
+}
 
 function isDescendant(parent, child) {
   let node = child;
@@ -123,6 +135,19 @@ function isDescendant(parent, child) {
     node = node.parentNode;
   }
   return false;
+}
+
+// FAVORITE RECIPE FUNCTIONALITY
+
+function setFavorite(event) {
+  let cardId = parseInt(event.target.closest(".recipe-card").id)
+    if (!user.favoriteRecipes.includes(cardId)) {
+      event.target.src = "../images/apple-logo.png";
+      user.saveRecipe(cardId);
+    } else {
+      event.target.src = "../images/apple-logo-outline.png";
+      user.removeRecipe(cardId);
+    }
 }
 
 function showSavedRecipes() {
@@ -137,23 +162,6 @@ function showSavedRecipes() {
 }
 
 // CREATE RECIPE INSTRUCTIONS
-
-function addToMyRecipes() {
-  if (event.target.className === "card-apple-icon") {
-    let cardId = parseInt(event.target.closest(".recipe-card").id)
-    if (!user.favoriteRecipes.includes(cardId)) {
-      event.target.src = "../images/apple-logo.png";
-      user.saveRecipe(cardId);
-    } else {
-      event.target.src = "../images/apple-logo-outline.png";
-      user.removeRecipe(cardId);
-    }
-  } else if (event.target.id === "exit-recipe-btn") {
-    exitRecipe();
-  } else if (isDescendant(event.target.closest(".recipe-card"), event.target)) {
-    openRecipeInfo(event);
-  }
-}
 
 function openRecipeInfo(event) {
     let recipeId = event.path.find(e => e.id).id;
