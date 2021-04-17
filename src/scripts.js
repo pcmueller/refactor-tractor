@@ -212,7 +212,7 @@ function exitRecipe() {
 // TOGGLE DISPLAYS
 function showWelcomeBanner() {
   renderDisplayStyling(".welcome-msg", "flex");
-  document.querySelector(".my-recipes-banner").style.display = "none";
+  renderDisplayStyling(".my-recipes-banner", "none");
 }
 
 // SEARCH RECIPES
