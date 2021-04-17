@@ -17,11 +17,15 @@ The refactor tractor project refactors the Whats Cooking website to follow singl
 
 ## Main Page View
 
-<img width="1058" alt="Screen Shot 2021-02-14 at 11 24 59 AM" src="https://user-images.githubusercontent.com/72281855/107885414-6d7e5b00-6eb7-11eb-90ec-fde257023660.png">
+<img width="1058" alt="Front Page View" src="./src/images/welcomepagescreenshot">
 
-## Saved Poster View
+## Saved Recipes View
 
-<img width="1374" alt="Screen Shot 2021-02-14 at 11 27 11 AM" src="https://user-images.githubusercontent.com/72281855/107885452-a3bbda80-6eb7-11eb-851f-402d17fac80b.png">
+<img width="1374" alt="Saved Recipes View" src="./src/images/favoriterecipescreenshot">
+
+## Pantry View
+
+<img width="1374" alt="Pantry View" src="./src/images/pantryscreenshot">
 
 ## Functionality
 
@@ -47,6 +51,7 @@ The refactor tractor project refactors the Whats Cooking website to follow singl
 * Project Manager: [Hannah Hudson](https://github.com/hannahhch)
 
 ## Resources
-* Project Description: 
-* Team GitHub Repo:
+
+* Project Description: (https://frontend.turing.io/projects/module-2/refactor-tractor-wc.html)
+* Team GitHub Repo: (https://github.com/robertjosephderouin/refactortractor)
 * GitHub Hosted URL:
