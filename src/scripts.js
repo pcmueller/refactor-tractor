@@ -8,7 +8,7 @@ import RecipeRepository from './RecipeRepository';
 import Ingredient from './Ingredient';
 import Pantry from './Pantry';
 import domUpdates from './domUpdates';
-import { getUserData, getRecipeData, getIngredientData, getAllData } from "./net-utils.js";
+import * as utils from "./utils.js";
 
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector("#filter-btn");
@@ -38,7 +38,7 @@ showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
 searchForm.addEventListener("submit", pressEnterSearch);
 
 function loadData() {
-  getAllData().then(function(data) {
+  utils.getAllData().then(function(data) {
     createPantry(data[2]);
     createCards(data[1]);
     generateUser(data[0]);
@@ -72,7 +72,7 @@ function createCards(recipeData) {
   });
 
   recipes.populateRecipeTags();
-  domUpdates.listTags(recipes.tagNames, capitalize, tagList);
+  domUpdates.listTags(recipes.tagNames, tagList);
 }
 
 // GENERATE A USER
@@ -85,12 +85,6 @@ function generateUser(userData) {
 }
 
 // FILTER BY RECIPE TAGS
-
-function capitalize(words) {
-  return words.split(" ").map(word => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }).join(" ");
-}
 
 function findCheckedBoxes() {
   let tagCheckboxes = document.querySelectorAll(".checked-tag");
@@ -186,7 +180,7 @@ function generateIngredients(recipe) {
       return i.id === ingredient.id;
     }).name;
 
-    return `${capitalize(ingredient)} (${i.quantity.amount} ${i.quantity.unit})`
+    return `${utils.capitalize(ingredient)} (${i.quantity.amount} ${i.quantity.unit})`
   }).join(", ");
 }
 
