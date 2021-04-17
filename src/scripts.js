@@ -259,9 +259,6 @@ function showAllRecipes() {
 // CREATE AND USE PANTRY
 
 function findPantryInfo() {
-// user.pantry was populated on load with array of objects from SBD: e.g. {"ingredient":11477,"amount":4},
-// here we iterate through user.pantry and try to find an element that exists both here and in pantry.data (all ingredients array)
-
   let pantryInfo = [];
 
   user.pantry.forEach(item => {
@@ -271,18 +268,6 @@ function findPantryInfo() {
       }
     });
   });
-
-  // OPTIONAL FUNCTION TO ADD "UNIT" TO EACH INGREDIENT IN "MY PANTRY"
-  
-  // pantryInfo.forEach(item => {
-  //   recipes.data.forEach(recipe => {
-  //     recipe.ingredients.forEach(ingredient => {
-  //       if (item.name === ingredient.name) {
-  //         item.unit = ingredient.quantity.unit;
-  //       }
-  //     });
-  //   });
-  // });
 
   pantryInfo.sort((a, b) => a.name.localeCompare(b.name));
 
