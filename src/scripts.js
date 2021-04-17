@@ -17,7 +17,6 @@ let main = document.querySelector("main");
 let menuOpen = false;
 let pantry = new Pantry();
 let pantryBtn = document.querySelector("#my-pantry-btn");
-let pantryInfo = [];
 let savedRecipesBtn = document.querySelector("#saved-recipes-btn");
 let searchBtn = document.querySelector("#search-btn");
 let recipes = new RecipeRepository();
@@ -85,7 +84,7 @@ function generateUser(userData) {
 }
 
 // FILTER BY RECIPE TAGS
-
+// ****JON
 function capitalize(words) {
   return words.split(" ").map(word => {
     return word.charAt(0).toUpperCase() + word.slice(1);
@@ -125,6 +124,8 @@ function filterRecipes(filtered) {
   });
   domUpdates.hideUnselectedRecipes(foundRecipes);
 }
+
+// *** JON
 
 // FAVORITE RECIPE FUNCTIONALITY
 
@@ -256,23 +257,24 @@ function showAllRecipes() {
 }
 
 // CREATE AND USE PANTRY
+// PETE
 function findPantryInfo() {
+// user.pantry was populated on load with array of objects from SBD: e.g. {"ingredient":11477,"amount":4},
+// here we iterate through user.pantry and try to find an element that exists both here and in pantry.data (all ingredients array)
+
+  let pantryInfo = [];
+
   user.pantry.forEach(item => {
-    let itemInfo = pantry.data.find(ingredient => {
-      return ingredient.id === item.ingredient;
-    });
-    let originalIngredient = pantryInfo.find(ingredient => {
-      if (itemInfo) {
-        return ingredient.name === itemInfo.name;
+    pantry.data.forEach(ingredient => {
+      if (item.ingredient === ingredient.id) {
+        pantryInfo.push({name: ingredient.name, count: item.amount});
       }
     });
-    if (itemInfo && originalIngredient) {
-      originalIngredient.count += item.amount;
-    } else if (itemInfo) {
-      pantryInfo.push({name: itemInfo.name, count: item.amount});
-    }
   });
-  displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
+
+  pantryInfo.sort((a, b) => a.name.localeCompare(b.name));
+
+  displayPantryInfo(pantryInfo);
 };
 
 function displayPantryInfo(pantryData) {
