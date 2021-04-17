@@ -198,7 +198,7 @@ function generateInstructions(recipe) {
   instructions.forEach(i => {
     instructionsList += `<li>${i}</li>`
   });
-  fullRecipeInfo.insertAdjacentHTML("beforeend", "<h4>Instructions</h4>");
+  domUpdate.renderAdjacentHTML(fullRecipeInfo, "<h4>Instructions</h4>");
   fullRecipeInfo.insertAdjacentHTML("beforeend", `<ol>${instructionsList}</ol>`);
 }
 
