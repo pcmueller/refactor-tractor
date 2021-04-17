@@ -206,7 +206,7 @@ function exitRecipe() {
   while (fullRecipeInfo.firstChild &&
     fullRecipeInfo.removeChild(fullRecipeInfo.firstChild));
   fullRecipeInfo.style.display = "none";
-  document.getElementById("overlay").remove();
+  removeStyling("overlay");
 }
 
 // TOGGLE DISPLAYS

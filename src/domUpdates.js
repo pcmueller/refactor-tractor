@@ -63,6 +63,10 @@ let domUpdates = {
     fullRecipeInfo.insertAdjacentHTML("beforebegin", htmlElement);
   },
 
+  removeStyling(idName) {
+    document.getElementById(idName).remove();
+  },
+
 };
 
 export default domUpdates;
