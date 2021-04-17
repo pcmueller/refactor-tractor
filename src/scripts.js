@@ -87,12 +87,12 @@ function generateUser(userData) {
 // FILTER BY RECIPE TAGS
 
 function findCheckedBoxes() {
-  let tagCheckboxes = document.querySelectorAll(".checked-tag");
-  let checkboxInfo = Array.from(tagCheckboxes)
-  let selectedTags = checkboxInfo.filter(box => {
+  const checkboxes = Array.from(document.querySelectorAll(".checked-tag"));
+  const selected = checkboxes.filter(box => {
     return box.checked;
   })
-  findTaggedRecipes(selectedTags);
+
+  findTaggedRecipes(selected);
 }
 
 function findTaggedRecipes(selected) {
