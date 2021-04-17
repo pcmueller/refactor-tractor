@@ -88,28 +88,25 @@ function generateUser(userData) {
 
 function findCheckedBoxes() {
   const checkboxes = Array.from(document.querySelectorAll(".checked-tag"));
-  const selected = checkboxes.filter(box => {
-    return box.checked;
-  })
+  const selected = checkboxes.filter(box => box.checked);
 
   findTaggedRecipes(selected);
 }
 
 function findTaggedRecipes(selected) {
-  let filteredResults = [];
-  selected.forEach(tag => {
-    let allRecipes = recipes.data.filter(recipe => {
-      return recipe.tags.includes(tag.id);
-    });
-    allRecipes.forEach(recipe => {
-      if (!filteredResults.includes(recipe)) {
-        filteredResults.push(recipe);
+  const filtered = recipes.data.reduce((acc, cur) => {
+    selected.forEach(tag => {
+      if (cur.tags.includes(tag.id) && !acc.includes(cur)) {
+        acc.push(cur);
       }
     })
-  });
+
+    return acc;    
+  }, [])
+
   showAllRecipes();
-  if (filteredResults.length > 0) {
-    filterRecipes(filteredResults);
+  if (filtered.length > 0) {
+    filterRecipes(filtered);
   }
 }
 
