@@ -48,7 +48,7 @@ function loadData() {
 
 function createPantry(ingredientData) {
   ingredientData.forEach(ingredient => {
-    let ingredientInfo = new Ingredient(ingredient);
+    const ingredientInfo = new Ingredient(ingredient);
     pantry.addIngredientToPantry(ingredientInfo);
   });
 }
@@ -57,7 +57,7 @@ function createPantry(ingredientData) {
 
 function createCards(recipeData) {
   recipeData.forEach(datum => {
-    let recipe = new Recipe(datum);
+    const recipe = new Recipe(datum);
     let recipeName = recipe.name;
     recipe.calculateIngredientsCost(pantry.data);
     recipes.addRecipeToRepository(recipe);
@@ -76,10 +76,15 @@ function createCards(recipeData) {
 // GENERATE A USER
 
 function generateUser(userData) {
-  user = new User(userData[Math.floor(Math.random() * userData.length)]);
-  let firstName = user.name.split(" ")[0];
+  user = new User(getRandomUserData(userData));
+  const firstName = user.name.split(" ")[0];
+
   domUpdates.setWelcomeMsg(firstName);
   findPantryInfo();
+}
+
+function getRandomUserData(userData) {
+  return userData[Math.floor(Math.random() * userData.length)];
 }
 
 // FILTER BY RECIPE TAGS
