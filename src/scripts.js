@@ -199,7 +199,7 @@ function generateInstructions(recipe) {
     instructionsList += `<li>${i}</li>`
   });
   domUpdate.renderAdjacentHTML(fullRecipeInfo, "<h4>Instructions</h4>");
-  fullRecipeInfo.insertAdjacentHTML("beforeend", `<ol>${instructionsList}</ol>`);
+  domUpdate.renderAdjacentHTML(fullRecipeInfo, `<ol>${instructionsList}</ol>`);
 }
 
 function exitRecipe() {
