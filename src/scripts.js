@@ -177,7 +177,7 @@ function openRecipeInfo(event) {
     domUpdates.generateRecipeTitle(recipe, generateIngredients(recipe), fullRecipeInfo);
     domUpdates.addRecipeImage(recipe);
     generateInstructions(recipe);
-    domUpdate.renderAdjacentHTML(fullRecipeInfo, "<section id='overlay'></div>");
+    domUpdates.renderAdjacentHTML(fullRecipeInfo, "<section id='overlay'></div>");
 }
 
 function generateIngredients(recipe) {
@@ -198,8 +198,8 @@ function generateInstructions(recipe) {
   instructions.forEach(i => {
     instructionsList += `<li>${i}</li>`
   });
-  domUpdate.renderAdjacentHTML(fullRecipeInfo, "<h4>Instructions</h4>");
-  domUpdate.renderAdjacentHTML(fullRecipeInfo, `<ol>${instructionsList}</ol>`);
+  domUpdates.renderAdjacentHTML(fullRecipeInfo, "<h4>Instructions</h4>");
+  domUpdates.renderAdjacentHTML(fullRecipeInfo, `<ol>${instructionsList}</ol>`);
 }
 
 function exitRecipe() {
@@ -211,8 +211,8 @@ function exitRecipe() {
 
 // TOGGLE DISPLAYS
 function showWelcomeBanner() {
-  renderDisplayStyling(".welcome-msg", "flex");
-  renderDisplayStyling(".my-recipes-banner", "none");
+  domUpdates.renderDisplayStyling(".welcome-msg", "flex");
+  domUpdates.renderDisplayStyling(".my-recipes-banner", "none");
 }
 
 // SEARCH RECIPES
