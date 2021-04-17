@@ -1,5 +1,6 @@
 // domUpdates.js
 let domUpdates = {
+  menuOpen : false,
   setWelcomeMsg(firstName) {
     let welcomeMsg =
     `
@@ -56,6 +57,49 @@ let domUpdates = {
     foundRecipes.forEach(recipe => {
       let domRecipe = document.getElementById(`${recipe.id}`);
       domRecipe.style.display = "none";
+    });
+  },
+
+  renderAdjacentHTML(fullRecipeInfo, htmlElement) {
+    fullRecipeInfo.insertAdjacentHTML("beforebegin", htmlElement);
+  },
+
+  generateInstructions(recipe, fullRecipeInfo) {
+    let instructionsList = "";
+    let instructions = recipe.instructions.map(i => {
+      return i.instruction
+    });
+    instructions.forEach(i => {
+      instructionsList += `<li>${i}</li>`
+    });
+    fullRecipeInfo.insertAdjacentHTML("beforeend", "<h4>Instructions</h4>");
+    fullRecipeInfo.insertAdjacentHTML("beforeend", `<ol>${instructionsList}</ol>`);
+  },
+
+  removeStyling(idName) {
+    document.getElementById(idName).remove();
+  },
+
+  renderDisplayStyling(className, styleDisplayProperty) {
+    document.querySelector(className).style.display = styleDisplayProperty;
+  },
+
+  toggleMenu() {
+    var menuDropdown = document.querySelector(".drop-menu");
+    this.menuOpen = !this.menuOpen;
+    if (this.menuOpen) {
+      menuDropdown.style.display = "block";
+    } else {
+      menuDropdown.style.display = "none";
+    }
+  },
+
+  displayPantryInfo(pantryData) {
+    pantryData.forEach(ingredient => {
+      let ingredientHtml = `<li><input type="checkbox" class="pantry-checkbox" id="${ingredient.name}">
+        <label for="${ingredient.name}">${ingredient.name}, ${ingredient.count}</label></li>`;
+      document.querySelector(".pantry-list").insertAdjacentHTML("beforeend",
+        ingredientHtml);
     });
   },
 

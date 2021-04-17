@@ -14,7 +14,6 @@ let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector("#filter-btn");
 let fullRecipeInfo = document.querySelector("#recipe-instructions");
 let main = document.querySelector("main");
-let menuOpen = false;
 let pantry = new Pantry();
 let pantryBtn = document.querySelector("#my-pantry-btn");
 let pantryInfo = [];
@@ -31,7 +30,7 @@ window.addEventListener("load", loadData);
 allRecipesBtn.addEventListener("click", showAllRecipes);
 filterBtn.addEventListener("click", findCheckedBoxes);
 main.addEventListener("click", addToMyRecipes);
-pantryBtn.addEventListener("click", toggleMenu);
+pantryBtn.addEventListener("click", domUpdates.toggleMenu);
 savedRecipesBtn.addEventListener("click", showSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", findCheckedPantryBoxes);
@@ -45,7 +44,7 @@ function loadData() {
   });
 }
 
-// CREATE PANTRY 
+// CREATE PANTRY
 
 function createPantry(ingredientData) {
   ingredientData.forEach(ingredient => {
@@ -172,12 +171,12 @@ function addToMyRecipes() {
 function openRecipeInfo(event) {
     let recipeId = event.path.find(e => e.id).id;
     let recipe = recipes.data.find(recipe => recipe.id === Number(recipeId));
-  
+
     fullRecipeInfo.style.display = "inline";
     domUpdates.generateRecipeTitle(recipe, generateIngredients(recipe), fullRecipeInfo);
     domUpdates.addRecipeImage(recipe);
-    generateInstructions(recipe);
-    fullRecipeInfo.insertAdjacentHTML("beforebegin", "<section id='overlay'></div>");
+    domUpdates.generateInstructions(recipe, fullRecipeInfo);
+    domUpdates.renderAdjacentHTML(fullRecipeInfo, "<section id='overlay'></div>");
 }
 
 function generateIngredients(recipe) {
@@ -190,29 +189,17 @@ function generateIngredients(recipe) {
   }).join(", ");
 }
 
-function generateInstructions(recipe) {
-  let instructionsList = "";
-  let instructions = recipe.instructions.map(i => {
-    return i.instruction
-  });
-  instructions.forEach(i => {
-    instructionsList += `<li>${i}</li>`
-  });
-  fullRecipeInfo.insertAdjacentHTML("beforeend", "<h4>Instructions</h4>");
-  fullRecipeInfo.insertAdjacentHTML("beforeend", `<ol>${instructionsList}</ol>`);
-}
-
 function exitRecipe() {
   while (fullRecipeInfo.firstChild &&
     fullRecipeInfo.removeChild(fullRecipeInfo.firstChild));
   fullRecipeInfo.style.display = "none";
-  document.getElementById("overlay").remove();
+  domUpdates.removeStyling("overlay");
 }
 
 // TOGGLE DISPLAYS
 function showWelcomeBanner() {
-  document.querySelector(".welcome-msg").style.display = "flex";
-  document.querySelector(".my-recipes-banner").style.display = "none";
+  domUpdates.renderDisplayStyling(".welcome-msg", "flex");
+  domUpdates.renderDisplayStyling(".my-recipes-banner", "none");
 }
 
 // SEARCH RECIPES
@@ -235,16 +222,6 @@ function filterNonSearched(filtered) {
     return !ids.includes(recipe.id)
   })
   domUpdates.hideUnselectedRecipes(found);
-}
-
-function toggleMenu() {
-  var menuDropdown = document.querySelector(".drop-menu");
-  menuOpen = !menuOpen;
-  if (menuOpen) {
-    menuDropdown.style.display = "block";
-  } else {
-    menuDropdown.style.display = "none";
-  }
 }
 
 function showAllRecipes() {
@@ -272,17 +249,8 @@ function findPantryInfo() {
       pantryInfo.push({name: itemInfo.name, count: item.amount});
     }
   });
-  displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
+  domUpdates.displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
 };
-
-function displayPantryInfo(pantryData) {
-  pantryData.forEach(ingredient => {
-    let ingredientHtml = `<li><input type="checkbox" class="pantry-checkbox" id="${ingredient.name}">
-      <label for="${ingredient.name}">${ingredient.name}, ${ingredient.count}</label></li>`;
-    document.querySelector(".pantry-list").insertAdjacentHTML("beforeend",
-      ingredientHtml);
-  });
-}
 
 function findCheckedPantryBoxes() {
   let pantryCheckboxes = document.querySelectorAll(".pantry-checkbox");
