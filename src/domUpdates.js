@@ -1,5 +1,3 @@
-import { capitalize } from "./utils.js"
-
 // domUpdates.js
 let domUpdates = {
   setWelcomeMsg(firstName) {
@@ -28,7 +26,7 @@ let domUpdates = {
     main.insertAdjacentHTML("beforeend", cardHtml);
   },
 
-  listTags(allTags, tagList) {
+  listTags(allTags,capitalize, tagList) {
     allTags.forEach(tag => {
       let tagHtml = `<li><input type="checkbox" class="checked-tag" id="${tag}">
         <label for="${tag}">${capitalize(tag)}</label></li>`;

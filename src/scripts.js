@@ -72,7 +72,7 @@ function createCards(recipeData) {
   });
 
   recipes.populateRecipeTags();
-  domUpdates.listTags(recipes.tagNames, tagList);
+  domUpdates.listTags(recipes.tagNames, capitalize, tagList);
 }
 
 // GENERATE A USER
@@ -107,6 +107,12 @@ function filterRecipes(filteredRecipes) {
   if (unselectedRecipes.length !== recipes.data.length) {
     domUpdates.hideUnselectedRecipes(unselectedRecipes);
   }
+}
+
+function capitalize(words) {
+  return words.split(" ").map(word => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }).join(" ");
 }
 
 // FAVORITE RECIPE FUNCTIONALITY
@@ -169,7 +175,7 @@ function generateIngredients(recipe) {
       return i.id === ingredient.id;
     }).name;
 
-    return `${utils.capitalize(ingredient)} (${i.quantity.amount} ${i.quantity.unit})`
+    return `${capitalize(ingredient)} (${i.quantity.amount} ${i.quantity.unit})`
   }).join(", ");
 }
 

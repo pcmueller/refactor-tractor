@@ -21,17 +21,8 @@ function getIngredientData() {
   return getData("http://localhost:3001/api/v1/ingredients");
 }
 
-// General purpose functions
-
-function capitalize(words) {
-  return words.split(" ").map(word => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }).join(" ");
-}
-
 export { 
   getUserData, 
   getRecipeData, 
   getIngredientData, 
-  getAllData, 
-  capitalize };
+  getAllData };
