@@ -28,7 +28,7 @@ let user;
 window.addEventListener("load", loadData);
 allRecipesBtn.addEventListener("click", showAllRecipes);
 filterBtn.addEventListener("click", filterByRecipe);
-main.addEventListener("click", performMainAction);
+main.addEventListener("click", performActionOnMain);
 pantryBtn.addEventListener("click", domUpdates.toggleMenu);
 savedRecipesBtn.addEventListener("click", showSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
@@ -114,9 +114,9 @@ function filterRecipes(filteredRecipes) {
   }
 }
 
-// MAIN HANDLER
+// MAIN SECTION HANDLER
 
-function performMainAction(event) {
+function performActionOnMain(event) {
   if (event.target.className === "card-apple-icon") {
     toggleSaved(event);
   } else if (event.target.id === "exit-recipe-btn") {
