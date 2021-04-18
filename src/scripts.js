@@ -13,6 +13,7 @@ import { getAllData, capitalize } from "./utils.js";
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector("#filter-btn");
 let recipeInfo = document.querySelector("#recipe-instructions");
+let body = document.querySelector("body");
 let main = document.querySelector("main");
 let pantry = new Pantry();
 let pantryBtn = document.querySelector("#my-pantry-btn");
@@ -168,7 +169,7 @@ function openRecipeInfo(recipeCard) {
     const recipe = recipes.getRecipeByID(Number(recipeCard.id));
     const ingredients = generateIngredients(recipe);
     
-    domUpdates.displayRecipeInfo(recipe, ingredients, recipeInfo);
+    domUpdates.displayRecipeInfo(recipe, ingredients, recipeInfo, body);
 }
 
 function generateIngredients(recipe) {
@@ -180,7 +181,7 @@ function generateIngredients(recipe) {
 
 function exitRecipeInfo() {
   recipeInfo.replaceChildren();
-  domUpdates.hideInfo(recipeInfo);
+  domUpdates.hideInfo(recipeInfo, body);
 }
 
 // SEARCH RECIPES
