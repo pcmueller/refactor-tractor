@@ -17,15 +17,15 @@ The refactor tractor project refactors the Whats Cooking website to follow singl
 
 ## Main Page View
 
-<img width="1058" alt="Front Page View" src="https://imgur.com/LhfcvvH">
+<img width="750" alt="Front Page View" src="./src/images/welcomepagescreenshot.png">
 
 ## Saved Recipes View
 
-<img width="1374" alt="Saved Recipes View" src="https://imgur.com/yvliMpz">
+<img width="750" alt="Saved Recipes View" src="./src/images/favoriterecipescreenshot.png">
 
 ## Pantry View
 
-<img width="1374" alt="Pantry View" src="https://imgur.com/jdzsmTd">
+<img width="200" alt="Pantry View" src="./src/images/pantryscreenshot.png">
 
 ## Functionality
 
