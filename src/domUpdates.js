@@ -13,7 +13,7 @@ let domUpdates = {
 
   addToDom(main, recipeInfo, shortRecipeName) {
     let cardHtml = `
-      <div class="recipe-card" id=${recipeInfo.id}>
+      <button tabindex="0" class="recipe-card" id=${recipeInfo.id}>
         <h3 maxlength="40">${shortRecipeName}</h3>
         <div class="card-photo-container">
           <img src=${recipeInfo.image} class="card-photo-preview" alt="${recipeInfo.name} recipe" title="${recipeInfo.name} recipe">
@@ -22,8 +22,8 @@ let domUpdates = {
           </div>
         </div>
         <h4>${recipeInfo.tags[0]}</h4>
-        <img src="../images/apple-logo-outline.png" alt="unfilled apple icon" class="card-apple-icon">
-      </div>`
+        <input type="image" tabindex="0" src="../images/apple-logo-outline.png" alt="unfilled apple icon" class="card-apple-icon">
+      </button>`
     main.insertAdjacentHTML("beforeend", cardHtml);
   },
 
@@ -42,6 +42,7 @@ let domUpdates = {
       <h4>Ingredients</h4>
       <p>${ingredients}</p>`
     fullRecipeInfo.insertAdjacentHTML("beforeend", recipeTitle);
+    fullRecipeInfo.focus();
   },
 
   addRecipeImage(recipe) {
@@ -53,7 +54,7 @@ let domUpdates = {
       const domRecipe = document.getElementById(`${recipe.id}`);
       domRecipe.style.display = "none";
     });
-    
+
     document.querySelector(".welcome-msg").style.display = "none";
     document.querySelector(".my-recipes-banner").style.display = "block";
   },
