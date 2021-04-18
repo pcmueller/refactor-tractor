@@ -159,27 +159,24 @@ function showSavedRecipes() {
   const unsavedRecipes = recipes.data.filter(recipe => {
     return !user.favoriteRecipes.includes(recipe.id);
   });
-  
+
   domUpdates.displaySaved(unsavedRecipes);
 }
 
-// CREATE RECIPE INSTRUCTIONS
+// DISPLAY RECIPE INSTRUCTIONS
 
 function openRecipeInfo(recipeCard) {
     const recipe = recipes.data.find(recipe => {
       return recipe.id === Number(recipeCard.id);
     });
     const ingredients = generateIngredients(recipe);
-
+    
     domUpdates.displayRecipeInfo(recipe, ingredients, recipeInfo);
 }
 
 function generateIngredients(recipe) {
-  return recipe && recipe.ingredients.map(i => {
-    const ingredient = pantry.data.find(ingredient => {
-      return i.id === ingredient.id;
-    }).name;
-
+  return recipe.ingredients.map(i => {
+    const ingredient = pantry.getIngredientName(i.id);
     return `${capitalize(ingredient)} (${i.quantity.amount} ${i.quantity.unit})`
   }).join(", ");
 }
