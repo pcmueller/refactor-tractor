@@ -4,7 +4,7 @@ import Recipe from '../src/Recipe';
 import RecipeRepository from '../src/RecipeRepository';
 import recipeData from './test-data/recipe-test-data';
 
-describe.only('RecipeRepository', function() {
+describe('RecipeRepository', function() {
   let recipe1, recipe2, recipe3, recipeRepo;
 
   beforeEach(function() {
@@ -68,6 +68,7 @@ describe.only('RecipeRepository', function() {
     expect(recipe.name).to.eq('Loaded Chocolate Chip Pudding Cookie Cups');
   });
 
-
-
+  it('should have a function to find recipes by tag', function() {
+    expect(recipeRepo.getRecipesByTag).to.be.a('function');
+  });
 });

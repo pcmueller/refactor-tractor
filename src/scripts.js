@@ -97,6 +97,8 @@ function getRandomUserData(userData) {
 function filterByRecipe() {
   const checkedTags = findCheckedBoxes();
 
+  console.log(checkedTags);
+
   if (checkedTags.length) {
     currentRecipes = recipes.getRecipesByTag(checkedTags);
   } else {
@@ -109,6 +111,7 @@ function filterByRecipe() {
 
 function findCheckedBoxes() {
   const checkboxes = Array.from(document.querySelectorAll(".checked-tag"));
+  
   return checkboxes.filter(box => box.checked);
 }
 

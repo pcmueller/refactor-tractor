@@ -30,7 +30,6 @@ class RecipeRepository {
           recipes.push(curRecipe);
         }
       })
-  
       return recipes;    
     }, [])
   }
