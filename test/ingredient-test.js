@@ -27,12 +27,12 @@ describe('Ingredient', function() {
   it('should initialize with an name', function() {
     expect(ingredient.name).to.eq(undefined);
   });
+  
+  it('should initialize with an estimated cost in cents', function() {
+    expect(ingredient.costInCents).to.eq(undefined);
+  });
 
   it('should initialize with a quantity', function() {
     expect(ingredient.quantity).to.eq(undefined);
-  });
-
-  it('should initialize with an estimated cost in cents', function() {
-    expect(ingredient.costInCents).to.eq(undefined);
   });
 });
