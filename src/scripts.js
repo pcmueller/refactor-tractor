@@ -111,7 +111,9 @@ function filterRecipes(filteredRecipes) {
   });
 
   if (unselectedRecipes.length !== recipes.data.length) {
-    domUpdates.hideUnselectedRecipes(unselectedRecipes);
+    unselectedRecipes.forEach(recipe => {
+      domUpdates.hideRecipe(recipe);
+    })
   }
 }
 
