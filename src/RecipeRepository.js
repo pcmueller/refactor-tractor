@@ -19,6 +19,10 @@ class RecipeRepository {
     this.tagNames.sort();
   }
 
+  getRecipeByID(id) {
+    return this.data.find(recipe => id === recipe.id);
+  }
+  
   getRecipesByTag(tags) {
     return this.data.reduce((recipes, curRecipe) => {
       tags.forEach(tag => {

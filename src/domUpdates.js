@@ -35,6 +35,15 @@ let domUpdates = {
     });
   },
 
+  displayRecipeInfo(recipe, ingredients, recipeInfo) {
+    recipeInfo.style.display = "inline";
+
+    this.generateRecipeTitle(recipe, ingredients, recipeInfo);
+    this.addRecipeImage(recipe);
+    this.generateInstructions(recipe, recipeInfo);
+    this.renderAdjacentHTML(recipeInfo, "<section id='overlay'></div>");
+  },
+
   generateRecipeTitle(recipe, ingredients, fullRecipeInfo) {
     let recipeTitle = `
       <button id="exit-recipe-btn">X</button>
@@ -82,10 +91,16 @@ let domUpdates = {
     fullRecipeInfo.insertAdjacentHTML("beforeend", `<ol>${instructionsList}</ol>`);
   },
 
-  removeStyling(idName) {
-    document.getElementById(idName).remove();
+  hideInfo(recipeInfo) {
+    recipeInfo.style.display = "none";
+    document.getElementById("overlay").remove();
   },
 
+  showWelcomeBanner() {
+    this.renderDisplayStyling(".welcome-msg", "flex");
+    this.renderDisplayStyling(".my-recipes-banner", "none");
+  },
+  
   renderDisplayStyling(className, styleDisplayProperty) {
     document.querySelector(className).style.display = styleDisplayProperty;
   },
