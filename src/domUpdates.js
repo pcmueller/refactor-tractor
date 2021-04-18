@@ -68,13 +68,6 @@ let domUpdates = {
     document.querySelector(".my-recipes-banner").style.display = "block";
   },
 
-  hideUnselectedRecipes(foundRecipes) {
-    foundRecipes.forEach(recipe => {
-      let domRecipe = document.getElementById(`${recipe.id}`);
-      domRecipe.style.display = "none";
-    });
-  },
-
   renderAdjacentHTML(fullRecipeInfo, htmlElement) {
     fullRecipeInfo.insertAdjacentHTML("beforebegin", htmlElement);
   },
@@ -124,7 +117,12 @@ let domUpdates = {
     });
   },
 
-  removeUncheckedRecipes(recipe) {
+  showRecipe(recipe) {
+    let domRecipe = document.getElementById(`${recipe.id}`);
+    domRecipe.style.display = "block";
+  },
+
+  hideRecipe(recipe) {
     let domRecipe = document.getElementById(`${recipe.id}`);
     domRecipe.style.display = "none";
   },

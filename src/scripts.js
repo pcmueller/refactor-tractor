@@ -216,18 +216,20 @@ function searchRecipeIngredients() {
   },[]);
 }
 
-function filterNonSearched(filtered) {
-  let found = recipes.data.filter(recipe => {
-    let ids = filtered.map(f => f.id);
-    return !ids.includes(recipe.id)
-  })
-  domUpdates.hideUnselectedRecipes(found);
+function filterNonSearched(searched) {
+  let foundRecipes = recipes.data.filter(recipe => {
+    let ids = searched.map(datum => datum.id);
+    return !ids.includes(recipe.id);
+  });
+
+  foundRecipes.forEach(recipe => {
+    domUpdates.hideRecipe(recipe);
+  });
 }
 
 function showAllRecipes() {
   recipes.data.forEach(recipe => {
-    let domRecipe = document.getElementById(`${recipe.id}`);
-    domRecipe.style.display = "block";
+    domUpdates.showRecipe(recipe);
   });
   domUpdates.showWelcomeBanner();
 }
@@ -285,7 +287,7 @@ function findRecipesWithCheckedIngredients(checkedNames) {
     }, 0);
 
     if (matchCounter < checkedNames.length) {
-      domUpdates.removeUncheckedRecipes(recipe);
+      domUpdates.hideRecipe(recipe);
     }
   });
 }
