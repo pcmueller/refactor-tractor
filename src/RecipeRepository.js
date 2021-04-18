@@ -23,7 +23,7 @@ class RecipeRepository {
     return this.data.find(recipe => id === recipe.id);
   }
   
-  getRecipesByTag(tags=this.tagNames) {
+  getRecipesByTag(tags) {
     return this.data.reduce((recipes, curRecipe) => {
       tags.forEach(tag => {
         if (curRecipe.tags.includes(tag.id) && !recipes.includes(curRecipe)) {
