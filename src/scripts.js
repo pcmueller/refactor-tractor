@@ -165,10 +165,9 @@ function showSavedRecipes() {
 // DISPLAY RECIPE INSTRUCTIONS
 
 function openRecipeInfo(recipeCard) {
-    const recipe = recipes.data.find(recipe => {
-      return recipe.id === Number(recipeCard.id);
-    });
+    const recipe = recipes.getRecipeByID(Number(recipeCard.id));
     const ingredients = generateIngredients(recipe);
+    
     domUpdates.displayRecipeInfo(recipe, ingredients, recipeInfo);
 }
 
