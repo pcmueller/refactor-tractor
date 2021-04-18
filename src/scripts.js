@@ -187,7 +187,8 @@ function openRecipeInfo(recipeCard) {
 function generateIngredients(recipe) {
   return recipe.ingredients.map(i => {
     const ingredient = pantry.getIngredientName(i.id);
-    return `${capitalize(ingredient)} (${i.quantity.amount} ${i.quantity.unit})`
+    let ingredientAmt = parseFloat(i.quantity.amount.toFixed(2));
+    return `${capitalize(ingredient)} (${ingredientAmt} ${i.quantity.unit})`
   }).join(", ");
 }
 
@@ -197,6 +198,7 @@ function exitRecipeInfo() {
 }
 
 // SEARCH RECIPES
+
 function pressEnterSearch(event) {
   event.preventDefault();
   searchRecipes();
