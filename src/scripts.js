@@ -191,10 +191,29 @@ function pressEnterSearch(event) {
 
 function searchRecipes() {
   showAllRecipes();
-  let searchedRecipes = recipes.data.filter(recipe => {
+
+  let searchedNames = searchRecipeNames();
+  let searchedIngredients = searchRecipeIngredients();
+  let searchedRecipes = searchedNames.concat(searchedIngredients);
+  
+  filterNonSearched(searchedRecipes);
+}
+
+function searchRecipeNames() {
+  return recipes.data.filter(recipe => {
     return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
   });
-  filterNonSearched(searchedRecipes);
+}
+
+function searchRecipeIngredients() {
+  return recipes.data.reduce((matches, recipe) => {
+    recipe.ingredients.forEach(ingredient => {
+      if (ingredient.name.toLowerCase().includes(searchInput.value.toLowerCase())) {
+        matches.push(recipe);
+      }
+    });
+    return matches;
+  },[]);
 }
 
 function filterNonSearched(filtered) {
