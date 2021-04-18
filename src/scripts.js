@@ -184,12 +184,6 @@ function exitRecipeInfo() {
   domUpdates.hideInfo(recipeInfo);
 }
 
-// TOGGLE DISPLAYS
-function showWelcomeBanner() {
-  domUpdates.renderDisplayStyling(".welcome-msg", "flex");
-  domUpdates.renderDisplayStyling(".my-recipes-banner", "none");
-}
-
 // SEARCH RECIPES
 function pressEnterSearch(event) {
   event.preventDefault();
@@ -217,7 +211,7 @@ function showAllRecipes() {
     let domRecipe = document.getElementById(`${recipe.id}`);
     domRecipe.style.display = "block";
   });
-  showWelcomeBanner();
+  domUpdates.showWelcomeBanner();
 }
 
 // CREATE AND USE PANTRY

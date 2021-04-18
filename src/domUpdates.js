@@ -95,6 +95,11 @@ let domUpdates = {
     document.getElementById("overlay").remove();
   },
 
+  showWelcomeBanner() {
+    this.renderDisplayStyling(".welcome-msg", "flex");
+    this.renderDisplayStyling(".my-recipes-banner", "none");
+  },
+  
   renderDisplayStyling(className, styleDisplayProperty) {
     document.querySelector(className).style.display = styleDisplayProperty;
   },
