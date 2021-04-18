@@ -4,7 +4,7 @@ import Recipe from '../src/Recipe';
 import recipeData from './test-data/recipe-test-data';
 import ingredientData from './test-data/ingredient-test-data';
 
-describe('Recipe', function() {
+describe.only('Recipe', function() {
   let recipeInfo;
   let recipe;
 
@@ -44,7 +44,7 @@ describe('Recipe', function() {
     expect(recipe.ingredients[0]).to.deep.eq(ingredient);
   });
 
-  it('should repopulate array with ingredient name and cost', function() {
+  it('should repopulate array with ingredient name and cost properties added', function() {
     recipe.retrieveIngredientPricing(ingredientData);
     const costedIngredient = {
       id: 20081,
@@ -52,10 +52,13 @@ describe('Recipe', function() {
       quantity: { amount: 1.5, unit: 'c' },
       costInCents: 142
     };
+
     expect(recipe.ingredients[0]).to.deep.eq(costedIngredient);
   });
 
   it('should calculate the total cost of all of the ingredients', function() {    
-    expect(recipe.calculateIngredientsCost(ingredientData)).to.eq(177.76);
+    let cost = recipe.calculateIngredientsCost(ingredientData);
+
+    expect(cost).to.eq(177.76);
   });
 });
