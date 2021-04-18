@@ -4,7 +4,7 @@ import Recipe from '../src/Recipe';
 import RecipeRepository from '../src/RecipeRepository';
 import recipeData from './test-data/recipe-test-data';
 
-describe('RecipeRepository', function() {
+describe.only('RecipeRepository', function() {
   let recipe1, recipe2, recipe3, recipeRepo;
 
   beforeEach(function() {
@@ -12,9 +12,6 @@ describe('RecipeRepository', function() {
     recipe2 = new Recipe(recipeData[1]);
     recipe3 = new Recipe(recipeData[2]);
     recipeRepo = new RecipeRepository();
-    recipeRepo.addRecipeToRepository(recipe1);
-    recipeRepo.addRecipeToRepository(recipe2);
-    recipeRepo.addRecipeToRepository(recipe3);
   })
 
   it('is a function', function() {
@@ -25,15 +22,30 @@ describe('RecipeRepository', function() {
     expect(recipeRepo).to.be.an.instanceof(RecipeRepository);
   });
 
-  it('should store an array of recipes', function() {
-    expect(recipeRepo.data[0].name).to.eq('Loaded Chocolate Chip Pudding Cookie Cups');
-  });
-  
-  it('should store an array of recipe tags', function() {    
-    expect(recipeRepo.tags).to.deep.eq([]);
+  it('should initialize with an empty array of recipes', function() {    
+    expect(recipeRepo.data).to.deep.eq([]);
   });
 
-  it('should populate the array with all recipe tags', function() {    
+  it('should be able to add recipe to array', function() {
+    recipeRepo.addRecipeToRepository(recipe1);
+    recipeRepo.addRecipeToRepository(recipe2);
+    recipeRepo.addRecipeToRepository(recipe3);
+
+    expect(recipeRepo.data[0].name).to.eq('Loaded Chocolate Chip Pudding Cookie Cups');
+    expect(recipeRepo.data[1].name).to.eq('Maple Dijon Apple Cider Grilled Pork Chops');
+    expect(recipeRepo.data[2].name).to.eq('Dirty Steve\'s Original Wing Sauce');
+  });
+  
+  it('should initialize with an empty array of recipe tags', function() {    
+    expect(recipeRepo.tagNames).to.deep.eq([]);
+  });
+
+  it('should be able to populate the array with all recipe tags', function() {    
+    recipeRepo.addRecipeToRepository(recipe1);
+    recipeRepo.addRecipeToRepository(recipe2);
+    recipeRepo.addRecipeToRepository(recipe3);
+    recipeRepo.populateRecipeTags();
+
     const tags = [
       'antipasti',    'antipasto',
       'appetizer',    'dinner',
@@ -42,9 +54,20 @@ describe('RecipeRepository', function() {
       'sauce',        'snack',
       'starter'
     ];
+
+    expect(recipeRepo.tagNames).to.deep.eq(tags);
+  });
+
+  it('should be able to find a recipe by id', function() {
+    recipeRepo.addRecipeToRepository(recipe1);
     recipeRepo.populateRecipeTags();
 
-    expect(recipeRepo.tags).to.deep.eq(tags);
+    let recipe = recipeRepo.getRecipeByID(595736);
+
+    expect(recipe).to.be.an('object');
+    expect(recipe.name).to.eq('Loaded Chocolate Chip Pudding Cookie Cups');
   });
+
+
 
 });

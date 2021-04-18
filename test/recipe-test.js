@@ -5,7 +5,7 @@ import recipeData from './test-data/recipe-test-data';
 import Ingredient from '../src/Ingredient';
 import ingredientData from './test-data/ingredient-test-data';
 
-describe.only('Recipe', function() {
+describe('Recipe', function() {
   let recipeInfo;
   let recipe;
 
@@ -42,7 +42,7 @@ describe.only('Recipe', function() {
         "unit": "c"
       }
     };
-    
+
     expect(recipe.ingredients[0]).to.deep.eq(ingredient);
   });
 
