@@ -13,6 +13,10 @@ body {
   -webkit-font-smoothing: auto;
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
 h1 {
   align-self: center;
   color: $white;

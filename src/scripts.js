@@ -13,6 +13,7 @@ import { getAllData, capitalize } from "./utils.js";
 let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector("#filter-btn");
 let recipeInfo = document.querySelector("#recipe-instructions");
+let body = document.querySelector("body");
 let main = document.querySelector("main");
 let pantry = new Pantry();
 let pantryBtn = document.querySelector("#my-pantry-btn");
@@ -24,6 +25,7 @@ let searchInput = document.querySelector("#search-input");
 let showPantryRecipes = document.querySelector("#show-pantry-recipes-btn");
 let tagList = document.querySelector("#tag-list");
 let user;
+let currentRecipes;
 
 window.addEventListener("load", loadData);
 allRecipesBtn.addEventListener("click", showAllRecipes);
@@ -71,6 +73,7 @@ function createCards(recipeData) {
     domUpdates.addToDom(main, recipe, recipeName)
   });
 
+  currentRecipes = recipes.data.map(datum => datum);
   recipes.populateRecipeTags();
   domUpdates.listTags(recipes.tagNames, capitalize, tagList);
 }
@@ -93,10 +96,15 @@ function getRandomUserData(userData) {
 
 function filterByRecipe() {
   const checkedTags = findCheckedBoxes();
-  const filteredRecipes = recipes.getRecipesByTag(checkedTags);
+
+  if (checkedTags.length) {
+    currentRecipes = recipes.getRecipesByTag(checkedTags);
+  } else {
+    currentRecipes = recipes.data.map(recipe => recipe);
+  }
 
   showAllRecipes();
-  filterRecipes(filteredRecipes);
+  filterRecipes(currentRecipes);
 }
 
 function findCheckedBoxes() {
@@ -110,7 +118,9 @@ function filterRecipes(filteredRecipes) {
   });
 
   if (unselectedRecipes.length !== recipes.data.length) {
-    domUpdates.hideUnselectedRecipes(unselectedRecipes);
+    unselectedRecipes.forEach(recipe => {
+      domUpdates.hideRecipe(recipe);
+    })
   }
 }
 
@@ -168,7 +178,7 @@ function openRecipeInfo(recipeCard) {
     const recipe = recipes.getRecipeByID(Number(recipeCard.id));
     const ingredients = generateIngredients(recipe);
     
-    domUpdates.displayRecipeInfo(recipe, ingredients, recipeInfo);
+    domUpdates.displayRecipeInfo(recipe, ingredients, recipeInfo, body);
 }
 
 function generateIngredients(recipe) {
@@ -180,7 +190,7 @@ function generateIngredients(recipe) {
 
 function exitRecipeInfo() {
   recipeInfo.replaceChildren();
-  domUpdates.hideInfo(recipeInfo);
+  domUpdates.hideInfo(recipeInfo, body);
 }
 
 // SEARCH RECIPES
@@ -200,13 +210,13 @@ function searchRecipes() {
 }
 
 function searchRecipeNames() {
-  return recipes.data.filter(recipe => {
+  return currentRecipes.filter(recipe => {
     return recipe.name.toLowerCase().includes(searchInput.value.toLowerCase());
   });
 }
 
 function searchRecipeIngredients() {
-  return recipes.data.reduce((matches, recipe) => {
+  return currentRecipes.reduce((matches, recipe) => {
     recipe.ingredients.forEach(ingredient => {
       if (ingredient.name.toLowerCase().includes(searchInput.value.toLowerCase())) {
         matches.push(recipe);

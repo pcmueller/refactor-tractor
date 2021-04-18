@@ -35,8 +35,9 @@ let domUpdates = {
     });
   },
 
-  displayRecipeInfo(recipe, ingredients, recipeInfo) {
+  displayRecipeInfo(recipe, ingredients, recipeInfo, body) {
     recipeInfo.style.display = "inline";
+    body.classList.toggle("no-scroll");
 
     this.generateRecipeTitle(recipe, ingredients, recipeInfo);
     this.addRecipeImage(recipe);
@@ -84,8 +85,9 @@ let domUpdates = {
     fullRecipeInfo.insertAdjacentHTML("beforeend", `<ol>${instructionsList}</ol>`);
   },
 
-  hideInfo(recipeInfo) {
+  hideInfo(recipeInfo, body) {
     recipeInfo.style.display = "none";
+    body.classList.toggle("no-scroll");
     document.getElementById("overlay").remove();
   },
 
