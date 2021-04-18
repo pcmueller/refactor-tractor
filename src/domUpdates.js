@@ -90,8 +90,9 @@ let domUpdates = {
     fullRecipeInfo.insertAdjacentHTML("beforeend", `<ol>${instructionsList}</ol>`);
   },
 
-  removeStyling(idName) {
-    document.getElementById(idName).remove();
+  hideInfo(recipeInfo) {
+    recipeInfo.style.display = "none";
+    document.getElementById("overlay").remove();
   },
 
   renderDisplayStyling(className, styleDisplayProperty) {

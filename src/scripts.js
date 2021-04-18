@@ -124,7 +124,7 @@ function performActionOnMain(event) {
   } else if (isDescendant(recipeCard, event.target)) {
     openRecipeInfo(recipeCard);
   } else if (event.target.id === "exit-recipe-btn") {
-    exitRecipe();
+    exitRecipeInfo();
   }
 }
 
@@ -159,7 +159,6 @@ function showSavedRecipes() {
   const unsavedRecipes = recipes.data.filter(recipe => {
     return !user.favoriteRecipes.includes(recipe.id);
   });
-
   domUpdates.displaySaved(unsavedRecipes);
 }
 
@@ -170,7 +169,6 @@ function openRecipeInfo(recipeCard) {
       return recipe.id === Number(recipeCard.id);
     });
     const ingredients = generateIngredients(recipe);
-    
     domUpdates.displayRecipeInfo(recipe, ingredients, recipeInfo);
 }
 
@@ -181,11 +179,9 @@ function generateIngredients(recipe) {
   }).join(", ");
 }
 
-function exitRecipe() {
-  while (recipeInfo.firstChild &&
-    recipeInfo.removeChild(recipeInfo.firstChild));
-  recipeInfo.style.display = "none";
-  domUpdates.removeStyling("overlay");
+function exitRecipeInfo() {
+  recipeInfo.replaceChildren();
+  domUpdates.hideInfo(recipeInfo);
 }
 
 // TOGGLE DISPLAYS
