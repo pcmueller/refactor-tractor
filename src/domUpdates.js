@@ -35,6 +35,15 @@ let domUpdates = {
     });
   },
 
+  displayRecipeInfo(recipe, ingredients, recipeInfo) {
+    recipeInfo.style.display = "inline";
+
+    this.generateRecipeTitle(recipe, ingredients, recipeInfo);
+    this.addRecipeImage(recipe);
+    this.generateInstructions(recipe, recipeInfo);
+    this.renderAdjacentHTML(recipeInfo, "<section id='overlay'></div>");
+  },
+
   generateRecipeTitle(recipe, ingredients, fullRecipeInfo) {
     let recipeTitle = `
       <button id="exit-recipe-btn">X</button>
