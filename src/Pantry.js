@@ -10,7 +10,12 @@ class Pantry {
   }
 
   getIngredientName(id) {
-    return this.data.find(ingredient => id === ingredient.id).name;
+   let match = this.data.find(ingredient => id === ingredient.id)
+   if (match) {
+     return match.name
+   } else {
+     return `Sorry, there's no ingredient stored under id #${id}!`;
+   }
   }
 }
 

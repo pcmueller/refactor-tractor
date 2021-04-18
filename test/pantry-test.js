@@ -4,7 +4,7 @@ import Pantry from '../src/Pantry';
 import Ingredient from '../src/Ingredient';
 import ingredientData from './test-data/ingredient-test-data';
 
-describe.only('Pantry', function() {
+describe('Pantry', function() {
   let ingredient, pantry;
 
   beforeEach(function() {
@@ -35,10 +35,12 @@ describe.only('Pantry', function() {
     });
   });
 
-  it('should be able to retrieve the name of an ingredient', function() {
+  it('should be able to retrieve the name of an ingredient by id number', function() {
     pantry.addIngredientToPantry(ingredient);
-    let name = pantry.getIngredientName(20081);
+    let nameHappyPath = pantry.getIngredientName(20081);
+    let nameSadPath = pantry.getIngredientName(99999)
 
-    expect(name).to.eq('wheat flour');    
+    expect(nameHappyPath).to.eq('wheat flour');
+    expect(nameSadPath).to.eq(`Sorry, there's no ingredient stored under id #99999!`);
   });
 });
