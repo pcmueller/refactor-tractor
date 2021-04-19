@@ -49,8 +49,20 @@ describe('User', function() {
     expect(user.favoriteRecipes[0]).to.equal(undefined);
   });
 
+  it('should be able to add an ingredient to pantry', function() {
+    user.addIngredientToPantry({'id': 6971, 'name': 'worcestershire', 'estimatedCostInCents': 57});
+
+    expect(user.pantry[228].ingredient).to.equal(6971);
+  });
+
+  it('should increment ingredient amount if it already exists in pantry', function() {
+    user.addIngredientToPantry({'id': 11477, 'name': 'zucchini squash', 'estimatedCostInCents': 742});
+
+    expect(user.pantry[0].amount).to.equal(2);
+  });
+
   it('should be able to remove an ingredient from pantry', function() {
-    user.removeIngredient({ ingredient: 11477, amount: 1 });
+    user.removeIngredientFromPantry({ ingredient: 11477, amount: 1 });
     expect(user.pantry[0]).to.deep.equal({ ingredient: 93820, amount: 1 });
   });
 
