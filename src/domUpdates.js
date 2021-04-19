@@ -129,12 +129,16 @@ let domUpdates = {
     domRecipe.style.display = "none";
   },
 
-  openFilterMenu(filterMenu) {
+  openFilterMenu() {
+    const filterMenu = document.querySelector("aside");
+
     this.renderAdjacentHTML(filterMenu, "<section id='overlay'></div>");
     filterMenu.classList.toggle("open");
   },
 
-  closeFilterMenu(filterMenu) {
+  closeFilterMenu() {
+    const filterMenu = document.querySelector("aside");
+    
     document.getElementById("overlay").remove();
     filterMenu.classList.toggle("open");
   },
@@ -146,8 +150,8 @@ let domUpdates = {
   },
 
   toggleNavElements() {
-    const myRecipes = document.querySelector("#saved-recipes-btn");
-    const myPantry = document.querySelector("#my-pantry-btn");
+    const myRecipes = document.querySelector("#mobile-recipes-btn");
+    const myPantry = document.querySelector("#mobile-pantry-btn");
 
     myRecipes.classList.toggle("hidden");
     myPantry.classList.toggle("hidden");
@@ -167,6 +171,20 @@ let domUpdates = {
 
     mobileBurger.classList.toggle("hidden");
     backBtn.classList.toggle("displayed-inline");
+  },
+
+  openMobilePantry() {
+    let pantry = document.querySelector(".drop-menu");
+
+    this.renderAdjacentHTML(pantry, "<section id='overlay'></div>")
+    pantry.classList.toggle("open");
+  },
+
+  closeMobilePantry() {
+    let pantry = document.querySelector(".drop-menu");
+
+    document.getElementById("overlay").remove();
+    pantry.classList.toggle("open");
   }
 };
 

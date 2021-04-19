@@ -14,15 +14,16 @@ let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector("#filter-btn");
 let recipeInfo = document.querySelector("#recipe-instructions");
 let body = document.querySelector("body");
-let header = document.querySelector("header");
 let main = document.querySelector("main");
 let mobileBurger = document.querySelector("#mobileBurger");
 let mobileBurgerOpen = document.querySelector("#mobileBurgerOpen");
-let filterMenu = document.querySelector("aside");
 let backBtn = document.querySelector("#backBtn");
 let pantry = new Pantry();
 let pantryBtn = document.querySelector("#my-pantry-btn");
+let mobilePantryBtn = document.querySelector("#mobile-pantry-btn");
+let mobilePantryOpen = document.querySelector("#mobile-pantry-open")
 let savedRecipesBtn = document.querySelector("#saved-recipes-btn");
+let mobileRecipesBtn = document.querySelector("#mobile-recipes-btn");
 let searchBtn = document.querySelector("#search-btn");
 let mobileSearchBtn = document.querySelector("#mobileSearchBtn");
 let recipes = new RecipeRepository();
@@ -43,14 +44,13 @@ searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", identifyCheckedPantryIngredients);
 searchForm.addEventListener("submit", pressEnterSearch);
 
-mobileBurger.addEventListener("click", function() {
-  domUpdates.openFilterMenu(filterMenu);
-});
-mobileBurgerOpen.addEventListener("click", function() {
-  domUpdates.closeFilterMenu(filterMenu);
-});
+mobileBurger.addEventListener("click", () => domUpdates.openFilterMenu());
+mobileBurgerOpen.addEventListener("click", () => domUpdates.closeFilterMenu());
 mobileSearchBtn.addEventListener("click", () => domUpdates.toggleSearch());
 backBtn.addEventListener("click", () => domUpdates.toggleSearch());
+mobileRecipesBtn.addEventListener("click", showSavedRecipes);
+mobilePantryBtn.addEventListener("click", () => domUpdates.openMobilePantry());
+mobilePantryOpen.addEventListener("click", () => domUpdates.closeMobilePantry());
 
 // PAGELOAD HANDLER
 
