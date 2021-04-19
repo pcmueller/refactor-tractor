@@ -137,6 +137,36 @@ let domUpdates = {
   closeFilterMenu(filterMenu) {
     document.getElementById("overlay").remove();
     filterMenu.classList.toggle("open");
+  },
+
+  toggleSearch() {
+    this.toggleNavElements();
+    this.toggleSearchBar();
+    this.toggleBackBtn();
+  },
+
+  toggleNavElements() {
+    const myRecipes = document.querySelector("#saved-recipes-btn");
+    const myPantry = document.querySelector("#my-pantry-btn");
+
+    myRecipes.classList.toggle("hidden");
+    myPantry.classList.toggle("hidden");
+  },
+
+  toggleSearchBar() {
+    const searchBar = document.querySelector("#search");
+    const mobileSearchBtn = document.getElementById("mobileSearchBtn");
+
+    searchBar.classList.toggle("displayed-flex");
+    mobileSearchBtn.classList.toggle("hidden");
+  },
+
+  toggleBackBtn() {
+    const mobileBurger = document.querySelector("#mobileBurger");
+    const backBtn = document.querySelector("#backBtn");
+
+    mobileBurger.classList.toggle("hidden");
+    backBtn.classList.toggle("displayed-inline");
   }
 };
 

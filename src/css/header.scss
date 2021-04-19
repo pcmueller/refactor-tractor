@@ -7,7 +7,7 @@ header {
   padding: 0 16px;
 
   h1 {
-    margin-right: 16px;
+    margin: 0 16px;
     font-size: 44px;
     white-space: nowrap;
   }
@@ -23,11 +23,9 @@ span {
   margin-left: 5px;
 }
 
-.mobile-burger {
-  display: none;
-}
-
-.mobile-icon {
+.mobile-burger,
+.mobile-icon,
+.back-button {
   display: none;
 }
 
@@ -151,11 +149,11 @@ nav {
   .mobile-icon {
     width: 32px;
     display: inline;
-    margin-right: 16px;
+    margin: 0 16px;
   }
 }
 
-@media only screen and (max-width: 756px) {
+@media only screen and (max-width: 800px) {
   .menu-btns {
     width: fit-content;
     height: 100%;
@@ -164,11 +162,12 @@ nav {
     align-items: center;
 
     .mobile-icon {
-      margin-right: 0;
+      display: none;
     }
   }
 
-  .mobile-burger {
+  .mobile-burger,
+  .back-button {
     background-color: transparent;
     width: 64px;
     display: inline;
@@ -177,8 +176,12 @@ nav {
     border: none;
 
     img {
-      width: 32px;
+      width: 36px;
     }
+  }
+
+  .back-button {
+    display: none;
   }
 
   nav {
@@ -200,5 +203,17 @@ nav {
 
   #search {
     display: none;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .displayed-flex {
+    display: flex !important;
+  }
+
+  .displayed-inline {
+    display: inline !important;
   }
 }

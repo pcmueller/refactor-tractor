@@ -14,14 +14,17 @@ let allRecipesBtn = document.querySelector(".show-all-btn");
 let filterBtn = document.querySelector("#filter-btn");
 let recipeInfo = document.querySelector("#recipe-instructions");
 let body = document.querySelector("body");
+let header = document.querySelector("header");
 let main = document.querySelector("main");
 let mobileBurger = document.querySelector("#mobileBurger");
 let mobileBurgerOpen = document.querySelector("#mobileBurgerOpen");
 let filterMenu = document.querySelector("aside");
+let backBtn = document.querySelector("#backBtn");
 let pantry = new Pantry();
 let pantryBtn = document.querySelector("#my-pantry-btn");
 let savedRecipesBtn = document.querySelector("#saved-recipes-btn");
 let searchBtn = document.querySelector("#search-btn");
+let mobileSearchBtn = document.querySelector("#mobileSearchBtn");
 let recipes = new RecipeRepository();
 let searchForm = document.querySelector("#search");
 let searchInput = document.querySelector("#search-input");
@@ -46,6 +49,8 @@ mobileBurger.addEventListener("click", function() {
 mobileBurgerOpen.addEventListener("click", function() {
   domUpdates.closeFilterMenu(filterMenu);
 });
+mobileSearchBtn.addEventListener("click", () => domUpdates.toggleSearch());
+backBtn.addEventListener("click", () => domUpdates.toggleSearch());
 
 // PAGELOAD HANDLER
 
