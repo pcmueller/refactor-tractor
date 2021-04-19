@@ -5,16 +5,11 @@ import Ingredient from '../src/Ingredient';
 import ingredientData from './test-data/ingredient-test-data';
 
 describe('Pantry', function() {
-  let ingredient1, ingredient2, ingredient3, pantry;
+  let ingredient, pantry;
 
   beforeEach(function() {
-    ingredient1 = new Ingredient(ingredientData[0]);
-    ingredient2 = new Ingredient(ingredientData[1]);
-    ingredient3 = new Ingredient(ingredientData[2]);
+    ingredient = new Ingredient(ingredientData[0]);
     pantry = new Pantry();
-    pantry.addIngredientToPantry(ingredient1);
-    pantry.addIngredientToPantry(ingredient2);
-    pantry.addIngredientToPantry(ingredient3);
   });
 
   it('is a function', function() {
@@ -25,7 +20,13 @@ describe('Pantry', function() {
     expect(pantry).to.be.an.instanceof(Pantry);
   });
 
-  it('should store an array of ingredients', function() {
+  it('should initialize with an empty array of ingredients', function() {
+    expect(pantry.data).to.deep.eq([]);
+  });
+
+  it('should be able to add objects to ingredients array', function() {
+    pantry.addIngredientToPantry(ingredient);
+
     expect(pantry.data[0]).to.deep.eq({
       id: 20081,
       name: 'wheat flour',
@@ -34,4 +35,12 @@ describe('Pantry', function() {
     });
   });
 
+  it('should be able to retrieve the name of an ingredient by id number', function() {
+    pantry.addIngredientToPantry(ingredient);
+    let nameHappyPath = pantry.getIngredientName(20081);
+    let nameSadPath = pantry.getIngredientName(99999)
+
+    expect(nameHappyPath).to.eq('wheat flour');
+    expect(nameSadPath).to.eq(`Sorry, there's no ingredient stored under id #99999!`);
+  });
 });

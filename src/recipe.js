@@ -29,7 +29,8 @@ class Recipe {
       total += item.costInCents * item.quantity.amount;
       return total;
     }, 0);
-    this.cost = parseFloat((cents/100).toFixed(2));
+    this.cost = parseFloat((cents / 100).toFixed(2));
+    return this.cost;
   }
 }
 

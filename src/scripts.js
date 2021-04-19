@@ -1,6 +1,4 @@
-// import users from './data/users-data';
-// import recipeData from  './data/recipe-data';
-// import ingredientData from './data/ingredient-data';
+// IMPORTS
 
 import User from './User';
 import Recipe from './Recipe';
@@ -10,10 +8,12 @@ import Pantry from './Pantry';
 import domUpdates from './domUpdates';
 import { getAllData, capitalize } from "./utils.js";
 
+// QUERY SELECTORS & GLOBAL VARIABLES
+
 let allRecipesBtn = document.querySelector(".show-all-btn");
-let filterBtn = document.querySelector("#filter-btn");
-let recipeInfo = document.querySelector("#recipe-instructions");
 let body = document.querySelector("body");
+let currentRecipes;
+let filterBtn = document.querySelector("#filter-btn");
 let main = document.querySelector("main");
 let mobileBurger = document.querySelector("#mobileBurger");
 let mobileBurgerOpen = document.querySelector("#mobileBurgerOpen");
@@ -22,6 +22,8 @@ let pantry = new Pantry();
 let pantryBtn = document.querySelector("#my-pantry-btn");
 let mobilePantryBtn = document.querySelector("#mobile-pantry-btn");
 let mobilePantryOpen = document.querySelector("#mobile-pantry-open")
+let recipeInfo = document.querySelector("#recipe-instructions");
+let recipes = new RecipeRepository();
 let savedRecipesBtn = document.querySelector("#saved-recipes-btn");
 let mobileRecipesBtn = document.querySelector("#mobile-recipes-btn");
 let searchBtn = document.querySelector("#search-btn");
@@ -32,7 +34,8 @@ let searchInput = document.querySelector("#search-input");
 let showPantryRecipes = document.querySelector("#show-pantry-recipes-btn");
 let tagList = document.querySelector("#tag-list");
 let user;
-let currentRecipes;
+
+// EVENT LISTENERS
 
 window.addEventListener("load", loadData);
 allRecipesBtn.addEventListener("click", showAllRecipes);
@@ -124,6 +127,7 @@ function filterByRecipe() {
 
 function findCheckedBoxes() {
   const checkboxes = Array.from(document.querySelectorAll(".checked-tag"));
+  
   return checkboxes.filter(box => box.checked);
 }
 
@@ -190,16 +194,17 @@ function showSavedRecipes() {
 // DISPLAY RECIPE INSTRUCTIONS
 
 function openRecipeInfo(recipeCard) {
-    const recipe = recipes.getRecipeByID(Number(recipeCard.id));
-    const ingredients = generateIngredients(recipe);
-    
-    domUpdates.displayRecipeInfo(recipe, ingredients, recipeInfo, body);
+  const recipe = recipes.getRecipeByID(Number(recipeCard.id));
+  const ingredients = generateIngredients(recipe);
+  
+  domUpdates.displayRecipeInfo(recipe, ingredients, recipeInfo, body);
 }
 
 function generateIngredients(recipe) {
   return recipe.ingredients.map(i => {
     const ingredient = pantry.getIngredientName(i.id);
-    return `${capitalize(ingredient)} (${i.quantity.amount} ${i.quantity.unit})`
+    let ingredientAmt = parseFloat(i.quantity.amount.toFixed(2));
+    return `${capitalize(ingredient)} (${ingredientAmt} ${i.quantity.unit})`
   }).join(", ");
 }
 
@@ -209,6 +214,7 @@ function exitRecipeInfo() {
 }
 
 // SEARCH RECIPES
+
 function pressEnterSearch(event) {
   event.preventDefault();
   searchRecipes();
@@ -238,7 +244,7 @@ function searchRecipeIngredients() {
       }
     });
     return matches;
-  },[]);
+  }, []);
 }
 
 function filterNonSearched(searched) {
@@ -273,7 +279,7 @@ function findPantryInfo() {
   });
   
   domUpdates.displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
-};
+}
 
 function identifyCheckedPantryIngredients() {
   showAllRecipes();
