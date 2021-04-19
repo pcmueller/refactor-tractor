@@ -97,10 +97,6 @@ nav {
   }
 }
 
-.mobile-search-btn {
-  display: none;
-}
-
 .nav-btn {
   background: transparent;
   width: 64px;
@@ -132,6 +128,7 @@ nav {
 .mobile-burger,
 .mobile-icon,
 .back-button,
+.mobile-search-btn,
 .mobile-recipes-btn,
 .mobile-pantry-btn {
   display: none;
