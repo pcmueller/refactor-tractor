@@ -1,6 +1,4 @@
-// import users from './data/users-data';
-// import recipeData from  './data/recipe-data';
-// import ingredientData from './data/ingredient-data';
+// IMPORTS
 
 import User from './User';
 import Recipe from './Recipe';
@@ -10,22 +8,26 @@ import Pantry from './Pantry';
 import domUpdates from './domUpdates';
 import { getAllData, capitalize } from "./utils.js";
 
+// QUERY SELECTORS & GLOBAL VARIABLES
+
 let allRecipesBtn = document.querySelector(".show-all-btn");
-let filterBtn = document.querySelector("#filter-btn");
-let recipeInfo = document.querySelector("#recipe-instructions");
 let body = document.querySelector("body");
+let currentRecipes;
+let filterBtn = document.querySelector("#filter-btn");
 let main = document.querySelector("main");
 let pantry = new Pantry();
 let pantryBtn = document.querySelector("#my-pantry-btn");
+let recipeInfo = document.querySelector("#recipe-instructions");
+let recipes = new RecipeRepository();
 let savedRecipesBtn = document.querySelector("#saved-recipes-btn");
 let searchBtn = document.querySelector("#search-btn");
-let recipes = new RecipeRepository();
 let searchForm = document.querySelector("#search");
 let searchInput = document.querySelector("#search-input");
 let showPantryRecipes = document.querySelector("#show-pantry-recipes-btn");
 let tagList = document.querySelector("#tag-list");
 let user;
-let currentRecipes;
+
+// EVENT LISTENERS
 
 window.addEventListener("load", loadData);
 allRecipesBtn.addEventListener("click", showAllRecipes);
