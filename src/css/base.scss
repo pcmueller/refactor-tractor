@@ -37,3 +37,12 @@ h3 {
   margin: 5px 5px 10px 0px;
   transition: .8s ease;
 }
+
+@media only screen and (max-width: 756px) {
+  body {
+    grid-template-areas:
+    "header header"
+    "image image"
+    "main main";
+  }
+}

@@ -23,3 +23,24 @@ ul {
 li {
   margin: 2px;
 }
+
+.mobile-aside-hdr {
+  display: none;
+}
+
+@media only screen and (max-width: 756px) {
+  aside {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    border-right: solid #C4EB67;
+    z-index: 9999;
+
+    .mobile-aside-hdr {
+      background-color: #5B7894;
+      height: 3.5rem;
+      display: flex;
+      justify-content: flex-start;
+    }
+  }
+}
