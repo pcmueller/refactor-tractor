@@ -7,6 +7,7 @@ import './css/styles.scss';
 //Images
 import './images/apple-logo-outline.png';
 import './images/apple-logo.png';
+import './images/hamburger.svg'
 import './images/chicken-parm.jpg';
 import './images/cookbook.png';
 import './images/green-apples.jpg';
