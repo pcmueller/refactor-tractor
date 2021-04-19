@@ -178,10 +178,10 @@ function showSavedRecipes() {
 // DISPLAY RECIPE INSTRUCTIONS
 
 function openRecipeInfo(recipeCard) {
-    const recipe = recipes.getRecipeByID(Number(recipeCard.id));
-    const ingredients = generateIngredients(recipe);
-    
-    domUpdates.displayRecipeInfo(recipe, ingredients, recipeInfo, body);
+  const recipe = recipes.getRecipeByID(Number(recipeCard.id));
+  const ingredients = generateIngredients(recipe);
+  
+  domUpdates.displayRecipeInfo(recipe, ingredients, recipeInfo, body);
 }
 
 function generateIngredients(recipe) {
@@ -228,7 +228,7 @@ function searchRecipeIngredients() {
       }
     });
     return matches;
-  },[]);
+  }, []);
 }
 
 function filterNonSearched(searched) {
@@ -263,7 +263,7 @@ function findPantryInfo() {
   });
   
   domUpdates.displayPantryInfo(pantryInfo.sort((a, b) => a.name.localeCompare(b.name)));
-};
+}
 
 function identifyCheckedPantryIngredients() {
   showAllRecipes();
