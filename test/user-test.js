@@ -44,6 +44,16 @@ describe('User', function() {
     expect(user.favoriteRecipes[0].name).to.equal('Chicken Parm');
   });
 
+  it('should be able to remove a recipe from favoriteRecipes', function() {
+    user.removeRecipe(recipe);
+    expect(user.favoriteRecipes[0]).to.equal(undefined);
+  });
+
+  it('should be able to remove an ingredient from pantry', function() {
+    user.removeIngredient({ ingredient: 11477, amount: 1 });
+    expect(user.pantry[0]).to.deep.equal({ ingredient: 93820, amount: 1 });
+  });
+
   it('should be able to decide to cook a recipe', function() {
     user.decideToCook(recipe);
     expect(user.recipesToCook[0].name).to.equal('Chicken Parm');

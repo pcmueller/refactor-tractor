@@ -16,6 +16,14 @@ class User {
     this.favoriteRecipes.splice(i, 1);
   }
 
+  removeIngredient(selected) {
+    let found = this.pantry.find(item => {
+      return item.ingredient === selected.ingredient;
+    });
+    let index = this.pantry.indexOf(found);
+    this.pantry.splice(index, 1);
+  }
+
   decideToCook(recipe) {
     this.recipesToCook.push(recipe);
   }
