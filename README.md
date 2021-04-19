@@ -48,7 +48,7 @@ The refactor tractor project refactors the Whats Cooking website to follow singl
 * Creator: [Robert DeRouin](https://github.com/robertjosephderouin)
 * Creator: [Peter Muellerleile](https://github.com/pcmueller)
 * Creator: [Jon Schlandt](https://github.com/jon-schlandt)
-* Project Manager: [Hannah Hudson](https://github.com/hannahhch)
+* Project Manager: [Travis Rollins](https://github.com/Kalikoze)
 
 ## Resources
 
