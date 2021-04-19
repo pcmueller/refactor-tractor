@@ -31,9 +31,9 @@ li {
 @media only screen and (max-width: 756px) {
   aside {
     position: absolute;
-    display: flex;
+    display: none;
     flex-direction: column;
-    border-right: solid #C4EB67;
+    box-shadow: 0 5px 10px black;
     z-index: 9999;
 
     .mobile-aside-hdr {
@@ -42,5 +42,9 @@ li {
       display: flex;
       justify-content: flex-start;
     }
+  }
+
+  .open {
+    display: flex;
   }
 }

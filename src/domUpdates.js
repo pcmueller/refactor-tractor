@@ -128,6 +128,16 @@ let domUpdates = {
     let domRecipe = document.getElementById(`${recipe.id}`);
     domRecipe.style.display = "none";
   },
+
+  openFilterMenu(filterMenu) {
+    this.renderAdjacentHTML(filterMenu, "<section id='overlay'></div>");
+    filterMenu.classList.toggle("open");
+  },
+
+  closeFilterMenu(filterMenu) {
+    document.getElementById("overlay").remove();
+    filterMenu.classList.toggle("open");
+  }
 };
 
 export default domUpdates;
