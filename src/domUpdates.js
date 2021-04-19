@@ -1,6 +1,6 @@
 // domUpdates.js
 let domUpdates = {
-  menuOpen : false,
+  menuOpen: false,
   setWelcomeMsg(firstName) {
     let welcomeMsg =
     `
@@ -27,7 +27,7 @@ let domUpdates = {
     main.insertAdjacentHTML("beforeend", cardHtml);
   },
 
-  listTags(allTags,capitalize, tagList) {
+  listTags(allTags, capitalize, tagList) {
     allTags.forEach(tag => {
       let tagHtml = `<li><input type="checkbox" class="checked-tag" id="${tag}">
         <label for="${tag}">${capitalize(tag)}</label></li>`;

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import User from '../src/user';
+import User from '../src/User';
 import data from './test-data/users-test-data';
 
 describe('User', function() {
@@ -42,6 +42,28 @@ describe('User', function() {
   it('should be able to save a recipe to favoriteRecipes', function() {
     user.saveRecipe(recipe);
     expect(user.favoriteRecipes[0].name).to.equal('Chicken Parm');
+  });
+
+  it('should be able to remove a recipe from favoriteRecipes', function() {
+    user.removeRecipe(recipe);
+    expect(user.favoriteRecipes[0]).to.equal(undefined);
+  });
+
+  it('should be able to add an ingredient to pantry', function() {
+    user.addIngredientToPantry({'id': 6971, 'name': 'worcestershire', 'estimatedCostInCents': 57});
+
+    expect(user.pantry[228].ingredient).to.equal(6971);
+  });
+
+  it('should increment ingredient amount if it already exists in pantry', function() {
+    user.addIngredientToPantry({'id': 11477, 'name': 'zucchini squash', 'estimatedCostInCents': 742});
+
+    expect(user.pantry[0].amount).to.equal(2);
+  });
+
+  it('should be able to remove an ingredient from pantry', function() {
+    user.removeIngredientFromPantry({ ingredient: 11477, amount: 1 });
+    expect(user.pantry[0]).to.deep.equal({ ingredient: 93820, amount: 1 });
   });
 
   it('should be able to decide to cook a recipe', function() {
