@@ -1,9 +1,16 @@
 header {
-  display: flex;
-  flex-direction: row;
+  height: 6rem;
   grid-area: header;
-  padding: 0% 0%;
-  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+
+  h1 {
+    margin: 0 16px;
+    font-size: 44px;
+    white-space: nowrap;
+  }
 }
 
 span {
@@ -12,21 +19,29 @@ span {
 }
 
 .header-apple-icon {
-  height: 40px;
+  width: 32px;
   margin-left: 5px;
-  width: 35px;
+}
+
+nav {
+  flex-grow: 1;
+  display: flex;
 }
 
 #search {
+  max-width: 576px;
+  height: 32px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 12px auto;
+  padding: 4px;
   border-radius: 15px 15px 15px 15px;
   border: 3px outset $brand-highlight;
   box-shadow: 0px 0px 7px 0px $brand-shadow;
-  display: flex;
-  flex-direction: row;
   font-family: "Quicksand", sans-serif;
-  justify-content: center;
-  margin: 1.2% 0.5% 1.2% 0%;
-  width: 100%;
 }
 
 #search-input {
@@ -40,7 +55,6 @@ span {
   font-size: 42px;
   height: 100%;
   outline: none;
-  padding: 0% 2% 0% 0%;
   text-align: right;
   transition: .8s ease;
   width: 100%;
@@ -72,26 +86,32 @@ span {
 }
 
 .search-btn {
-  border-left: 3px outset $brand-highlight;
+  width: 64px;
+  background-color: transparent;
+  padding: 0;
+  border: none;
   border-radius: 0px 15px 15px 0px;
-  padding: 1%;
+
+  img {
+    width: 32px;
+  }
 }
 
 .nav-btn {
+  background: transparent;
+  width: 64px;
   align-items: center;
-  background: $primary-background no-repeat;
   border: none;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  padding: 0;
+  text-align: center;
   font-size: 0px;
   font-weight: 700;
-  justify-content: center;
-  margin: 0%;
   overflow: hidden;
-  text-align: center;
+  cursor: pointer;
   transition: .4s ease;
-  width: 15%;
 
   &:hover {
     color: $brand-highlight;
@@ -101,17 +121,107 @@ span {
   }
 
   img {
-    max-height: 40px;
-    max-width: 40px;
-    padding: 2px 0px;
+    width: 32px;
   }
 }
 
-.saved-ingredients-btn {
-  border-left: 3px solid $brand-highlight;
+.mobile-burger,
+.mobile-icon,
+.back-button,
+.mobile-search-btn,
+.mobile-recipes-btn,
+.mobile-pantry-btn {
+  display: none;
 }
 
-.ing-pan-btn {
-  margin: 1% 0%;
-  padding: 1px 6px 5px 0px;
+@media only screen and (max-width: 1024px) {
+  header {
+    height: 3.5rem;
+    align-items: center;
+    padding: 0 12px;
+  }
+
+  .mobile-icon {
+    width: 32px;
+    display: inline;
+    margin: 0 16px;
+  }
+
+  .mobile-recipes-btn, 
+  .mobile-pantry-btn {
+    display: flex;
+  }
+
+  .desktop-icon,
+  .saved-recipes-btn,
+  .my-pantry-btn {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .menu-btns {
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .mobile-icon {
+      display: none;
+    }
+  }
+
+  .mobile-burger,
+  .back-button {
+    background-color: transparent;
+    width: 64px;
+    display: inline;
+    margin-right: 16px;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+
+    img {
+      width: 36px;
+    }
+  }
+
+  .back-button {
+    display: none;
+  }
+
+  nav {
+    flex-grow: 0;
+    width: fit-content;
+  }
+
+  .mobile-search-btn {
+    background-color: transparent;
+    width: 64px;
+    display: inline;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    img {
+      width: 32px;
+    }
+  }
+
+  #search {
+    display: none;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .displayed-flex {
+    display: flex !important;
+  }
+
+  .displayed-inline {
+    display: inline !important;
+  }
 }

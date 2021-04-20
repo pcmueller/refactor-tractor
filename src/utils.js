@@ -2,11 +2,14 @@
 
 function getAllData() {
   const promises = [ getUserData(), getRecipeData(), getIngredientData() ];
-  return Promise.all(promises);
+  return Promise.all(promises).catch(error => {
+    `${error}: Error retrieving all data`;
+  });
 }
 
 function getData(url) {
-  return fetch(url).then(resp => resp.json());
+  return fetch(url).then(resp => resp.json()
+    .catch(error => `${error}: Error retrieving data from ${url}`));
 }
 
 function getUserData() {

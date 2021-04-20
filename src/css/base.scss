@@ -7,7 +7,7 @@ body {
     "header header"
     "image image"
     "aside main";
-  height: 100vh;
+  height: 100%;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: auto;
@@ -23,8 +23,6 @@ h1 {
   font-family: "Sulphur Point", sans-serif;
   font-size: 50px;
   margin: 0%;
-  padding: 0.5% 0.7% 0%;
-  width: 70%;
 }
 
 h2 {
@@ -38,4 +36,13 @@ h3 {
   height: 17%;
   margin: 5px 5px 10px 0px;
   transition: .8s ease;
+}
+
+@media only screen and (max-width: 800px) {
+  body {
+    grid-template-areas:
+    "header header"
+    "image image"
+    "main main";
+  }
 }

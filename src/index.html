@@ -3,20 +3,31 @@
   <head>
     <meta charset="utf-8">
     <title>Fresh Picks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Sulphur+Point:400,700&display=swap" rel="stylesheet">
     <link rel="icon" href="../images/apple-logo.png" />
   </head>
   <body>
     <header>
-      <h1><span>fresh</span>Picks<img src="../images/apple-logo.png" alt="apple icon" class="header-apple-icon"></h1>
-      <form id="search" role="search">
-        <input id="search-input" type="text" autocomplete="off" placeholder="Search Recipes..."></input>
-        <label for="search-input" class="search-label">Search</label>
-        <button id="search-btn" class="nav-btn search-btn" type="button" name="button"><img src="../images/search.png" alt="search button"></button>
-      </form>
-      <button id="saved-recipes-btn" class="nav-btn ing-pan-btn saved-recipes-btn" type="button" name="button"><img src="../images/cookbook.png" alt="search button">My Recipes</button>
-      <button id="my-pantry-btn" class="nav-btn my-pantry-btn ing-pan-btn saved-ingredients-btn" type="button" name="button"><img src="../images/seasoning.png" alt="search button">My Pantry</button>
+      <h1 class="desktop-icon"><span>fresh</span>Picks<img src="../images/apple-logo.png" alt="apple icon" class="header-apple-icon"></h1>
+      <div class="menu-btns">
+        <button id="mobileBurger" class="mobile-burger" type="button" name="button"><img src="../images/apple_hamburger.svg" alt="search button"></button>
+        <img class="mobile-icon" src="../images/apple-logo.png/" alt="apple icon">
+        <button id="backBtn" class="back-button"><img src="../images/back_arrow.svg" alt="back button"/></button>
+      </div>
+      <nav class="nav-btns">
+        <form id="search" role="search">
+          <input id="search-input" type="text" autocomplete="off" placeholder="Search Recipes..."></input>
+          <label for="search-input" class="search-label"></label>
+          <button id="search-btn" class="search-btn" type="button" name="button"><img src="../images/search.png" alt="search button"></button>
+        </form>
+        <button id="mobileSearchBtn" class="mobile-search-btn" type="button" name="button"><img src="../images/search.png" alt="search button"></button>
+        <button id="saved-recipes-btn" class="nav-btn saved-recipes-btn" type="button" name="button"><img src="../images/cookbook.png" alt="search button">My Recipes</button>
+        <button id="my-pantry-btn" class="nav-btn my-pantry-btn" type="button" name="button"><img src="../images/seasoning.png" alt="search button">My Pantry</button>
+        <button id="mobile-recipes-btn" class="nav-btn mobile-recipes-btn" type="button" name="button"><img src="../images/cookbook.png" alt="search button"></button>
+        <button id="mobile-pantry-btn" class="nav-btn mobile-pantry-btn" type="button" name="button"><img src="../images/seasoning.png" alt="search button"></button>
+      </nav>
     </header>
     <section class="banner-image">
       <div class="my-recipes-banner">
@@ -25,11 +36,17 @@
       </div>
     </section>
     <div class="drop-menu">
+      <header class="mobile-pantry-hdr">
+        <button id="mobile-pantry-open" class="mobile-pantry-btn nav-btn" type="button" name="button"><img src="../images/seasoning.png" alt="search button"></button>
+      </header>
       <h2>My Pantry</h2>
       <button id="show-pantry-recipes-btn" class="show-pantry-recipes-btn">What Can I Make?</button>
       <ul class="pantry-list"></ul>
     </div>
     <aside>
+      <header class="mobile-aside-hdr">
+        <button id="mobileBurgerOpen" class="mobile-burger" type="button" name="button"><img src="../images/apple_hamburger.svg" alt="search button"></button>
+      </header>
       <div class="wrap">
         <h2>Recipe Type</h2>
         <ul id="tag-list" class="tag-list">

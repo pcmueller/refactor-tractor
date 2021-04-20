@@ -128,6 +128,64 @@ let domUpdates = {
     let domRecipe = document.getElementById(`${recipe.id}`);
     domRecipe.style.display = "none";
   },
+
+  openFilterMenu() {
+    const filterMenu = document.querySelector("aside");
+
+    this.renderAdjacentHTML(filterMenu, "<section id='overlay'></div>");
+    filterMenu.classList.toggle("open");
+  },
+
+  closeFilterMenu() {
+    const filterMenu = document.querySelector("aside");
+    
+    document.getElementById("overlay").remove();
+    filterMenu.classList.toggle("open");
+  },
+
+  toggleSearch() {
+    this.toggleNavElements();
+    this.toggleSearchBar();
+    this.toggleBackBtn();
+  },
+
+  toggleNavElements() {
+    const myRecipes = document.querySelector("#mobile-recipes-btn");
+    const myPantry = document.querySelector("#mobile-pantry-btn");
+
+    myRecipes.classList.toggle("hidden");
+    myPantry.classList.toggle("hidden");
+  },
+
+  toggleSearchBar() {
+    const searchBar = document.querySelector("#search");
+    const mobileSearchBtn = document.getElementById("mobileSearchBtn");
+
+    searchBar.classList.toggle("displayed-flex");
+    mobileSearchBtn.classList.toggle("hidden");
+  },
+
+  toggleBackBtn() {
+    const mobileBurger = document.querySelector("#mobileBurger");
+    const backBtn = document.querySelector("#backBtn");
+
+    mobileBurger.classList.toggle("hidden");
+    backBtn.classList.toggle("displayed-inline");
+  },
+
+  openMobilePantry() {
+    let pantry = document.querySelector(".drop-menu");
+
+    this.renderAdjacentHTML(pantry, "<section id='overlay'></div>")
+    pantry.classList.toggle("open");
+  },
+
+  closeMobilePantry() {
+    let pantry = document.querySelector(".drop-menu");
+
+    document.getElementById("overlay").remove();
+    pantry.classList.toggle("open");
+  }
 };
 
 export default domUpdates;

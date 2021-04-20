@@ -10,22 +10,29 @@ import { getAllData, capitalize } from "./utils.js";
 
 // QUERY SELECTORS & GLOBAL VARIABLES
 
-let allRecipesBtn = document.querySelector(".show-all-btn");
 let body = document.querySelector("body");
-let currentRecipes;
-let filterBtn = document.querySelector("#filter-btn");
 let main = document.querySelector("main");
-let pantry = new Pantry();
-let pantryBtn = document.querySelector("#my-pantry-btn");
-let recipeInfo = document.querySelector("#recipe-instructions");
-let recipes = new RecipeRepository();
-let savedRecipesBtn = document.querySelector("#saved-recipes-btn");
-let searchBtn = document.querySelector("#search-btn");
 let searchForm = document.querySelector("#search");
 let searchInput = document.querySelector("#search-input");
-let showPantryRecipes = document.querySelector("#show-pantry-recipes-btn");
+let searchBtn = document.querySelector("#search-btn");
+let savedRecipesBtn = document.querySelector("#saved-recipes-btn");
+let pantryBtn = document.querySelector("#my-pantry-btn");
+let allRecipesBtn = document.querySelector(".show-all-btn");
 let tagList = document.querySelector("#tag-list");
+let filterBtn = document.querySelector("#filter-btn");
+let recipeInfo = document.querySelector("#recipe-instructions");
+let mobileBurger = document.querySelector("#mobileBurger");
+let mobileBurgerOpen = document.querySelector("#mobileBurgerOpen");
+let backBtn = document.querySelector("#backBtn");
+let mobileSearchBtn = document.querySelector("#mobileSearchBtn");
+let mobileRecipesBtn = document.querySelector("#mobile-recipes-btn");
+let mobilePantryBtn = document.querySelector("#mobile-pantry-btn");
+let mobilePantryOpen = document.querySelector("#mobile-pantry-open")
+let showPantryRecipes = document.querySelector("#show-pantry-recipes-btn");
+let recipes = new RecipeRepository();
+let pantry = new Pantry();
 let user;
+let currentRecipes;
 
 // EVENT LISTENERS
 
@@ -38,6 +45,14 @@ savedRecipesBtn.addEventListener("click", showSavedRecipes);
 searchBtn.addEventListener("click", searchRecipes);
 showPantryRecipes.addEventListener("click", identifyCheckedPantryIngredients);
 searchForm.addEventListener("submit", pressEnterSearch);
+
+mobileBurger.addEventListener("click", () => domUpdates.openFilterMenu());
+mobileBurgerOpen.addEventListener("click", () => domUpdates.closeFilterMenu());
+mobileSearchBtn.addEventListener("click", () => domUpdates.toggleSearch());
+backBtn.addEventListener("click", () => domUpdates.toggleSearch());
+mobileRecipesBtn.addEventListener("click", showSavedRecipes);
+mobilePantryBtn.addEventListener("click", () => domUpdates.openMobilePantry());
+mobilePantryOpen.addEventListener("click", () => domUpdates.closeMobilePantry());
 
 // PAGELOAD HANDLER
 
