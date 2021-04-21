@@ -15,6 +15,9 @@ A [Front-End Project] by [Robert DeRouin](https://github.com/robertjosephderouin
 
 The refactor tractor project refactors the Whats Cooking website to follow single use protocol, address accessability concerns in the HTML, & and dry up the code by utilizing inheritance and better class structure.
 
+### Deployed Page
+* [GitHub Hosted URL](https://pcmueller.github.io/refactor-tractor/)
+
 ## Main Page View
 
 <img width="750" alt="Front Page View" src="./src/images/welcomepagescreenshot.png">
@@ -52,6 +55,6 @@ The refactor tractor project refactors the Whats Cooking website to follow singl
 
 ## Resources
 
-* Project Description: (https://frontend.turing.io/projects/module-2/refactor-tractor-wc.html)
-* Team GitHub Repo: (https://github.com/robertjosephderouin/refactortractor)
-* GitHub Hosted URL:
+* [Project Description](https://frontend.turing.io/projects/module-2/refactor-tractor-wc.html)
+* [Team GitHub Repo](https://github.com/robertjosephderouin/refactortractor)
+* [GitHub Hosted URL](https://pcmueller.github.io/refactor-tractor/)
